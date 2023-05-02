@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Zhiban.Splash" parent="Base.Theme.Splash">
+        <item name="postSplashScreenTheme">@style/Theme.Zhiban</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+    </style>
+
+    <style name="Base.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="windowSplashScreenBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Zhiban" parent="Base.Theme.Zhiban">
+        <item name="android:statusBarColor">@android:color/darker_gray</item>
+    </style>
+
+    <style name="Base.Theme.Zhiban" parent="android:Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+</resources>
