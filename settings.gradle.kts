@@ -1,5 +1,6 @@
 include(":app")
 include(":core:ui")
+include(":feature:login")
 
 pluginManagement {
     repositories {
