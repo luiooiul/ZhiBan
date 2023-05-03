@@ -43,8 +43,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
+    implementation(project(":feature:login"))
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
 }
