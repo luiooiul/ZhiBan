@@ -5,11 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zhixue.lite.core.data.repository.LoginRepository
+import com.zhixue.lite.core.data.repository.UserRepository
+import com.zhixue.lite.core.domain.EncryptPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class LoginUiState(
@@ -18,7 +22,11 @@ data class LoginUiState(
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val loginRepository: LoginRepository,
+    private val encryptPasswordUseCase: EncryptPasswordUseCase
+) : ViewModel() {
 
     private val _message = MutableStateFlow("")
     private val _isLogging = MutableStateFlow(false)
@@ -51,5 +59,23 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     fun doLogin(
         onLoginCompleted: () -> Unit
     ) {
+        viewModelScope.launch {
+            runCatching {
+                checkInputAvailable()
+                _isLogging.value = true
+                val encryptedPassword = encryptPasswordUseCase.invoke(password.reversed())
+                loginRepository.login(username, encryptedPassword)
+                userRepository.storeUser(username, encryptedPassword)
+            }.onSuccess {
+                onLoginCompleted()
+            }.onFailure {
+                _message.value = it.message.orEmpty()
+                _isLogging.value = false
+            }
+        }
+    }
+
+    private fun checkInputAvailable() {
+        check(username.isNotEmpty() && password.isNotEmpty()) { "账号密码不能为空" }
     }
 }

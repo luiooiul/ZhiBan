@@ -22,6 +22,7 @@ android {
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:network"))
+    implementation(project(":core:datastore"))
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
 }

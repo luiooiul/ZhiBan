@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "com.zhixue.lite.core.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+    string username = 1;
+    string password = 2;
+
+    string name = 3;
+    string class_name = 4;
+    string school_name = 5;
+}
