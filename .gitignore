@@ -4,5 +4,6 @@
 /core/ui/build
 /core/model/build
 /core/domain/build
+/core/network/build
 /feature/login/build
 local.properties
