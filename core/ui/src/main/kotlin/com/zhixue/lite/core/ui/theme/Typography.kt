@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 @Immutable
@@ -38,6 +39,7 @@ data class Typography(
     val button: TextStyle = TextStyle(
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
         letterSpacing = 0.1.sp
     )
 )
