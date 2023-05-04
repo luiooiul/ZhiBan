@@ -1,9 +1,6 @@
 /.idea
 /.gradle
 /app/build
-/core/ui/build
-/core/model/build
-/core/domain/build
-/core/network/build
-/feature/login/build
+/core/**/build
+/feature/**/build
 local.properties
