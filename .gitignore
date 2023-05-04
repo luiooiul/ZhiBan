@@ -2,5 +2,7 @@
 /.gradle
 /app/build
 /core/ui/build
+/core/model/build
+/core/domain/build
 /feature/login/build
 local.properties

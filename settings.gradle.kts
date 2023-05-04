@@ -1,5 +1,6 @@
 include(":app")
 include(":core:ui")
+include(":core:model")
 include(":core:domain")
 include(":feature:login")
 
