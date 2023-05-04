@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="headline_login">登录</string>
+    <string name="label_username">请输入您的账号</string>
+    <string name="label_password">请输入您的密码</string>
+    <string name="button_login">登录</string>
+</resources>
