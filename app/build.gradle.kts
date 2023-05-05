@@ -44,6 +44,8 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
     implementation(project(":feature:home"))
     implementation(project(":feature:login"))
     implementation("androidx.core:core-splashscreen:1.0.1")

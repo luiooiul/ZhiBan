@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.DisposableEffect
 import androidx.core.animation.doOnEnd
@@ -16,12 +17,18 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ZhibanActivity : ComponentActivity() {
+
+    private val _viewModel by viewModels<ZhibanActivityViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
 
+        splashScreen.setKeepOnScreenCondition {
+            _viewModel.loginState == LoginState.Loading
+        }
         splashScreen.setOnExitAnimationListener { provider ->
             ObjectAnimator.ofFloat(provider.view, View.ALPHA, 1f, 0f)
                 .apply {
@@ -46,7 +53,9 @@ class ZhibanActivity : ComponentActivity() {
             ZhibanTheme(
                 darkTheme = darkTheme
             ) {
-                ZhibanApp()
+                ZhibanApp(
+                    loginState = _viewModel.loginState
+                )
             }
         }
     }
