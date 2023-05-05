@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.SsoResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
 import com.zhixue.lite.core.network.api.ChangYanApi
@@ -22,5 +23,11 @@ class ApiNetworkDataSource @Inject constructor(
 
     override suspend fun getUserInfo(token: String): UserInfoResponse {
         return zhixueApi.getUserInfo(token).result
+    }
+
+    override suspend fun getPageAllExamList(
+        reportType: String, pageIndex: Int, token: String
+    ): PageAllExamListResponse {
+        return zhixueApi.getPageAllExamList(reportType, pageIndex, token).result
     }
 }

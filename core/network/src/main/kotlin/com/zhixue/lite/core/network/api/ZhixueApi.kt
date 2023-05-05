@@ -1,9 +1,11 @@
 package com.zhixue.lite.core.network.api
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
 import com.zhixue.lite.core.model.network.ZhixueResponse
 import retrofit2.http.Field
+import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
@@ -21,4 +23,16 @@ interface ZhixueApi {
     suspend fun getUserInfo(
         @Field("token") token: String
     ): ZhixueResponse<UserInfoResponse>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/getPageAllExamList")
+    suspend fun getPageAllExamList(
+        @Field("reportType") reportType: String,
+        @Field("pageIndex") pageIndex: Int,
+        @Field("token") token: String,
+        @FieldMap fields: Map<String, String> = mapOf(
+            "pageSize" to "10",
+            "actualPosition" to "0"
+        )
+    ): ZhixueResponse<PageAllExamListResponse>
 }

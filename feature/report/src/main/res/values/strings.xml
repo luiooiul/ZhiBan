@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="report_type_exam">考试报告</string>
+    <string name="report_type_homework">作业报告</string>
+</resources>

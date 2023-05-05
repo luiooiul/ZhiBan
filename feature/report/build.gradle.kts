@@ -30,9 +30,12 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
+    implementation(project(":core:model"))
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha18")
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation("com.google.accompanist:accompanist-placeholder:0.30.1")
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
 }
