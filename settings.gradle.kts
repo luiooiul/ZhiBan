@@ -7,6 +7,7 @@ include(":core:domain")
 include(":core:network")
 include(":feature:home")
 include(":feature:login")
+include(":feature:report")
 
 pluginManagement {
     repositories {
