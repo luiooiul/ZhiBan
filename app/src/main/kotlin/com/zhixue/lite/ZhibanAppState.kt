@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.zhixue.lite.feature.home.navigateToHome
 
 @Composable
 fun rememberAppState(
@@ -16,4 +17,9 @@ fun rememberAppState(
 
 class ZhibanAppState(
     val navController: NavHostController
-)
+) {
+
+    fun navigateToHome() {
+        navController.navigateToHome()
+    }
+}

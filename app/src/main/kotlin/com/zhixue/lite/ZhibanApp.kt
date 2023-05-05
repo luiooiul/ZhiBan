@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.zhixue.lite.core.ui.theme.Theme
+import com.zhixue.lite.feature.home.homeGraph
 import com.zhixue.lite.feature.login.LOGIN_ROUTE
 import com.zhixue.lite.feature.login.loginScreen
 
@@ -24,6 +25,9 @@ fun ZhibanApp(
         navController = appState.navController,
         startDestination = LOGIN_ROUTE
     ) {
-        loginScreen()
+        homeGraph()
+        loginScreen(
+            navigateToHome = appState::navigateToHome
+        )
     }
 }
