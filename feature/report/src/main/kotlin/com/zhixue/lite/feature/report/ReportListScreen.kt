@@ -1,12 +1,14 @@
 package com.zhixue.lite.feature.report
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -127,12 +130,22 @@ fun ReportListPagerContent(
     pagerList: LazyPagingItems<ReportInfo>,
     onItemClick: (String) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(pagerList) { reportInfo ->
-            ReportListPagerItem(reportInfo, onItemClick)
-            HorizontalDivider(spacing = 16.dp)
+    Crossfade(pagerList.loadState.refresh is LoadState.Loading) { isLoading ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = !isLoading
+        ) {
+            if (isLoading) {
+                items(10) {
+                    ReportListPagerItem(null, onItemClick)
+                    Spacer(modifier = Modifier.height(1.dp))
+                }
+            } else {
+                items(pagerList) { reportInfo ->
+                    ReportListPagerItem(reportInfo, onItemClick)
+                    HorizontalDivider(spacing = 16.dp)
+                }
+            }
         }
     }
 }
@@ -157,24 +170,28 @@ fun ReportListPagerItem(
         ) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                modifier = Modifier.placeholder(
-                    visible = reportInfo == null,
-                    color = Theme.colors.surface,
-                    shape = Theme.shapes.small,
-                    highlight = PlaceholderHighlight.shimmer(Theme.colors.background)
-                ),
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 168.dp)
+                    .placeholder(
+                        visible = reportInfo == null,
+                        color = Theme.colors.surface,
+                        shape = Theme.shapes.small,
+                        highlight = PlaceholderHighlight.shimmer(Theme.colors.background)
+                    ),
                 text = reportInfo?.name.orEmpty(),
                 color = Theme.colors.onBackground,
                 style = Theme.typography.titleSmall
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row(
-                modifier = Modifier.placeholder(
-                    visible = reportInfo == null,
-                    color = Theme.colors.surface,
-                    shape = Theme.shapes.small,
-                    highlight = PlaceholderHighlight.shimmer(Theme.colors.background)
-                ),
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 84.dp)
+                    .placeholder(
+                        visible = reportInfo == null,
+                        color = Theme.colors.surface,
+                        shape = Theme.shapes.small,
+                        highlight = PlaceholderHighlight.shimmer(Theme.colors.background)
+                    ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
