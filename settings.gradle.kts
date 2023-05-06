@@ -8,6 +8,7 @@ include(":core:network")
 include(":feature:home")
 include(":feature:login")
 include(":feature:report")
+include(":feature:profile")
 
 pluginManagement {
     repositories {
