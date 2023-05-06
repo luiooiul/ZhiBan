@@ -36,18 +36,18 @@ internal val lightColors = Colors(
 )
 
 internal val darkColors = Colors(
-    primary = Color(0xFF238636),
+    primary = Color(0xFF41B883),
     onPrimary = Color.White,
     surface = Color(0xFF242328),
-    onSurface = Color.White,
-    onSurfaceVariant = Color.LightGray,
+    onSurface = Color(0xFFC9D1D9),
+    onSurfaceVariant = Color(0xFF7D8590),
     background = Color(0xFF1B1A1D),
-    onBackground = Color.White,
-    onBackgroundVariant = Color(0xFF7D7D7D),
-    error = Color(0xFFF84C48),
+    onBackground = Color(0xFFE6EDF3),
+    onBackgroundVariant = Color(0xFF7D8590),
+    error = Color(0xFFE34C26),
     onError = Color.White,
-    outline = Color(0xFF242328),
-    outlineVariant = Color(0xFF242328)
+    outline = Color(0xFF30363D),
+    outlineVariant = Color(0xFF30363D)
 )
 
 val LocalColors = staticCompositionLocalOf { lightColors }
