@@ -16,7 +16,7 @@ import com.zhixue.lite.core.ui.theme.Theme
 fun HorizontalDivider(
     modifier: Modifier = Modifier,
     height: Dp = 1.dp,
-    color: Color = Theme.colors.surface,
+    color: Color = Theme.colors.outlineVariant,
     spacing: Dp = 0.dp
 ) {
     Spacer(
