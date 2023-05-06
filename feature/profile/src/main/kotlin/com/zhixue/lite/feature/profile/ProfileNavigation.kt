@@ -7,14 +7,12 @@ import androidx.navigation.compose.composable
 
 const val PROFILE_ROUTE = "profile_route"
 
-fun NavController.navigateToProfile(navOptions: NavOptions) {
+fun NavController.navigateToProfile(navOptions: NavOptions? = null) {
     this.navigate(PROFILE_ROUTE, navOptions)
 }
 
 fun NavGraphBuilder.profileScreen() {
-    composable(
-        route = PROFILE_ROUTE
-    ) {
+    composable(route = PROFILE_ROUTE) {
         ProfileScreen()
     }
 }

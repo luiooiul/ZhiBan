@@ -7,16 +7,14 @@ import androidx.navigation.compose.composable
 
 const val REPORT_LIST_ROUTE = "report_list_route"
 
-fun NavController.navigateToReportList(navOptions: NavOptions) {
+fun NavController.navigateToReportList(navOptions: NavOptions? = null) {
     this.navigate(REPORT_LIST_ROUTE, navOptions)
 }
 
 fun NavGraphBuilder.reportListScreen(
     navigateToReportDetail: (String) -> Unit
 ) {
-    composable(
-        route = REPORT_LIST_ROUTE
-    ) {
+    composable(route = REPORT_LIST_ROUTE) {
         ReportListScreen(
             navigateToReportDetail = navigateToReportDetail
         )

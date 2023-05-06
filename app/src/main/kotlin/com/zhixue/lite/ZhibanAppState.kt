@@ -33,7 +33,11 @@ class ZhibanAppState(
         @Composable get() = currentDestination?.parent?.route == HOME_ROUTE
 
     fun navigateToHome() {
-        navController.navigateToHome()
+        val navOptions = navOptions {
+            popUpTo(navController.graph.id) { inclusive = true }
+        }
+
+        navController.navigateToHome(navOptions)
     }
 
     fun navigateToHomeDestination(destination: HomeDestination) {

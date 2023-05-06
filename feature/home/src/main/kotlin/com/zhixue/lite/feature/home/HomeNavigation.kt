@@ -3,6 +3,7 @@ package com.zhixue.lite.feature.home
 import androidx.annotation.DrawableRes
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.navigation
 import com.zhixue.lite.feature.profile.profileScreen
 import com.zhixue.lite.feature.report.REPORT_LIST_ROUTE
@@ -17,10 +18,8 @@ enum class HomeDestination(
     PROFILE(com.zhixue.lite.core.ui.R.drawable.ic_profile)
 }
 
-fun NavController.navigateToHome() {
-    navigate(HOME_ROUTE) {
-        popUpTo(graph.id) { inclusive = true }
-    }
+fun NavController.navigateToHome(navOptions: NavOptions? = null) {
+    this.navigate(HOME_ROUTE, navOptions)
 }
 
 fun NavGraphBuilder.homeGraph(
