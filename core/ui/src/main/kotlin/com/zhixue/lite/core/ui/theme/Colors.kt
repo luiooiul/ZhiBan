@@ -36,7 +36,7 @@ internal val lightColors = Colors(
 )
 
 internal val darkColors = Colors(
-    primary = Color(0xFF50EBAA),
+    primary = Color(0xFF238636),
     onPrimary = Color.White,
     surface = Color(0xFF242328),
     onSurface = Color.White,
