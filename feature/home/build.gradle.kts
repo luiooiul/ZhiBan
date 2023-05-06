@@ -28,5 +28,6 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":feature:report"))
+    implementation(project(":feature:profile"))
     implementation("androidx.navigation:navigation-compose:2.5.3")
 }

@@ -1,14 +1,18 @@
 package com.zhixue.lite
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import com.zhixue.lite.core.ui.component.HorizontalDivider
 import com.zhixue.lite.core.ui.theme.Theme
 import com.zhixue.lite.feature.home.HOME_ROUTE
+import com.zhixue.lite.feature.home.HomeBottomBar
 import com.zhixue.lite.feature.home.homeGraph
 import com.zhixue.lite.feature.login.LOGIN_ROUTE
 import com.zhixue.lite.feature.login.loginScreen
@@ -19,19 +23,34 @@ fun ZhibanApp(
     appState: ZhibanAppState = rememberAppState()
 ) {
     if (loginState != LoginState.Loading) {
-        NavHost(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Theme.colors.background)
                 .statusBarsPadding()
-                .navigationBarsPadding(),
-            navController = appState.navController,
-            startDestination = if (loginState == LoginState.LoggedIn) HOME_ROUTE else LOGIN_ROUTE
+                .navigationBarsPadding()
         ) {
-            homeGraph()
-            loginScreen(
-                navigateToHome = appState::navigateToHome
-            )
+            NavHost(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                navController = appState.navController,
+                startDestination = if (loginState == LoginState.LoggedIn) HOME_ROUTE else LOGIN_ROUTE
+            ) {
+                homeGraph(
+                    navigateToReportDetail = { TODO() }
+                )
+                loginScreen(
+                    navigateToHome = appState::navigateToHome
+                )
+            }
+            if (appState.shouldShowHomeBottomBar) {
+                HorizontalDivider()
+                HomeBottomBar(
+                    currentDestination = appState.currentDestination,
+                    onNavigateToDestination = appState::navigateToHomeDestination
+                )
+            }
         }
     }
 }

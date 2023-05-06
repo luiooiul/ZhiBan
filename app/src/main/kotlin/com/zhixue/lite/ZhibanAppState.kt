@@ -2,9 +2,17 @@ package com.zhixue.lite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
+import com.zhixue.lite.feature.home.HOME_ROUTE
+import com.zhixue.lite.feature.home.HomeDestination
 import com.zhixue.lite.feature.home.navigateToHome
+import com.zhixue.lite.feature.profile.navigateToProfile
+import com.zhixue.lite.feature.report.navigateToReportList
 
 @Composable
 fun rememberAppState(
@@ -18,8 +26,28 @@ fun rememberAppState(
 class ZhibanAppState(
     val navController: NavHostController
 ) {
+    val currentDestination: NavDestination?
+        @Composable get() = navController.currentBackStackEntryAsState().value?.destination
+
+    val shouldShowHomeBottomBar: Boolean
+        @Composable get() = currentDestination?.parent?.route == HOME_ROUTE
 
     fun navigateToHome() {
         navController.navigateToHome()
+    }
+
+    fun navigateToHomeDestination(destination: HomeDestination) {
+        val navOptions = navOptions {
+            restoreState = true
+            launchSingleTop = true
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+
+        when (destination) {
+            HomeDestination.REPORT_LIST -> navController.navigateToReportList(navOptions)
+            HomeDestination.PROFILE -> navController.navigateToProfile(navOptions)
+        }
     }
 }
