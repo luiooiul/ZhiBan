@@ -22,7 +22,6 @@ android {
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:network"))
-    implementation(project(":core:domain"))
     implementation(project(":core:datastore"))
     implementation("androidx.paging:paging-compose:1.0.0-alpha18")
     implementation("com.google.dagger:hilt-android:2.45")
