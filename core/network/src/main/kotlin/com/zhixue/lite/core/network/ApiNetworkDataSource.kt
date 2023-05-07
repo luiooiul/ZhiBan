@@ -2,7 +2,9 @@ package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
+import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SsoResponse
+import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
 import com.zhixue.lite.core.network.api.ChangYanApi
 import com.zhixue.lite.core.network.api.ZhixueApi
@@ -29,5 +31,15 @@ class ApiNetworkDataSource @Inject constructor(
         reportType: String, pageIndex: Int, token: String
     ): PageAllExamListResponse {
         return zhixueApi.getPageAllExamList(reportType, pageIndex, token).result
+    }
+
+    override suspend fun getReportMain(reportId: String, token: String): ReportMainResponse {
+        return zhixueApi.getReportMain(reportId, token).result
+    }
+
+    override suspend fun getSubjectDiagnosis(
+        reportId: String, token: String
+    ): SubjectDiagnosisResponse {
+        return zhixueApi.getSubjectDiagnosis(reportId, token).result
     }
 }

@@ -2,6 +2,8 @@ package com.zhixue.lite.core.network.api
 
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
+import com.zhixue.lite.core.model.network.ReportMainResponse
+import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
 import com.zhixue.lite.core.model.network.ZhixueResponse
 import retrofit2.http.Field
@@ -35,4 +37,18 @@ interface ZhixueApi {
             "actualPosition" to "0"
         )
     ): ZhixueResponse<PageAllExamListResponse>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/exam/getReportMain")
+    suspend fun getReportMain(
+        @Field("examId") reportId: String,
+        @Field("token") token: String
+    ): ZhixueResponse<ReportMainResponse>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/exam/getSubjectDiagnosis")
+    suspend fun getSubjectDiagnosis(
+        @Field("examId") reportId: String,
+        @Field("token") token: String
+    ): ZhixueResponse<SubjectDiagnosisResponse>
 }
