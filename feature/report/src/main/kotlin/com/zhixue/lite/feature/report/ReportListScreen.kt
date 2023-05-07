@@ -56,7 +56,7 @@ fun ReportListScreen(
     ReportListScreen(
         examList = viewModel.examList.collectAsLazyPagingItems(),
         homeworkList = viewModel.homeworkList.collectAsLazyPagingItems(),
-        onItemClick = navigateToReportMain
+        navigateToReportMain = navigateToReportMain
     )
 }
 
@@ -65,7 +65,7 @@ fun ReportListScreen(
 fun ReportListScreen(
     examList: LazyPagingItems<ReportInfo>,
     homeworkList: LazyPagingItems<ReportInfo>,
-    onItemClick: (String) -> Unit,
+    navigateToReportMain: (String) -> Unit,
     reportTypes: Array<ReportType> = ReportType.values()
 ) {
     val scope = rememberCoroutineScope()
@@ -93,7 +93,7 @@ fun ReportListScreen(
                     ReportType.EXAM -> examList
                     ReportType.HOMEWORK -> homeworkList
                 },
-                onItemClick = onItemClick
+                onItemClick = navigateToReportMain
             )
         }
     }
