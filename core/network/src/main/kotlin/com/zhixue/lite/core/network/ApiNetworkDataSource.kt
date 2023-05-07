@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SsoResponse
@@ -41,5 +42,11 @@ class ApiNetworkDataSource @Inject constructor(
         reportId: String, token: String
     ): SubjectDiagnosisResponse {
         return zhixueApi.getSubjectDiagnosis(reportId, token).result
+    }
+
+    override suspend fun getLevelTrend(
+        reportId: String, paperId: String, token: String
+    ): LevelTrendResponse {
+        return zhixueApi.getLevelTrend(reportId, paperId, token).result
     }
 }

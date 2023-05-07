@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network.api
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
@@ -51,4 +52,16 @@ interface ZhixueApi {
         @Field("examId") reportId: String,
         @Field("token") token: String
     ): ZhixueResponse<SubjectDiagnosisResponse>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/paper/getLevelTrend")
+    suspend fun getLevelTrend(
+        @Field("examId") reportId: String,
+        @Field("paperId") paperId: String,
+        @Field("token") token: String,
+        @FieldMap fields: Map<String, String> = mapOf(
+            "pageSize" to "2",
+            "pageIndex" to "1"
+        )
+    ): ZhixueResponse<LevelTrendResponse>
 }
