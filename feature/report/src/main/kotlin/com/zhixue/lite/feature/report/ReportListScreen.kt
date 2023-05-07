@@ -50,13 +50,13 @@ enum class ReportType(
 
 @Composable
 fun ReportListScreen(
-    navigateToReportDetail: (String) -> Unit,
+    navigateToReportMain: (String) -> Unit,
     viewModel: ReportListViewModel = hiltViewModel()
 ) {
     ReportListScreen(
         examList = viewModel.examList.collectAsLazyPagingItems(),
         homeworkList = viewModel.homeworkList.collectAsLazyPagingItems(),
-        onItemClick = navigateToReportDetail
+        onItemClick = navigateToReportMain
     )
 }
 

@@ -13,6 +13,7 @@ import com.zhixue.lite.feature.home.HomeDestination
 import com.zhixue.lite.feature.home.navigateToHome
 import com.zhixue.lite.feature.profile.navigateToProfile
 import com.zhixue.lite.feature.report.navigateToReportList
+import com.zhixue.lite.feature.report.navigateToReportMain
 
 @Composable
 fun rememberAppState(
@@ -32,12 +33,20 @@ class ZhibanAppState(
     val shouldShowHomeBottomBar: Boolean
         @Composable get() = currentDestination?.parent?.route == HOME_ROUTE
 
+    fun navigateBack() {
+        navController.popBackStack()
+    }
+
     fun navigateToHome() {
         val navOptions = navOptions {
             popUpTo(navController.graph.id) { inclusive = true }
         }
 
         navController.navigateToHome(navOptions)
+    }
+
+    fun navigateToReportMain(reportId: String) {
+        navController.navigateToReportMain(reportId)
     }
 
     fun navigateToHomeDestination(destination: HomeDestination) {

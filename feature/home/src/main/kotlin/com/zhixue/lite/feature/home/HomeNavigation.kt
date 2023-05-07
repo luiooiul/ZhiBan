@@ -23,14 +23,14 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeGraph(
-    navigateToReportDetail: (String) -> Unit
+    navigateToReportMain: (String) -> Unit
 ) {
     navigation(
         route = HOME_ROUTE,
         startDestination = REPORT_LIST_ROUTE
     ) {
         reportListScreen(
-            navigateToReportDetail = navigateToReportDetail
+            navigateToReportMain = navigateToReportMain
         )
         profileScreen()
     }
