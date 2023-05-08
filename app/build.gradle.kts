@@ -15,6 +15,19 @@ android {
         targetSdk = 33
         versionCode = 2
         versionName = "1.0-alpha2"
+
+        resourceConfigurations.add("en")
+    }
+
+    packaging {
+        resources.excludes += setOf(
+            "kotlin/**",
+            "google/**",
+            "okhttp3/**",
+            "META-INF/*.version",
+            "DebugProbesKt.bin",
+            "kotlin-tooling-metadata.json"
+        )
     }
 
     buildTypes {
