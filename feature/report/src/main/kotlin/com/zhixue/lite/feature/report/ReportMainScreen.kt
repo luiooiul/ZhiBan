@@ -66,11 +66,10 @@ fun ReportMainScreen(
         ) {
             item { ReportMainHeadline() }
             item {
-                Crossfade(
-                    targetState = uiState.reportMain
-                ) { reportMain ->
-                    if (reportMain != null) {
-                        ReportMainContent(reportMain = reportMain)
+                Crossfade(uiState) {
+                    when (it) {
+                        is ReportMainUiState.Success -> ReportMainContent(reportMain = it.reportMain)
+                        else -> {}
                     }
                 }
             }

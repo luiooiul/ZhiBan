@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
+    implementation(project(":core:common"))
     implementation(project(":core:model"))
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("androidx.paging:paging-compose:1.0.0-alpha18")
