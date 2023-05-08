@@ -13,8 +13,8 @@ android {
         applicationId = "com.zhixue.lite"
         minSdk = 21
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0-alpha1"
+        versionCode = 2
+        versionName = "1.0-alpha2"
     }
 
     buildTypes {
