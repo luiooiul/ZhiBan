@@ -11,6 +11,7 @@ data class PageAllExamListResponse(
     data class ExamInfo(
         val examId: String,
         val examName: String,
-        val examCreateDateTime: Long
+        val examCreateDateTime: Long,
+        val isSinglePublish: Boolean
     )
 }

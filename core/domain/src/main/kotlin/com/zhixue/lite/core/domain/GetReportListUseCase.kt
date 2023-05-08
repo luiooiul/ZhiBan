@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.domain
 
 import androidx.paging.PagingData
+import androidx.paging.filter
 import androidx.paging.map
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportInfo
@@ -16,13 +17,15 @@ class GetReportListUseCase @Inject constructor(
 ) {
     operator fun invoke(reportType: String): Flow<PagingData<ReportInfo>> {
         return reportRepository.getReportList(reportType).map { paging ->
-            paging.map { examInfo ->
-                ReportInfo(
-                    id = examInfo.examId,
-                    name = examInfo.examName,
-                    date = formatDateUseCase(examInfo.examCreateDateTime)
-                )
-            }
+            paging
+                .filter { it.isSinglePublish }
+                .map { examInfo ->
+                    ReportInfo(
+                        id = examInfo.examId,
+                        name = examInfo.examName,
+                        date = formatDateUseCase(examInfo.examCreateDateTime)
+                    )
+                }
         }.flowOn(Dispatchers.Default)
     }
 }
