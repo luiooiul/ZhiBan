@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.zhixue.lite.core.model.data.ReportMain
 import com.zhixue.lite.core.ui.component.CircularChart
 import com.zhixue.lite.core.ui.component.HorizontalDivider
@@ -41,10 +39,8 @@ fun ReportMainScreen(
     onBackClick: () -> Unit,
     viewModel: ReportMainViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     ReportMainScreen(
-        uiState = uiState,
+        uiState = viewModel.uiState,
         onBackClick = onBackClick
     )
 }
