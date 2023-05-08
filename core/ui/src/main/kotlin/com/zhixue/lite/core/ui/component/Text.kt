@@ -32,8 +32,6 @@ fun Text(
 @Composable
 fun Text(
     text: AnnotatedString,
-    color: Color,
-    style: TextStyle,
     modifier: Modifier = Modifier,
     singleLine: Boolean = true,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
@@ -42,9 +40,6 @@ fun Text(
     BasicText(
         text = text,
         modifier = modifier,
-        style = style.merge(
-            TextStyle(color = color)
-        ),
         maxLines = maxLines,
         overflow = overflow
     )
