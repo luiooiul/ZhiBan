@@ -11,7 +11,7 @@ data class ReportMainResponse(
         val paperId: String,
         val subjectCode: String,
         val subjectName: String,
-        val userScore: Double? = null,
-        val standardScore: Double
+        val userScore: Double = 0.0,
+        val standardScore: Double,
     )
 }
