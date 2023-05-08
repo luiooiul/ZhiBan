@@ -4,7 +4,9 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportInfo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -21,6 +23,6 @@ class GetReportListUseCase @Inject constructor(
                     date = formatDateUseCase(examInfo.examCreateDateTime)
                 )
             }
-        }
+        }.flowOn(Dispatchers.Default)
     }
 }
