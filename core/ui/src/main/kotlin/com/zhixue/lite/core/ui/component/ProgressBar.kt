@@ -7,41 +7,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zhixue.lite.core.ui.theme.Theme
 
 @Composable
-fun CircularChart(
+fun ProgressBar(
     value: Float,
     modifier: Modifier,
-    thickness: Dp = 8.dp,
-    animationDuration: Int = 800,
+    cornerRadius: Dp = 16.dp,
+    animationDuration: Int = 600,
     color: Color = Theme.colors.primary,
     backgroundColor: Color = Theme.colors.surface
 ) {
-    val sweepAngle = remember { Animatable(0f) }
+    val progress = remember { Animatable(0f) }
 
     LaunchedEffect(Unit) {
-        sweepAngle.animateTo(-360 * value, tween(animationDuration))
+        progress.animateTo(value, tween(animationDuration))
     }
 
     Canvas(
-        modifier = modifier,
+        modifier = modifier
     ) {
-        drawCircle(
+        drawRoundRect(
             color = backgroundColor,
-            style = Stroke(width = thickness.toPx(), cap = StrokeCap.Butt)
+            cornerRadius = CornerRadius(cornerRadius.toPx())
         )
-        drawArc(
-            color = color,
-            startAngle = -90f,
-            sweepAngle = sweepAngle.value,
-            useCenter = false,
-            style = Stroke(width = thickness.toPx(), cap = StrokeCap.Round)
+        drawRoundRect(
+            brush = Brush.horizontalGradient(listOf(color, color.copy(0.2f))),
+            cornerRadius = CornerRadius(cornerRadius.toPx()),
+            size = Size(size.width * progress.value, size.height)
         )
     }
 }
