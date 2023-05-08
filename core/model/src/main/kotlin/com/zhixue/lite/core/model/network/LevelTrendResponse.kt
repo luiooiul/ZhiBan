@@ -8,6 +8,7 @@ data class LevelTrendResponse(
 ) {
     @Serializable
     data class LevelTrendInfo(
+        val totalNum: Int,
         val improveBar: ImproveBar
     ) {
         @Serializable

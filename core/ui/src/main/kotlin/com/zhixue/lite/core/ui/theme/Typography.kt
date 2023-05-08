@@ -36,6 +36,11 @@ data class Typography(
         fontWeight = FontWeight.Medium,
         letterSpacing = 0.5.sp
     ),
+    val labelSmall: TextStyle = TextStyle(
+        fontSize = 11.sp,
+        fontWeight = FontWeight.Medium,
+        letterSpacing = 0.5.sp
+    ),
     val button: TextStyle = TextStyle(
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold,

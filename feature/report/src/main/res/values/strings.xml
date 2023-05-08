@@ -2,4 +2,15 @@
 <resources>
     <string name="report_type_exam">考试报告</string>
     <string name="report_type_homework">作业报告</string>
+    <string name="headline_report_main">报告详情</string>
+    <string name="label_total">总分</string>
+    <string name="label_overview">总览</string>
+    <string name="label_trend">趋势</string>
+    <string name="label_fast_up">大幅进步</string>
+    <string name="label_slow_up">略微进步</string>
+    <string name="label_fast_down">大幅退步</string>
+    <string name="label_slow_down">略微退步</string>
+    <string name="label_steady">相对稳定</string>
+    <string name="label_no_trend">暂无趋势</string>
+    <string name="text_rank">班级排名 %1$s</string>
 </resources>
