@@ -69,6 +69,7 @@ fun ReportMainScreen(
                 Crossfade(uiState) {
                     when (it) {
                         is ReportMainUiState.Success -> ReportMainContent(reportMain = it.reportMain)
+                        is ReportMainUiState.Error -> ReportMainErrorPanel()
                         else -> {}
                     }
                 }
@@ -291,5 +292,28 @@ fun ReportMainTrendItem(
                 style = Theme.typography.labelSmall
             )
         }
+    }
+}
+
+@Composable
+fun ReportMainErrorPanel() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Theme.colors.surface, Theme.shapes.medium)
+            .padding(horizontal = 28.dp, vertical = 24.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            modifier = Modifier.size(36.dp),
+            painter = painterResource(com.zhixue.lite.core.ui.R.drawable.ic_error),
+            tint = Theme.colors.error
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = stringResource(R.string.text_error),
+            color = Theme.colors.error,
+            style = Theme.typography.titleMedium
+        )
     }
 }
