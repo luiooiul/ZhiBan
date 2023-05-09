@@ -60,7 +60,7 @@ class GetReportMainUseCase @Inject constructor(
                         rank = rank?.toString()
                     )
                 }.catch {
-                    ReportMain.Trend(name = paperInfo.subjectName, code = null, rank = null)
+                    emit(ReportMain.Trend(name = paperInfo.subjectName, code = null, rank = null))
                 }
             }.let { flows ->
                 combine(flows) { it.toList() }
