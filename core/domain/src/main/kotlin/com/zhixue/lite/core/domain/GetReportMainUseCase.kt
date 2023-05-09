@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.single
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class GetReportMainUseCase @Inject constructor(
     private val reportRepository: ReportRepository
@@ -24,10 +25,10 @@ class GetReportMainUseCase @Inject constructor(
 
             val totalScore = paperList
                 .filterNot { it.paperId.contains("!") }
-                .sumOf { BigDecimal(it.userScore) }
+                .sumOf { BigDecimal(it.userScore.toString()) }
             val totalStandardScore = paperList
                 .filterNot { it.paperId.contains("!") }
-                .sumOf { BigDecimal(it.standardScore) }
+                .sumOf { BigDecimal(it.standardScore.toString()) }
             val totalScale = totalScore.divide(totalStandardScore, 2, RoundingMode.DOWN)
             val total = ReportMain.Total(
                 score = totalScore.toString(),
@@ -36,8 +37,8 @@ class GetReportMainUseCase @Inject constructor(
             )
 
             val overviews = paperList.map { paperInfo ->
-                val score = BigDecimal(paperInfo.userScore)
-                val standardScore = BigDecimal(paperInfo.standardScore)
+                val score = BigDecimal(paperInfo.userScore.toString())
+                val standardScore = BigDecimal(paperInfo.standardScore.toString())
                 val scale = score.divide(standardScore, 2, RoundingMode.DOWN)
                 ReportMain.Overview(
                     id = paperInfo.paperId,
@@ -75,7 +76,6 @@ class GetReportMainUseCase @Inject constructor(
     }
 }
 
-private fun calculateRank(totalNum: Int, myRank: Double): BigDecimal {
-    return BigDecimal(totalNum).multiply(BigDecimal(myRank))
-        .divide(BigDecimal(100), 0, RoundingMode.UP)
+private fun calculateRank(totalNum: Int, myRank: Double): Int {
+    return if (myRank == 0.0) 1 else (totalNum * myRank / 100).roundToInt()
 }
