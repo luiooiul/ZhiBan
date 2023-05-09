@@ -31,8 +31,8 @@ class GetReportMainUseCase @Inject constructor(
                 .sumOf { BigDecimal(it.standardScore.toString()) }
             val totalScale = totalScore.divide(totalStandardScore, 2, RoundingMode.DOWN)
             val total = ReportMain.Total(
-                score = totalScore.toString(),
-                standardScore = totalStandardScore.toString(),
+                score = totalScore.stripTrailingZeros().toPlainString(),
+                standardScore = totalStandardScore.stripTrailingZeros().toPlainString(),
                 scale = totalScale.toFloat()
             )
 
@@ -43,8 +43,8 @@ class GetReportMainUseCase @Inject constructor(
                 ReportMain.Overview(
                     id = paperInfo.paperId,
                     name = paperInfo.subjectName,
-                    score = score.toString(),
-                    standardScore = standardScore.toString(),
+                    score = score.stripTrailingZeros().toPlainString(),
+                    standardScore = standardScore.stripTrailingZeros().toPlainString(),
                     scale = scale.toFloat()
                 )
             }
