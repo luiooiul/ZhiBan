@@ -20,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
@@ -58,7 +60,7 @@ fun ReportMainScreen(
         )
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             item { ReportMainHeadline() }
             item {
@@ -220,34 +222,77 @@ fun ReportMainTrendPanel(
             style = Theme.typography.label
         )
         trends.forEach { trend ->
-            ReportMainTrendItem(trend)
+            when (trend.code) {
+                "fastUp" -> ReportMainTrendItem(
+                    name = trend.name,
+                    rank = trend.rank,
+                    iconRes = com.zhixue.lite.core.ui.R.drawable.ic_trending_up,
+                    labelRes = R.string.label_fast_up,
+                    boxContentColor = Theme.colors.onPrimary,
+                    boxBackgroundColor = Theme.colors.primary
+                )
+
+                "slowUp" -> ReportMainTrendItem(
+                    name = trend.name,
+                    rank = trend.rank,
+                    iconRes = com.zhixue.lite.core.ui.R.drawable.ic_trending_up,
+                    labelRes = R.string.label_slow_up,
+                    boxContentColor = Theme.colors.onPrimary,
+                    boxBackgroundColor = Theme.colors.primary,
+                    boxAlpha = 0.75f
+                )
+
+                "fastDown" -> ReportMainTrendItem(
+                    name = trend.name,
+                    rank = trend.rank,
+                    iconRes = com.zhixue.lite.core.ui.R.drawable.ic_trending_down,
+                    labelRes = R.string.label_fast_down,
+                    boxContentColor = Theme.colors.onError,
+                    boxBackgroundColor = Theme.colors.error
+                )
+
+                "slowDown" -> ReportMainTrendItem(
+                    name = trend.name,
+                    rank = trend.rank,
+                    iconRes = com.zhixue.lite.core.ui.R.drawable.ic_trending_down,
+                    labelRes = R.string.label_slow_down,
+                    boxContentColor = Theme.colors.onError,
+                    boxBackgroundColor = Theme.colors.error,
+                    boxAlpha = 0.75f
+                )
+
+                "steady" -> ReportMainTrendItem(
+                    name = trend.name,
+                    rank = trend.rank,
+                    iconRes = com.zhixue.lite.core.ui.R.drawable.ic_trending_flat,
+                    labelRes = R.string.label_steady,
+                    boxContentColor = Theme.colors.onSurface,
+                    boxBackgroundColor = Theme.colors.surface
+                )
+
+                else -> ReportMainTrendItem(
+                    name = trend.name,
+                    rank = trend.rank,
+                    iconRes = com.zhixue.lite.core.ui.R.drawable.ic_trending_flat,
+                    labelRes = R.string.label_no_trend,
+                    boxContentColor = Theme.colors.onSurface,
+                    boxBackgroundColor = Theme.colors.surface
+                )
+            }
         }
     }
 }
 
 @Composable
 fun ReportMainTrendItem(
-    trend: ReportMain.Trend
+    name: String,
+    rank: String?,
+    iconRes: Int,
+    labelRes: Int,
+    boxContentColor: Color,
+    boxBackgroundColor: Color,
+    boxAlpha: Float = 1f
 ) {
-    val colors = when (trend.code) {
-        "fastUp", "slowUp" -> Theme.colors.primary to Theme.colors.onPrimary
-        "fastDown", "slowDown" -> Theme.colors.error to Theme.colors.onError
-        else -> Theme.colors.surface to Theme.colors.onSurface
-    }
-    val iconRes = when (trend.code) {
-        "fastUp", "slowUp" -> com.zhixue.lite.core.ui.R.drawable.ic_trending_up
-        "fastDown", "slowDown" -> com.zhixue.lite.core.ui.R.drawable.ic_trending_down
-        else -> com.zhixue.lite.core.ui.R.drawable.ic_trending_flat
-    }
-    val labelRes = when (trend.code) {
-        "fastUp" -> R.string.label_fast_up
-        "slowUp" -> R.string.label_slow_up
-        "fastDown" -> R.string.label_fast_down
-        "slowDown" -> R.string.label_slow_down
-        "steady" -> R.string.label_steady
-        else -> R.string.label_no_trend
-    }
-
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -256,11 +301,11 @@ fun ReportMainTrendItem(
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Text(
-                text = trend.name,
+                text = name,
                 color = Theme.colors.onBackground,
                 style = Theme.typography.titleSmall
             )
-            trend.rank?.let { rank ->
+            rank?.let { rank ->
                 Text(
                     text = stringResource(R.string.text_rank, rank),
                     color = Theme.colors.onBackgroundVariant,
@@ -270,21 +315,22 @@ fun ReportMainTrendItem(
         }
         Row(
             modifier = Modifier
-                .background(colors.first, Theme.shapes.small)
+                .graphicsLayer { alpha = boxAlpha }
+                .background(boxBackgroundColor, Theme.shapes.small)
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(iconRes),
-                tint = colors.second
+                tint = boxContentColor
             )
             Spacer(
                 modifier = Modifier.width(4.dp)
             )
             Text(
                 text = stringResource(labelRes),
-                color = colors.second,
+                color = boxContentColor,
                 style = Theme.typography.labelSmall
             )
         }
