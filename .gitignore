@@ -1,6 +1,7 @@
 /.idea
 /.gradle
 /app/build
+/app/release
 /core/**/build
 /feature/**/build
 local.properties
