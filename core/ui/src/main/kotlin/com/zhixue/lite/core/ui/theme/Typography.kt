@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 data class Typography(
     val headline: TextStyle = TextStyle(
         fontSize = 36.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Medium
     ),
     val titleMedium: TextStyle = TextStyle(
         fontSize = 18.sp,
