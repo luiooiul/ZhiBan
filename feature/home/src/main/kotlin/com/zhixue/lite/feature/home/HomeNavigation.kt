@@ -23,6 +23,7 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeGraph(
+    navigateToLogin: () -> Unit,
     navigateToReportMain: (String) -> Unit
 ) {
     navigation(
@@ -32,6 +33,8 @@ fun NavGraphBuilder.homeGraph(
         reportListScreen(
             navigateToReportMain = navigateToReportMain
         )
-        profileScreen()
+        profileScreen(
+            navigateToLogin = navigateToLogin
+        )
     }
 }

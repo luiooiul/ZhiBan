@@ -20,6 +20,10 @@ class UserRepositoryImpl @Inject constructor(
         preferencesDataSource.setUser(username, password)
     }
 
+    override suspend fun clearUser() {
+        preferencesDataSource.clearUser()
+    }
+
     override suspend fun setUserInfo(
         id: String,
         token: String,

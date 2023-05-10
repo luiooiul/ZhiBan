@@ -28,6 +28,12 @@ class PreferencesDataSource @Inject constructor(
         }
     }
 
+    suspend fun clearUser() {
+        userPreferences.updateData {
+            it.defaultInstanceForType
+        }
+    }
+
     suspend fun setUserInfo(name: String, className: String, schoolName: String) {
         userPreferences.updateData {
             it.copy {

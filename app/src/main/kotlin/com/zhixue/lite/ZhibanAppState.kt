@@ -11,6 +11,7 @@ import androidx.navigation.navOptions
 import com.zhixue.lite.feature.home.HOME_ROUTE
 import com.zhixue.lite.feature.home.HomeDestination
 import com.zhixue.lite.feature.home.navigateToHome
+import com.zhixue.lite.feature.login.navigateToLogin
 import com.zhixue.lite.feature.profile.navigateToProfile
 import com.zhixue.lite.feature.report.navigateToReportList
 import com.zhixue.lite.feature.report.navigateToReportMain
@@ -43,6 +44,14 @@ class ZhibanAppState(
         }
 
         navController.navigateToHome(navOptions)
+    }
+
+    fun navigateToLogin() {
+        val navOptions = navOptions {
+            popUpTo(navController.graph.id) { inclusive = true }
+        }
+
+        navController.navigateToLogin(navOptions)
     }
 
     fun navigateToReportMain(reportId: String) {

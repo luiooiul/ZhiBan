@@ -1,6 +1,5 @@
 package com.zhixue.lite
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +39,7 @@ fun ZhibanApp(
                 startDestination = if (loginState == LoginState.LoggedIn) HOME_ROUTE else LOGIN_ROUTE
             ) {
                 homeGraph(
+                    navigateToLogin = appState::navigateToLogin,
                     navigateToReportMain = appState::navigateToReportMain
                 )
                 loginScreen(
@@ -49,16 +49,12 @@ fun ZhibanApp(
                     onBackClick = appState::navigateBack
                 )
             }
-            Crossfade(
-                targetState = appState.shouldShowHomeBottomBar
-            ) { shouldShowHomeBottomBar ->
-                if (shouldShowHomeBottomBar) {
-                    HorizontalDivider()
-                    HomeBottomBar(
-                        currentDestination = appState.currentDestination,
-                        onNavigateToDestination = appState::navigateToHomeDestination
-                    )
-                }
+            if (appState.shouldShowHomeBottomBar) {
+                HorizontalDivider()
+                HomeBottomBar(
+                    currentDestination = appState.currentDestination,
+                    onNavigateToDestination = appState::navigateToHomeDestination
+                )
             }
         }
     }

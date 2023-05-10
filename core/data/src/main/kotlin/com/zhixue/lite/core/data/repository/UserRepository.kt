@@ -12,6 +12,8 @@ interface UserRepository {
 
     suspend fun storeUser(username: String, password: String)
 
+    suspend fun clearUser()
+
     suspend fun setUserInfo(
         id: String,
         token: String,

@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ProfileUiState(
@@ -16,7 +17,7 @@ data class ProfileUiState(
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val uiState = userRepository.userData.map {
@@ -29,4 +30,13 @@ class ProfileViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = ProfileUiState()
     )
+
+    fun logout(
+        onLogoutComplete: () -> Unit
+    ) {
+        viewModelScope.launch {
+            userRepository.clearUser()
+            onLogoutComplete()
+        }
+    }
 }
