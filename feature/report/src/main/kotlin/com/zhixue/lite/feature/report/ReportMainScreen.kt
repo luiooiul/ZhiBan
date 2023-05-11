@@ -39,18 +39,21 @@ import com.zhixue.lite.core.ui.theme.Theme
 @Composable
 fun ReportMainScreen(
     onBackClick: () -> Unit,
+    navigateToReportDetail: (String) -> Unit,
     viewModel: ReportMainViewModel = hiltViewModel()
 ) {
     ReportMainScreen(
         uiState = viewModel.uiState,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        navigateToReportDetail = navigateToReportDetail
     )
 }
 
 @Composable
 fun ReportMainScreen(
     uiState: ReportMainUiState,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    navigateToReportDetail: (String) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
@@ -66,7 +69,11 @@ fun ReportMainScreen(
             item {
                 Crossfade(uiState) {
                     when (it) {
-                        is ReportMainUiState.Success -> ReportMainContent(reportMain = it.reportMain)
+                        is ReportMainUiState.Success -> ReportMainContent(
+                            reportMain = it.reportMain,
+                            onOverviewItemClick = navigateToReportDetail
+                        )
+
                         is ReportMainUiState.Error -> ReportMainErrorPanel()
                         else -> {}
                     }
@@ -108,18 +115,22 @@ fun ReportMainHeadline() {
 
 @Composable
 fun ReportMainContent(
-    reportMain: ReportMain
+    reportMain: ReportMain,
+    onOverviewItemClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .border(1.dp, Theme.colors.outline, Theme.shapes.medium)
-            .padding(horizontal = 28.dp, vertical = 36.dp),
+            .padding(vertical = 36.dp),
         verticalArrangement = Arrangement.spacedBy(28.dp)
     ) {
         ReportMainTotalPanel(total = reportMain.total)
         HorizontalDivider()
-        ReportMainOverviewPanel(overviews = reportMain.overviews)
+        ReportMainOverviewPanel(
+            overviews = reportMain.overviews,
+            onOverviewItemClick = onOverviewItemClick
+        )
         HorizontalDivider()
         ReportMainTrendPanel(trends = reportMain.trends)
     }
@@ -130,6 +141,7 @@ fun ReportMainTotalPanel(
     total: ReportMain.Total
 ) {
     Row(
+        modifier = Modifier.padding(horizontal = 28.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
@@ -138,7 +150,7 @@ fun ReportMainTotalPanel(
             Text(
                 text = stringResource(R.string.label_total),
                 color = Theme.colors.onBackgroundVariant,
-                style = Theme.typography.label
+                style = Theme.typography.labelMedium
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -163,27 +175,37 @@ fun ReportMainTotalPanel(
 
 @Composable
 fun ReportMainOverviewPanel(
-    overviews: List<ReportMain.Overview>
+    overviews: List<ReportMain.Overview>,
+    onOverviewItemClick: (String) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        modifier = Modifier.padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
+            modifier = Modifier.padding(horizontal = 18.dp),
             text = stringResource(R.string.label_overview),
             color = Theme.colors.onBackgroundVariant,
-            style = Theme.typography.label
+            style = Theme.typography.labelMedium
         )
+        Spacer(modifier = Modifier.height(6.dp))
         overviews.forEach { overview ->
-            ReportMainOverviewItem(overview)
+            ReportMainOverviewItem(overview, onClick = onOverviewItemClick)
         }
     }
 }
 
 @Composable
 fun ReportMainOverviewItem(
-    overview: ReportMain.Overview
+    overview: ReportMain.Overview,
+    onClick: (String) -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .clip(Theme.shapes.small)
+            .clickable { onClick(overview.id) }
+            .padding(top = 12.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
+    ) {
         Row(
             verticalAlignment = Alignment.Bottom
         ) {
@@ -214,12 +236,13 @@ fun ReportMainTrendPanel(
     trends: List<ReportMain.Trend>
 ) {
     Column(
+        modifier = Modifier.padding(horizontal = 28.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
             text = stringResource(R.string.label_trend),
             color = Theme.colors.onBackgroundVariant,
-            style = Theme.typography.label
+            style = Theme.typography.labelMedium
         )
         trends.forEach { trend ->
             when (trend.code) {

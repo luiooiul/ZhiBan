@@ -16,6 +16,7 @@ import com.zhixue.lite.feature.home.HomeBottomBar
 import com.zhixue.lite.feature.home.homeGraph
 import com.zhixue.lite.feature.login.LOGIN_ROUTE
 import com.zhixue.lite.feature.login.loginScreen
+import com.zhixue.lite.feature.report.reportDetailScreen
 import com.zhixue.lite.feature.report.reportMainScreen
 
 @Composable
@@ -46,6 +47,10 @@ fun ZhibanApp(
                     navigateToHome = appState::navigateToHome
                 )
                 reportMainScreen(
+                    onBackClick = appState::navigateBack,
+                    navigateToReportDetail = appState::navigateToReportDetail
+                )
+                reportDetailScreen(
                     onBackClick = appState::navigateBack
                 )
             }
