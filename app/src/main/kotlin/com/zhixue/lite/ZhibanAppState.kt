@@ -48,6 +48,7 @@ class ZhibanAppState(
 
     fun navigateToLogin() {
         val navOptions = navOptions {
+            launchSingleTop = true
             popUpTo(navController.graph.id) { inclusive = true }
         }
 
@@ -55,7 +56,11 @@ class ZhibanAppState(
     }
 
     fun navigateToReportMain(reportId: String) {
-        navController.navigateToReportMain(reportId)
+        val navOptions = navOptions {
+            launchSingleTop = true
+        }
+
+        navController.navigateToReportMain(reportId, navOptions)
     }
 
     fun navigateToHomeDestination(destination: HomeDestination) {
