@@ -29,7 +29,7 @@ fun NavController.navigateToReportMain(reportId: String, navOptions: NavOptions?
 
 fun NavGraphBuilder.reportMainScreen(
     onBackClick: () -> Unit,
-    navigateToReportDetail: (String) -> Unit
+    navigateToReportDetail: (String, String) -> Unit
 ) {
     composable(REPORT_MAIN_ROUTE) {
         ReportMainScreen(
@@ -43,10 +43,15 @@ private fun createReportMainRoute(reportId: String): String {
     return "report_main_route?reportId=$reportId"
 }
 
-const val REPORT_DETAIL_ROUTE = "report_detail_route?subjectId={subjectId}"
+const val REPORT_DETAIL_ROUTE =
+    "report_detail_route?subjectId={subjectId}&subjectName={subjectName}"
 
-fun NavController.navigateToReportDetail(subjectId: String, navOptions: NavOptions? = null) {
-    this.navigate(createReportDetailRoute(subjectId), navOptions)
+fun NavController.navigateToReportDetail(
+    subjectId: String,
+    subjectName: String,
+    navOptions: NavOptions? = null
+) {
+    this.navigate(createReportDetailRoute(subjectId, subjectName), navOptions)
 }
 
 fun NavGraphBuilder.reportDetailScreen(
@@ -59,6 +64,6 @@ fun NavGraphBuilder.reportDetailScreen(
     }
 }
 
-private fun createReportDetailRoute(subjectId: String): String {
-    return "report_detail_route?subjectId=$subjectId"
+private fun createReportDetailRoute(subjectId: String, subjectName: String): String {
+    return "report_detail_route?subjectId=$subjectId&subjectName=$subjectName"
 }

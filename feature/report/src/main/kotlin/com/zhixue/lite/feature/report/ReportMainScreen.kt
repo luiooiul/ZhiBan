@@ -39,7 +39,7 @@ import com.zhixue.lite.core.ui.theme.Theme
 @Composable
 fun ReportMainScreen(
     onBackClick: () -> Unit,
-    navigateToReportDetail: (String) -> Unit,
+    navigateToReportDetail: (String, String) -> Unit,
     viewModel: ReportMainViewModel = hiltViewModel()
 ) {
     ReportMainScreen(
@@ -53,7 +53,7 @@ fun ReportMainScreen(
 fun ReportMainScreen(
     uiState: ReportMainUiState,
     onBackClick: () -> Unit,
-    navigateToReportDetail: (String) -> Unit
+    navigateToReportDetail: (String, String) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
@@ -116,7 +116,7 @@ fun ReportMainHeadline() {
 @Composable
 fun ReportMainContent(
     reportMain: ReportMain,
-    onOverviewItemClick: (String) -> Unit
+    onOverviewItemClick: (String, String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -176,7 +176,7 @@ fun ReportMainTotalPanel(
 @Composable
 fun ReportMainOverviewPanel(
     overviews: List<ReportMain.Overview>,
-    onOverviewItemClick: (String) -> Unit
+    onOverviewItemClick: (String, String) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 8.dp),
@@ -198,12 +198,12 @@ fun ReportMainOverviewPanel(
 @Composable
 fun ReportMainOverviewItem(
     overview: ReportMain.Overview,
-    onClick: (String) -> Unit
+    onClick: (String, String) -> Unit
 ) {
     Column(
         modifier = Modifier
             .clip(Theme.shapes.small)
-            .clickable { onClick(overview.id) }
+            .clickable { onClick(overview.id, overview.name) }
             .padding(top = 12.dp, start = 20.dp, end = 20.dp, bottom = 14.dp)
     ) {
         Row(

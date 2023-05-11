@@ -64,12 +64,12 @@ class ZhibanAppState(
         navController.navigateToReportMain(reportId, navOptions)
     }
 
-    fun navigateToReportDetail(subjectId: String) {
+    fun navigateToReportDetail(subjectId: String, subjectName: String) {
         val navOptions = navOptions {
             launchSingleTop = true
         }
 
-        navController.navigateToReportDetail(subjectId, navOptions)
+        navController.navigateToReportDetail(subjectId, subjectName, navOptions)
     }
 
     fun navigateToHomeDestination(destination: HomeDestination) {
