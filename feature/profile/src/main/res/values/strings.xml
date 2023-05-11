@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_account">账号</string>
+    <string name="setting_switch_account">快捷切换</string>
+    <string name="setting_modify_password">修改密码</string>
+    <string name="setting_check_update">检测更新</string>
+    <string name="setting_feedback">意见反馈</string>
+    <string name="setting_about_us">关于我们</string>
+    <string name="setting_logout">退出登录</string>
+</resources>

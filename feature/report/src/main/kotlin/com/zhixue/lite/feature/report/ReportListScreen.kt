@@ -153,14 +153,14 @@ fun ReportListPagerContent(
 @Composable
 fun ReportListPagerItem(
     reportInfo: ReportInfo?,
-    onItemClick: (String) -> Unit
+    onClick: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
                 enabled = reportInfo != null,
-                onClick = { reportInfo?.id?.let { onItemClick(it) } }
+                onClick = { reportInfo?.id?.let { onClick(it) } }
             )
             .padding(horizontal = 24.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically

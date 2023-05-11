@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,34 +48,20 @@ fun ProfileScreen(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(vertical = 24.dp)
     ) {
-        item { ProfileTopBar(onLogoutClick = onLogoutClick) }
+        item { Spacer(modifier = Modifier) }
+        item { Spacer(modifier = Modifier) }
+        item { Spacer(modifier = Modifier) }
         item { ProfileHeader(name = uiState.name, schoolClass = uiState.schoolClass) }
         item { Spacer(modifier = Modifier) }
         item { HorizontalDivider(spacing = 36.dp) }
-    }
-}
-
-@Composable
-fun ProfileTopBar(
-    onLogoutClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 24.dp, start = 24.dp, end = 24.dp),
-        horizontalArrangement = Arrangement.End
-    ) {
-        Image(
-            modifier = Modifier
-                .clip(CircleShape)
-                .clickable(onClick = onLogoutClick)
-                .padding(8.dp)
-                .size(24.dp),
-            painter = painterResource(com.zhixue.lite.core.ui.R.drawable.ic_logout),
-            tint = Theme.colors.error
-        )
+        item {
+            ProfileSettingPanel(
+                onLogoutClick = onLogoutClick
+            )
+        }
     }
 }
 
@@ -84,9 +71,7 @@ fun ProfileHeader(
     schoolClass: String
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 36.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -107,6 +92,75 @@ fun ProfileHeader(
             text = schoolClass,
             color = Theme.colors.onBackgroundVariant,
             style = Theme.typography.subtitleSmall,
+        )
+    }
+}
+
+@Composable
+fun ProfileSettingPanel(
+    onLogoutClick: () -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Column {
+            Text(
+                modifier = Modifier.padding(horizontal = 36.dp, vertical = 12.dp),
+                text = stringResource(R.string.label_account),
+                color = Theme.colors.onBackgroundVariant,
+                style = Theme.typography.labelLarge
+            )
+            ProfileSettingItem(
+                name = stringResource(R.string.setting_switch_account),
+                onClick = {}
+            )
+            ProfileSettingItem(
+                name = stringResource(R.string.setting_modify_password),
+                onClick = {}
+            )
+        }
+        HorizontalDivider(spacing = 36.dp)
+        Column {
+            ProfileSettingItem(
+                name = stringResource(R.string.setting_check_update),
+                onClick = {}
+            )
+            ProfileSettingItem(
+                name = stringResource(R.string.setting_feedback),
+                onClick = {}
+            )
+            ProfileSettingItem(
+                name = stringResource(R.string.setting_about_us),
+                onClick = {}
+            )
+        }
+        HorizontalDivider(spacing = 36.dp)
+        ProfileSettingItem(
+            name = stringResource(R.string.setting_logout),
+            onClick = onLogoutClick
+        )
+    }
+}
+
+@Composable
+fun ProfileSettingItem(name: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 36.dp, vertical = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = name,
+            color = Theme.colors.onBackground,
+            style = Theme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.width(24.dp))
+        Image(
+            painter = painterResource(com.zhixue.lite.core.ui.R.drawable.ic_next),
+            tint = Theme.colors.onBackground
         )
     }
 }
