@@ -31,12 +31,7 @@ data class Typography(
         fontSize = 14.sp,
         letterSpacing = 0.25.sp
     ),
-    val labelLarge: TextStyle = TextStyle(
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Medium,
-        letterSpacing = 0.1.sp
-    ),
-    val label: TextStyle = TextStyle(
+    val labelMedium: TextStyle = TextStyle(
         fontSize = 14.sp,
         fontWeight = FontWeight.Medium,
         letterSpacing = 0.5.sp

@@ -119,7 +119,7 @@ fun ReportListTopTabs(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 text = name,
                 color = if (currentPagerIndex == index) Theme.colors.primary else Theme.colors.onBackgroundVariant,
-                style = Theme.typography.label
+                style = Theme.typography.labelMedium
             )
         }
     }

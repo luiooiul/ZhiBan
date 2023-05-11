@@ -126,7 +126,7 @@ fun LoginUsernameInput(
         Text(
             text = stringResource(R.string.label_username),
             color = Theme.colors.onBackgroundVariant,
-            style = Theme.typography.label
+            style = Theme.typography.labelMedium
         )
         Spacer(modifier = Modifier.height(12.dp))
         TextField(
@@ -152,7 +152,7 @@ fun LoginPasswordInput(
         Text(
             text = stringResource(R.string.label_password),
             color = Theme.colors.onBackgroundVariant,
-            style = Theme.typography.label
+            style = Theme.typography.labelMedium
         )
         Spacer(modifier = Modifier.height(12.dp))
         TextField(

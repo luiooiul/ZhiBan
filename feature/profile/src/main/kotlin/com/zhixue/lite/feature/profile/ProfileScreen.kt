@@ -108,7 +108,7 @@ fun ProfileSettingPanel(
                 modifier = Modifier.padding(horizontal = 36.dp, vertical = 12.dp),
                 text = stringResource(R.string.label_account),
                 color = Theme.colors.onBackgroundVariant,
-                style = Theme.typography.labelLarge
+                style = Theme.typography.labelMedium
             )
             ProfileSettingItem(
                 name = stringResource(R.string.setting_switch_account),
@@ -148,14 +148,14 @@ fun ProfileSettingItem(name: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 36.dp, vertical = 20.dp),
+            .padding(horizontal = 36.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             modifier = Modifier.weight(1f),
             text = name,
             color = Theme.colors.onBackground,
-            style = Theme.typography.titleMedium
+            style = Theme.typography.titleSmall
         )
         Spacer(modifier = Modifier.width(24.dp))
         Image(
