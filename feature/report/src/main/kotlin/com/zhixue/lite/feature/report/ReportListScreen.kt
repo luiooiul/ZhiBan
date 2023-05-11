@@ -143,7 +143,7 @@ fun ReportListPagerContent(
             } else {
                 items(pagerList) { reportInfo ->
                     ReportListPagerItem(reportInfo, onItemClick)
-                    HorizontalDivider(spacing = 16.dp)
+                    HorizontalDivider(spacing = 24.dp)
                 }
             }
         }
@@ -162,7 +162,7 @@ fun ReportListPagerItem(
                 enabled = reportInfo != null,
                 onClick = { reportInfo?.id?.let { onClick(it) } }
             )
-            .padding(horizontal = 24.dp, vertical = 18.dp),
+            .padding(horizontal = 28.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

@@ -56,7 +56,7 @@ fun ProfileScreen(
         item { Spacer(modifier = Modifier) }
         item { ProfileHeader(name = uiState.name, schoolClass = uiState.schoolClass) }
         item { Spacer(modifier = Modifier) }
-        item { HorizontalDivider(spacing = 36.dp) }
+        item { HorizontalDivider() }
         item {
             ProfileSettingPanel(
                 onLogoutClick = onLogoutClick
@@ -105,7 +105,7 @@ fun ProfileSettingPanel(
     ) {
         Column {
             Text(
-                modifier = Modifier.padding(horizontal = 36.dp, vertical = 12.dp),
+                modifier = Modifier.padding(horizontal = 28.dp, vertical = 12.dp),
                 text = stringResource(R.string.label_account),
                 color = Theme.colors.onBackgroundVariant,
                 style = Theme.typography.labelMedium
@@ -119,7 +119,7 @@ fun ProfileSettingPanel(
                 onClick = {}
             )
         }
-        HorizontalDivider(spacing = 36.dp)
+        HorizontalDivider(spacing = 24.dp)
         Column {
             ProfileSettingItem(
                 name = stringResource(R.string.setting_check_update),
@@ -134,7 +134,7 @@ fun ProfileSettingPanel(
                 onClick = {}
             )
         }
-        HorizontalDivider(spacing = 36.dp)
+        HorizontalDivider(spacing = 24.dp)
         ProfileSettingItem(
             name = stringResource(R.string.setting_logout),
             onClick = onLogoutClick
@@ -148,7 +148,7 @@ fun ProfileSettingItem(name: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 36.dp, vertical = 18.dp),
+            .padding(horizontal = 28.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
