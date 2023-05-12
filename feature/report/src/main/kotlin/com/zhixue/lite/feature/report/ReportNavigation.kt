@@ -3,7 +3,9 @@ package com.zhixue.lite.feature.report
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 
 const val REPORT_LIST_ROUTE = "report_list_route"
 
@@ -29,12 +31,18 @@ fun NavController.navigateToReportMain(examId: String, navOptions: NavOptions? =
 
 fun NavGraphBuilder.reportMainScreen(
     onBackClick: () -> Unit,
-    navigateToReportDetail: (String, String) -> Unit
+    navigateToReportDetail: (String, String, String) -> Unit
 ) {
-    composable(REPORT_MAIN_ROUTE) {
+    composable(
+        route = REPORT_MAIN_ROUTE,
+        arguments = listOf(navArgument("examId") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val examId = checkNotNull(backStackEntry.arguments?.getString("examId"))
         ReportMainScreen(
             onBackClick = onBackClick,
-            navigateToReportDetail = navigateToReportDetail
+            navigateToReportDetail = { paperId, name ->
+                navigateToReportDetail(examId, paperId, name)
+            }
         )
     }
 }
@@ -43,26 +51,32 @@ private fun createReportMainRoute(examId: String): String {
     return "report_main_route?examId=$examId"
 }
 
-const val REPORT_DETAIL_ROUTE = "report_detail_route?paperId={paperId}&subjectName={subjectName}"
+const val REPORT_DETAIL_ROUTE = "report_detail_route?examId={examId}&paperId={paperId}&name={name}"
 
 fun NavController.navigateToReportDetail(
+    examId: String,
     paperId: String,
-    subjectName: String,
+    name: String,
     navOptions: NavOptions? = null
 ) {
-    this.navigate(createReportDetailRoute(paperId, subjectName), navOptions)
+    this.navigate(createReportDetailRoute(examId, paperId, name), navOptions)
 }
 
 fun NavGraphBuilder.reportDetailScreen(
     onBackClick: () -> Unit
 ) {
-    composable(REPORT_DETAIL_ROUTE) {
+    composable(
+        route = REPORT_DETAIL_ROUTE,
+        arguments = listOf(navArgument("name") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val name = checkNotNull(backStackEntry.arguments?.getString("name"))
         ReportDetailScreen(
+            name = name,
             onBackClick = onBackClick
         )
     }
 }
 
-private fun createReportDetailRoute(paperId: String, subjectName: String): String {
-    return "report_detail_route?paperId=$paperId&subjectName=$subjectName"
+private fun createReportDetailRoute(examId: String, paperId: String, name: String): String {
+    return "report_detail_route?examId=$examId&paperId=$paperId&name=$name"
 }
