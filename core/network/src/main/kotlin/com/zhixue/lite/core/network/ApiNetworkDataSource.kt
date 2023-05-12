@@ -4,6 +4,7 @@ import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
+import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SsoResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
@@ -55,5 +56,9 @@ class ApiNetworkDataSource @Inject constructor(
         examId: String, paperId: String, token: String
     ): CheckSheetResponse {
         return zhixueApi.getCheckSheet(examId, paperId, token).result
+    }
+
+    override suspend fun getPaperAnalysis(paperId: String, token: String): PaperAnalysisResponse {
+        return zhixueApi.getPaperAnalysis(paperId, token).result
     }
 }

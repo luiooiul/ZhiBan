@@ -4,6 +4,7 @@ import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
+import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
@@ -73,4 +74,11 @@ interface ZhixueApi {
         @Field("paperId") paperId: String,
         @Field("token") token: String
     ): ZhixueResponse<CheckSheetResponse>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/getPaperAnalysis")
+    suspend fun getPaperAnalysis(
+        @Field("paperId") paperId: String,
+        @Field("token") token: String
+    ): ZhixueResponse<PaperAnalysisResponse>
 }

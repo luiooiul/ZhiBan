@@ -4,6 +4,7 @@ import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
+import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SsoResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
@@ -34,4 +35,6 @@ interface NetworkDataSource {
     suspend fun getCheckSheet(
         examId: String, paperId: String, token: String
     ): CheckSheetResponse
+
+    suspend fun getPaperAnalysis(paperId: String, token: String): PaperAnalysisResponse
 }
