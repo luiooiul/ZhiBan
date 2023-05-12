@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -34,19 +35,25 @@ class ApiNetworkDataSource @Inject constructor(
         return zhixueApi.getPageAllExamList(reportType, pageIndex, token).result
     }
 
-    override suspend fun getReportMain(reportId: String, token: String): ReportMainResponse {
-        return zhixueApi.getReportMain(reportId, token).result
+    override suspend fun getReportMain(examId: String, token: String): ReportMainResponse {
+        return zhixueApi.getReportMain(examId, token).result
     }
 
     override suspend fun getSubjectDiagnosis(
-        reportId: String, token: String
+        examId: String, token: String
     ): SubjectDiagnosisResponse {
-        return zhixueApi.getSubjectDiagnosis(reportId, token).result
+        return zhixueApi.getSubjectDiagnosis(examId, token).result
     }
 
     override suspend fun getLevelTrend(
-        reportId: String, paperId: String, token: String
+        examId: String, paperId: String, token: String
     ): LevelTrendResponse {
-        return zhixueApi.getLevelTrend(reportId, paperId, token).result
+        return zhixueApi.getLevelTrend(examId, paperId, token).result
+    }
+
+    override suspend fun getCheckSheet(
+        examId: String, paperId: String, token: String
+    ): CheckSheetResponse {
+        return zhixueApi.getCheckSheet(examId, paperId, token).result
     }
 }

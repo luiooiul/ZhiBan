@@ -27,14 +27,14 @@ class ReportMainViewModel @Inject constructor(
     getReportMainUseCase: GetReportMainUseCase
 ) : ViewModel() {
 
-    private val reportId: String = checkNotNull(savedStateHandle["reportId"])
+    private val examId: String = checkNotNull(savedStateHandle["examId"])
 
     var uiState: ReportMainUiState by mutableStateOf(ReportMainUiState.Loading)
         private set
 
     init {
         viewModelScope.launch {
-            uiState = getReportMainUseCase(reportId).map<ReportMain, ReportMainUiState> {
+            uiState = getReportMainUseCase(examId).map<ReportMain, ReportMainUiState> {
                 ReportMainUiState.Success(reportMain = it)
             }.catch {
                 emit(ReportMainUiState.Error)

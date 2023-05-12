@@ -36,23 +36,23 @@ class ReportRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getReportMain(reportId: String): Flow<ReportMainResponse> {
+    override fun getReportMain(examId: String): Flow<ReportMainResponse> {
         return flow {
-            emit(networkDataSource.getReportMain(reportId, userRepository.token))
+            emit(networkDataSource.getReportMain(examId, userRepository.token))
         }
     }
 
-    override fun getSubjectDiagnosis(reportId: String): Flow<SubjectDiagnosisResponse> {
+    override fun getSubjectDiagnosis(examId: String): Flow<SubjectDiagnosisResponse> {
         return flow {
-            emit(networkDataSource.getSubjectDiagnosis(reportId, userRepository.token))
+            emit(networkDataSource.getSubjectDiagnosis(examId, userRepository.token))
         }.catch {
             emit(SubjectDiagnosisResponse(list = emptyList()))
         }
     }
 
-    override fun getLevelTrend(reportId: String, paperId: String): Flow<LevelTrendResponse> {
+    override fun getLevelTrend(examId: String, paperId: String): Flow<LevelTrendResponse> {
         return flow {
-            emit(networkDataSource.getLevelTrend(reportId, paperId, userRepository.token))
+            emit(networkDataSource.getLevelTrend(examId, paperId, userRepository.token))
         }
     }
 }

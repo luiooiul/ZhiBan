@@ -15,10 +15,10 @@ import kotlin.math.ceil
 class GetReportMainUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    operator fun invoke(reportId: String): Flow<ReportMain> {
+    operator fun invoke(examId: String): Flow<ReportMain> {
         return combine(
-            reportRepository.getReportMain(reportId),
-            reportRepository.getSubjectDiagnosis(reportId)
+            reportRepository.getReportMain(examId),
+            reportRepository.getSubjectDiagnosis(examId)
         ) { reportMainResponse, subjectDiagnosisResponse ->
             val paperList = reportMainResponse.paperList
             val subjectDiagnosisList = subjectDiagnosisResponse.list
@@ -50,7 +50,7 @@ class GetReportMainUseCase @Inject constructor(
             }
 
             val trends = paperList.map { paperInfo ->
-                reportRepository.getLevelTrend(reportId, paperInfo.paperId).map { response ->
+                reportRepository.getLevelTrend(examId, paperInfo.paperId).map { response ->
                     val classTrendInfo = response.list.first()
                     val rank = subjectDiagnosisList
                         .find { it.subjectCode == paperInfo.subjectCode }

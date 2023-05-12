@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -20,13 +21,17 @@ interface NetworkDataSource {
         reportType: String, pageIndex: Int, token: String
     ): PageAllExamListResponse
 
-    suspend fun getReportMain(reportId: String, token: String): ReportMainResponse
+    suspend fun getReportMain(examId: String, token: String): ReportMainResponse
 
     suspend fun getSubjectDiagnosis(
-        reportId: String, token: String
+        examId: String, token: String
     ): SubjectDiagnosisResponse
 
     suspend fun getLevelTrend(
-        reportId: String, paperId: String, token: String
+        examId: String, paperId: String, token: String
     ): LevelTrendResponse
+
+    suspend fun getCheckSheet(
+        examId: String, paperId: String, token: String
+    ): CheckSheetResponse
 }

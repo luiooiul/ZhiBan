@@ -11,9 +11,9 @@ interface ReportRepository {
 
     fun getReportList(reportType: String): Flow<PagingData<PageAllExamListResponse.ExamInfo>>
 
-    fun getReportMain(reportId: String): Flow<ReportMainResponse>
+    fun getReportMain(examId: String): Flow<ReportMainResponse>
 
-    fun getSubjectDiagnosis(reportId: String): Flow<SubjectDiagnosisResponse>
+    fun getSubjectDiagnosis(examId: String): Flow<SubjectDiagnosisResponse>
 
-    fun getLevelTrend(reportId: String, paperId: String): Flow<LevelTrendResponse>
+    fun getLevelTrend(examId: String, paperId: String): Flow<LevelTrendResponse>
 }

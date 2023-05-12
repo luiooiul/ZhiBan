@@ -21,10 +21,10 @@ fun NavGraphBuilder.reportListScreen(
     }
 }
 
-const val REPORT_MAIN_ROUTE = "report_main_route?reportId={reportId}"
+const val REPORT_MAIN_ROUTE = "report_main_route?examId={examId}"
 
-fun NavController.navigateToReportMain(reportId: String, navOptions: NavOptions? = null) {
-    this.navigate(createReportMainRoute(reportId), navOptions)
+fun NavController.navigateToReportMain(examId: String, navOptions: NavOptions? = null) {
+    this.navigate(createReportMainRoute(examId), navOptions)
 }
 
 fun NavGraphBuilder.reportMainScreen(
@@ -39,19 +39,18 @@ fun NavGraphBuilder.reportMainScreen(
     }
 }
 
-private fun createReportMainRoute(reportId: String): String {
-    return "report_main_route?reportId=$reportId"
+private fun createReportMainRoute(examId: String): String {
+    return "report_main_route?examId=$examId"
 }
 
-const val REPORT_DETAIL_ROUTE =
-    "report_detail_route?subjectId={subjectId}&subjectName={subjectName}"
+const val REPORT_DETAIL_ROUTE = "report_detail_route?paperId={paperId}&subjectName={subjectName}"
 
 fun NavController.navigateToReportDetail(
-    subjectId: String,
+    paperId: String,
     subjectName: String,
     navOptions: NavOptions? = null
 ) {
-    this.navigate(createReportDetailRoute(subjectId, subjectName), navOptions)
+    this.navigate(createReportDetailRoute(paperId, subjectName), navOptions)
 }
 
 fun NavGraphBuilder.reportDetailScreen(
@@ -64,6 +63,6 @@ fun NavGraphBuilder.reportDetailScreen(
     }
 }
 
-private fun createReportDetailRoute(subjectId: String, subjectName: String): String {
-    return "report_detail_route?subjectId=$subjectId&subjectName=$subjectName"
+private fun createReportDetailRoute(paperId: String, subjectName: String): String {
+    return "report_detail_route?paperId=$paperId&subjectName=$subjectName"
 }

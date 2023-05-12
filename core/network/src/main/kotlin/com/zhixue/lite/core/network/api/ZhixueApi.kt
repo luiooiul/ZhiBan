@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network.api
 
 import com.zhixue.lite.core.model.network.CasResponse
+import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -42,21 +43,21 @@ interface ZhixueApi {
     @FormUrlEncoded
     @POST("zxbReport/report/exam/getReportMain")
     suspend fun getReportMain(
-        @Field("examId") reportId: String,
+        @Field("examId") examId: String,
         @Field("token") token: String
     ): ZhixueResponse<ReportMainResponse>
 
     @FormUrlEncoded
     @POST("zxbReport/report/exam/getSubjectDiagnosis")
     suspend fun getSubjectDiagnosis(
-        @Field("examId") reportId: String,
+        @Field("examId") examId: String,
         @Field("token") token: String
     ): ZhixueResponse<SubjectDiagnosisResponse>
 
     @FormUrlEncoded
     @POST("zxbReport/report/paper/getLevelTrend")
     suspend fun getLevelTrend(
-        @Field("examId") reportId: String,
+        @Field("examId") examId: String,
         @Field("paperId") paperId: String,
         @Field("token") token: String,
         @FieldMap fields: Map<String, String> = mapOf(
@@ -64,4 +65,12 @@ interface ZhixueApi {
             "pageIndex" to "1"
         )
     ): ZhixueResponse<LevelTrendResponse>
+
+    @FormUrlEncoded
+    @POST("zxbReport/report/paper/getCheckSheet")
+    suspend fun getCheckSheet(
+        @Field("examId") examId: String,
+        @Field("paperId") paperId: String,
+        @Field("token") token: String
+    ): ZhixueResponse<CheckSheetResponse>
 }
