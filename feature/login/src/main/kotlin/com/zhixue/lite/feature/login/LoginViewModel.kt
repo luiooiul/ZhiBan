@@ -28,10 +28,10 @@ class LoginViewModel @Inject constructor(
     private val encryptPasswordUseCase: EncryptPasswordUseCase
 ) : ViewModel() {
 
-    private val _message = MutableStateFlow("")
-    private val _isLogging = MutableStateFlow(false)
+    private val message = MutableStateFlow("")
+    private val isLogging = MutableStateFlow(false)
 
-    val uiState = combine(_message, _isLogging) { message, isLogging ->
+    val uiState = combine(message, isLogging) { message, isLogging ->
         LoginUiState(message, isLogging)
     }.stateIn(
         scope = viewModelScope,
@@ -53,7 +53,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun messageShown() {
-        _message.value = ""
+        message.value = ""
     }
 
     fun doLogin(
@@ -62,15 +62,15 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 checkInputAvailable()
-                _isLogging.value = true
+                isLogging.value = true
                 val encryptedPassword = encryptPasswordUseCase.invoke(password.reversed())
                 loginRepository.login(username, encryptedPassword)
                 userRepository.storeUser(username, encryptedPassword)
             }.onSuccess {
                 onLoginCompleted()
             }.onFailure {
-                _message.value = it.message.orEmpty()
-                _isLogging.value = false
+                message.value = it.message.orEmpty()
+                isLogging.value = false
             }
         }
     }

@@ -14,20 +14,20 @@ private const val KEY_PUBLIC_EXPONENT = "010001"
 
 class EncryptPasswordUseCase @Inject constructor() {
 
-    private val _keySpec = RSAPublicKeySpec(
+    private val keySpec = RSAPublicKeySpec(
         BigInteger(KEY_MODULES.hexToBytes()),
         BigInteger(KEY_PUBLIC_EXPONENT.hexToBytes())
     )
-    private val _publicKey = KeyFactory
+    private val publicKey = KeyFactory
         .getInstance(RSA_ALGORITHM)
-        .generatePublic(_keySpec)
-    private val _cipher = Cipher.getInstance(RSA_TRANSFORMATION).apply {
-        init(Cipher.ENCRYPT_MODE, _publicKey)
+        .generatePublic(keySpec)
+    private val cipher = Cipher.getInstance(RSA_TRANSFORMATION).apply {
+        init(Cipher.ENCRYPT_MODE, publicKey)
     }
 
     operator fun invoke(password: String): String {
         return runCatching {
-            _cipher.doFinal(password.toByteArray()).toHex()
+            cipher.doFinal(password.toByteArray()).toHex()
         }.getOrDefault(
             defaultValue = ""
         )

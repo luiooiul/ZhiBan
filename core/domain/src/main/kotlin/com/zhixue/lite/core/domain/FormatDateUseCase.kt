@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 class FormatDateUseCase @Inject constructor() {
 
-    private val _formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     operator fun invoke(date: Long): String {
-        return _formatter.format(date)
+        return formatter.format(date)
     }
 }

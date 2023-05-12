@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ZhibanActivity : ComponentActivity() {
 
-    private val _viewModel by viewModels<ZhibanActivityViewModel>()
+    private val viewModel by viewModels<ZhibanActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -24,7 +24,7 @@ class ZhibanActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         splashScreen.setKeepOnScreenCondition {
-            _viewModel.loginState == LoginState.Loading
+            viewModel.loginState == LoginState.Loading
         }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -42,7 +42,7 @@ class ZhibanActivity : ComponentActivity() {
                 darkTheme = darkTheme
             ) {
                 ZhibanApp(
-                    loginState = _viewModel.loginState
+                    loginState = viewModel.loginState
                 )
             }
         }
