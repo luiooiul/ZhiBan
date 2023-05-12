@@ -4,6 +4,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.int
@@ -33,8 +34,11 @@ private class ZhixueResponseSerializer<T>(
 
         require(errorCode == 0) { errorInfo }
 
-        val result = element["result"]!!
-
-        return ZhixueResponse(input.json.decodeFromJsonElement(serializer, result))
+        return ZhixueResponse(
+            when (val result = element["result"]!!) {
+                is JsonObject, is JsonArray -> input.json.decodeFromJsonElement(serializer, result)
+                else -> input.json.decodeFromString(serializer, result.jsonPrimitive.content)
+            }
+        )
     }
 }
