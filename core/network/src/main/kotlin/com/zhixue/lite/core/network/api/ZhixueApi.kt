@@ -12,7 +12,9 @@ import com.zhixue.lite.core.model.network.ZhixueResponse
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ZhixueApi {
 
@@ -75,10 +77,9 @@ interface ZhixueApi {
         @Field("token") token: String
     ): ZhixueResponse<CheckSheetResponse>
 
-    @FormUrlEncoded
-    @POST("zxbReport/report/getPaperAnalysis")
+    @GET("zxbReport/report/getPaperAnalysis")
     suspend fun getPaperAnalysis(
-        @Field("paperId") paperId: String,
-        @Field("token") token: String
+        @Query("paperId") paperId: String,
+        @Query("token") token: String
     ): ZhixueResponse<PaperAnalysisResponse>
 }
