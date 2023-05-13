@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.ui.component.CircularChart
+import com.zhixue.lite.core.ui.component.HorizontalDivider
 import com.zhixue.lite.core.ui.component.Image
 import com.zhixue.lite.core.ui.component.Text
 import com.zhixue.lite.core.ui.theme.Theme
@@ -118,6 +119,7 @@ fun ReportDetailContent(reportDetail: ReportDetail) {
         verticalArrangement = Arrangement.spacedBy(28.dp)
     ) {
         ReportDetailTotalPanel(total = reportDetail.total)
+        HorizontalDivider()
     }
 }
 
@@ -152,7 +154,7 @@ fun ReportDetailTotalPanel(
         }
         Spacer(modifier = Modifier.width(16.dp))
         CircularChart(
-            value = total.scale,
+            value = total.rate,
             modifier = Modifier.size(48.dp)
         )
     }
