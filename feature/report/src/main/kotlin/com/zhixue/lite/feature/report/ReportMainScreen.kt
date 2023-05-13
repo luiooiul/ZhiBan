@@ -167,7 +167,7 @@ fun ReportMainTotalPanel(
         }
         Spacer(modifier = Modifier.width(16.dp))
         CircularChart(
-            value = total.scale,
+            value = total.rate,
             modifier = Modifier.size(48.dp)
         )
     }
@@ -226,7 +226,7 @@ fun ReportMainOverviewItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(6.dp),
-            value = overview.scale
+            value = overview.rate
         )
     }
 }

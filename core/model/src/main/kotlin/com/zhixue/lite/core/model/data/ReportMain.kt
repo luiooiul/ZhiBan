@@ -8,7 +8,7 @@ data class ReportMain(
     data class Total(
         val score: String,
         val standardScore: String,
-        val scale: Float
+        val rate: Float
     )
 
     data class Overview(
@@ -16,7 +16,7 @@ data class ReportMain(
         val name: String,
         val score: String,
         val standardScore: String,
-        val scale: Float
+        val rate: Float
     )
 
     data class Trend(

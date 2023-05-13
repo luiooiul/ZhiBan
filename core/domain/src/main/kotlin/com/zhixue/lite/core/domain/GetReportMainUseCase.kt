@@ -29,23 +29,23 @@ class GetReportMainUseCase @Inject constructor(
             val totalStandardScore = paperList
                 .filterNot { it.paperId.contains("!") }
                 .sumOf { BigDecimal(it.standardScore.toString()) }
-            val totalScale = totalScore.divide(totalStandardScore, 2, RoundingMode.DOWN)
+            val totalRate = totalScore.divide(totalStandardScore, 2, RoundingMode.DOWN)
             val total = ReportMain.Total(
                 score = totalScore.stripTrailingZeros().toPlainString(),
                 standardScore = totalStandardScore.stripTrailingZeros().toPlainString(),
-                scale = totalScale.toFloat()
+                rate = totalRate.toFloat()
             )
 
             val overviews = paperList.map { paperInfo ->
                 val score = BigDecimal(paperInfo.userScore.toString())
                 val standardScore = BigDecimal(paperInfo.standardScore.toString())
-                val scale = score.divide(standardScore, 2, RoundingMode.DOWN)
+                val rate = score.divide(standardScore, 2, RoundingMode.DOWN)
                 ReportMain.Overview(
                     id = paperInfo.paperId,
                     name = paperInfo.subjectName,
                     score = score.stripTrailingZeros().toPlainString(),
                     standardScore = standardScore.stripTrailingZeros().toPlainString(),
-                    scale = scale.toFloat()
+                    rate = rate.toFloat()
                 )
             }
 
