@@ -4,8 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.zhixue.lite.core.data.paging.ReportPagingSource
+import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
+import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
 import com.zhixue.lite.core.network.ApiNetworkDataSource
@@ -53,6 +55,18 @@ class ReportRepositoryImpl @Inject constructor(
     override fun getLevelTrend(examId: String, paperId: String): Flow<LevelTrendResponse> {
         return flow {
             emit(networkDataSource.getLevelTrend(examId, paperId, userRepository.token))
+        }
+    }
+
+    override fun getCheckSheet(examId: String, paperId: String): Flow<CheckSheetResponse> {
+        return flow {
+            emit(networkDataSource.getCheckSheet(examId, paperId, userRepository.token))
+        }
+    }
+
+    override fun getPaperAnalysis(paperId: String): Flow<PaperAnalysisResponse> {
+        return flow {
+            emit(networkDataSource.getPaperAnalysis(paperId, userRepository.token))
         }
     }
 }
