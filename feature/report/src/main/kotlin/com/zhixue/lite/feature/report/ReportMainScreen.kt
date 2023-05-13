@@ -183,7 +183,7 @@ fun ReportMainOverviewPanel(
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 18.dp),
+            modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(R.string.label_overview),
             color = Theme.colors.onBackgroundVariant,
             style = Theme.typography.labelMedium
