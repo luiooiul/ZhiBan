@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import java.math.BigDecimal
-import java.math.RoundingMode
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -29,23 +28,23 @@ class GetReportMainUseCase @Inject constructor(
             val totalStandardScore = paperList
                 .filterNot { it.paperId.contains("!") }
                 .sumOf { BigDecimal(it.standardScore.toString()) }
-            val totalRate = totalScore.divide(totalStandardScore, 2, RoundingMode.DOWN)
+            val totalRate = totalScore.toFloat() / totalStandardScore.toFloat()
             val total = ReportMain.Total(
                 score = totalScore.stripTrailingZeros().toPlainString(),
                 standardScore = totalStandardScore.stripTrailingZeros().toPlainString(),
-                rate = totalRate.toFloat()
+                rate = totalRate
             )
 
             val overviews = paperList.map { paperInfo ->
                 val score = BigDecimal(paperInfo.userScore.toString())
                 val standardScore = BigDecimal(paperInfo.standardScore.toString())
-                val rate = score.divide(standardScore, 2, RoundingMode.DOWN)
+                val rate = score.toFloat() / standardScore.toFloat()
                 ReportMain.Overview(
                     id = paperInfo.paperId,
                     name = paperInfo.subjectName,
                     score = score.stripTrailingZeros().toPlainString(),
                     standardScore = standardScore.stripTrailingZeros().toPlainString(),
-                    rate = rate.toFloat()
+                    rate = rate
                 )
             }
 
