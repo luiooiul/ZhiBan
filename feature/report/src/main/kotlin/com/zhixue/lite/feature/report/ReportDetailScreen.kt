@@ -181,61 +181,11 @@ fun ReportDetailOverviewPanel(
             style = Theme.typography.labelMedium
         )
         Spacer(modifier = Modifier.height(22.dp))
-        ReportDetailOverviewTypePanel(type = overview.type)
+        ReportDetailOverviewAnswerPanel(answer = overview.answer)
         Spacer(modifier = Modifier.height(28.dp))
         HorizontalDivider()
         Spacer(modifier = Modifier.height(28.dp))
-        ReportDetailOverviewAnswerPanel(answer = overview.answer)
-    }
-}
-
-@Composable
-fun ReportDetailOverviewTypePanel(
-    type: ReportDetail.Overview.Type
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(2.dp)
-    ) {
-        ReportDetailOverviewTypeItem(
-            name = stringResource(R.string.text_objective),
-            info = type.objective
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        ReportDetailOverviewTypeItem(
-            name = stringResource(R.string.text_subjective),
-            info = type.subjective
-        )
-    }
-}
-
-@Composable
-fun ReportDetailOverviewTypeItem(
-    name: String,
-    info: ReportDetail.Overview.Type.Info
-) {
-    Column {
-        Row(
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = name,
-                color = Theme.colors.onBackground,
-                style = Theme.typography.titleSmall
-            )
-            Text(
-                text = "${info.score} / ${info.standardScore}",
-                color = Theme.colors.onBackgroundVariant,
-                style = Theme.typography.subtitleSmall
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        ProgressBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(6.dp),
-            value = info.rate
-        )
+        ReportDetailOverviewTypePanel(type = overview.type)
     }
 }
 
@@ -290,6 +240,56 @@ fun ReportDetailOverviewAnswerItem(
             text = stringResource(R.string.text_topics, size),
             color = Theme.colors.onBackgroundVariant,
             style = Theme.typography.subtitleSmall
+        )
+    }
+}
+
+@Composable
+fun ReportDetailOverviewTypePanel(
+    type: ReportDetail.Overview.Type
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        ReportDetailOverviewTypeItem(
+            name = stringResource(R.string.text_subjective),
+            info = type.subjective
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        ReportDetailOverviewTypeItem(
+            name = stringResource(R.string.text_objective),
+            info = type.objective
+        )
+    }
+}
+
+@Composable
+fun ReportDetailOverviewTypeItem(
+    name: String,
+    info: ReportDetail.Overview.Type.Info
+) {
+    Column {
+        Row(
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = name,
+                color = Theme.colors.onBackground,
+                style = Theme.typography.titleSmall
+            )
+            Text(
+                text = "${info.score} / ${info.standardScore}",
+                color = Theme.colors.onBackgroundVariant,
+                style = Theme.typography.subtitleSmall
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        ProgressBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(6.dp),
+            value = info.rate
         )
     }
 }
