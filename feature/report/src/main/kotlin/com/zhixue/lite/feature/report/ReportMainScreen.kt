@@ -211,9 +211,15 @@ fun ReportMainOverviewItem(
         ) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = overview.name,
-                color = Theme.colors.onBackground,
-                style = Theme.typography.titleSmall
+                text = buildAnnotatedString {
+                    withStyle(Theme.typography.titleSmall.toSpanStyle()) {
+                        append(overview.name)
+                    }
+                    withStyle(Theme.typography.labelSmall.toSpanStyle()) {
+                        append(" ${overview.level}")
+                    }
+                },
+                color = Theme.colors.onBackground
             )
             Text(
                 text = "${overview.score} / ${overview.standardScore}",

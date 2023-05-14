@@ -42,6 +42,7 @@ class GetReportMainUseCase @Inject constructor(
                 ReportMain.Overview(
                     id = paperInfo.paperId,
                     name = paperInfo.subjectName,
+                    level = paperInfo.userLevel,
                     score = score.stripTrailingZeros().toPlainString(),
                     standardScore = standardScore.stripTrailingZeros().toPlainString(),
                     rate = rate

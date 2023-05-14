@@ -14,6 +14,7 @@ data class ReportMain(
     data class Overview(
         val id: String,
         val name: String,
+        val level: String,
         val score: String,
         val standardScore: String,
         val rate: Float
