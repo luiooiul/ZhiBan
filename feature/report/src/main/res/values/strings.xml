@@ -14,6 +14,7 @@
     <string name="label_steady">相对稳定</string>
     <string name="label_no_trend">暂无趋势</string>
     <string name="text_rank">班级排名 %1$s</string>
+    <string name="text_topics">%1$s题</string>
     <string name="text_objective">客观</string>
     <string name="text_subjective">主观</string>
     <string name="text_correct">正确</string>

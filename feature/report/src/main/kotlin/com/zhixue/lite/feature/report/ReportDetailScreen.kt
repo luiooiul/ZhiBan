@@ -193,7 +193,9 @@ fun ReportDetailOverviewPanel(
 fun ReportDetailOverviewTypePanel(
     type: ReportDetail.Overview.Type
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
         ReportDetailOverviewTypeItem(
             name = stringResource(R.string.text_objective),
             info = type.objective
@@ -285,7 +287,7 @@ fun ReportDetailOverviewAnswerItem(
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
-            text = "${size}题",
+            text = stringResource(R.string.text_topics, size),
             color = Theme.colors.onBackgroundVariant,
             style = Theme.typography.subtitleSmall
         )
