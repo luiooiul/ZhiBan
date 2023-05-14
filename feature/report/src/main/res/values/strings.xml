@@ -21,4 +21,5 @@
     <string name="text_part_correct">半对</string>
     <string name="text_incorrect">错误</string>
     <string name="text_error">似乎出现了一些问题…</string>
+    <string name="label_check_sheet">原卷</string>
 </resources>

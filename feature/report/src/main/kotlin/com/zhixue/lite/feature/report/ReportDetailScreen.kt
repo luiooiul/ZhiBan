@@ -302,7 +302,7 @@ fun ReportDetailCheckSheetPanel() {
         modifier = Modifier.padding(horizontal = 28.dp)
     ) {
         Text(
-            text = stringResource(R.string.label_checksheet),
+            text = stringResource(R.string.label_check_sheet),
             color = Theme.colors.onBackgroundVariant,
             style = Theme.typography.labelMedium
         )
