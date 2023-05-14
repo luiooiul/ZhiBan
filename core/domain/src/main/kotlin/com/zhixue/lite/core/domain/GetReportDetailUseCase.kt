@@ -5,7 +5,6 @@ import com.zhixue.lite.core.model.data.ReportDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
-import java.math.RoundingMode
 import javax.inject.Inject
 
 class GetReportDetailUseCase @Inject constructor(
@@ -19,11 +18,44 @@ class GetReportDetailUseCase @Inject constructor(
                 .sumOf { BigDecimal(it.score.toString()) }
             val totalStandardScore = topicAnalysisDTO
                 .sumOf { BigDecimal(it.standardScore.toString()) }
-            val totalRate = totalScore.divide(totalStandardScore, 2, RoundingMode.DOWN)
+            val totalRate =
+                totalScore.toFloat() / totalStandardScore.toFloat()
+
             val total = ReportDetail.Total(
                 score = totalScore.stripTrailingZeros().toPlainString(),
                 standardScore = totalStandardScore.stripTrailingZeros().toPlainString(),
-                rate = totalRate.toFloat()
+                rate = totalRate
+            )
+
+            val objectiveTopics = topicAnalysisDTO
+                .filter { it.answerType == "s01Text" }
+            val objectiveScore = objectiveTopics
+                .sumOf { BigDecimal(it.score.toString()) }
+            val objectiveStandardScore = objectiveTopics
+                .sumOf { BigDecimal(it.standardScore.toString()) }
+            val objectiveRate =
+                objectiveScore.toFloat() / objectiveStandardScore.toFloat()
+
+            val subjectiveTopics = topicAnalysisDTO
+                .filter { it.answerType == "s02Image" }
+            val subjectiveScore = subjectiveTopics
+                .sumOf { BigDecimal(it.score.toString()) }
+            val subjectiveStandardScore = subjectiveTopics
+                .sumOf { BigDecimal(it.standardScore.toString()) }
+            val subjectiveRate =
+                subjectiveScore.toFloat() / subjectiveStandardScore.toFloat()
+
+            val type = ReportDetail.Overview.Type(
+                objective = ReportDetail.Overview.Type.Info(
+                    score = objectiveScore.stripTrailingZeros().toPlainString(),
+                    standardScore = objectiveStandardScore.stripTrailingZeros().toPlainString(),
+                    rate = objectiveRate
+                ),
+                subjective = ReportDetail.Overview.Type.Info(
+                    score = subjectiveScore.stripTrailingZeros().toPlainString(),
+                    standardScore = subjectiveStandardScore.stripTrailingZeros().toPlainString(),
+                    rate = subjectiveRate
+                )
             )
 
             val correctTopics = topicAnalysisDTO
@@ -31,15 +63,16 @@ class GetReportDetailUseCase @Inject constructor(
             val (incorrectTopics, partCorrectTopics) = topicAnalysisDTO
                 .filterNot { it.isCorrect }
                 .partition { it.score == 0.0 }
-            val overview = ReportDetail.Overview(
-                correctTopics = correctTopics.map { it.disTitleNumber },
-                incorrectTopics = incorrectTopics.map { it.disTitleNumber },
-                partCorrectTopics = partCorrectTopics.map { it.disTitleNumber }
+
+            val answer = ReportDetail.Overview.Answer(
+                correct = correctTopics.size,
+                incorrect = incorrectTopics.size,
+                partCorrect = partCorrectTopics.size
             )
 
             ReportDetail(
                 total = total,
-                overview = overview
+                overview = ReportDetail.Overview(type, answer)
             )
         }
     }

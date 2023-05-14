@@ -12,6 +12,7 @@ data class PaperAnalysisResponse(
     ) {
         @Serializable
         data class TopicAnalysisDTO(
+            val answerType: String,
             val isCorrect: Boolean,
             val score: Double,
             val standardScore: Double,

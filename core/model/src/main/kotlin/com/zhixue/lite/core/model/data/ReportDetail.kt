@@ -11,8 +11,24 @@ data class ReportDetail(
     )
 
     data class Overview(
-        val correctTopics: List<String>,
-        val incorrectTopics: List<String>,
-        val partCorrectTopics: List<String>
-    )
+        val type: Type,
+        val answer: Answer
+    ) {
+        data class Type(
+            val objective: Info,
+            val subjective: Info
+        ) {
+            data class Info(
+                val score: String,
+                val standardScore: String,
+                val rate: Float
+            )
+        }
+
+        data class Answer(
+            val correct: Int,
+            val incorrect: Int,
+            val partCorrect: Int
+        )
+    }
 }

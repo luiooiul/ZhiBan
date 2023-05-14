@@ -4,8 +4,8 @@
     <string name="report_type_homework">作业报告</string>
     <string name="headline_report_main">学情报告</string>
     <string name="label_total">总分</string>
-    <string name="label_raw_score">卷面得分</string>
-    <string name="label_overview">总览</string>
+    <string name="label_score">得分</string>
+    <string name="label_overview">概览</string>
     <string name="label_trend">趋势</string>
     <string name="label_fast_up">大幅进步</string>
     <string name="label_slow_up">略微进步</string>
@@ -14,5 +14,10 @@
     <string name="label_steady">相对稳定</string>
     <string name="label_no_trend">暂无趋势</string>
     <string name="text_rank">班级排名 %1$s</string>
+    <string name="text_objective">客观</string>
+    <string name="text_subjective">主观</string>
+    <string name="text_correct">正确</string>
+    <string name="text_part_correct">半对</string>
+    <string name="text_incorrect">错误</string>
     <string name="text_error">似乎出现了一些问题…</string>
 </resources>
