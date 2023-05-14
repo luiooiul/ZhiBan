@@ -16,7 +16,13 @@ data class PaperAnalysisResponse(
             val isCorrect: Boolean,
             val score: Double,
             val standardScore: Double,
-            val userScoreRate: Double
-        )
+            val userScoreRate: Double,
+            val topicScoreDTOs: List<TopicScoreDTO>
+        ) {
+            @Serializable
+            data class TopicScoreDTO(
+                val topicNumber: Int
+            )
+        }
     }
 }

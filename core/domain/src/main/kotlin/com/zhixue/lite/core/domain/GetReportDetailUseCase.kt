@@ -3,16 +3,21 @@ package com.zhixue.lite.core.domain
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportDetail
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class GetReportDetailUseCase @Inject constructor(
-    private val reportRepository: ReportRepository
+    private val reportRepository: ReportRepository,
+    private val getCheckSheetUseCase: GetCheckSheetUseCase
 ) {
     operator fun invoke(examId: String, paperId: String): Flow<ReportDetail> {
-        return reportRepository.getPaperAnalysis(paperId).map { response ->
-            val topicAnalysisDTO = response.typeTopicAnalysis.flatMap { it.topicAnalysisDTOs }
+        return combine(
+            reportRepository.getPaperAnalysis(paperId),
+            getCheckSheetUseCase(examId, paperId)
+        ) { paperAnalysisResponse, checkSheet ->
+            val topicAnalysisDTO =
+                paperAnalysisResponse.typeTopicAnalysis.flatMap { it.topicAnalysisDTOs }
 
             val totalScore = topicAnalysisDTO
                 .sumOf { BigDecimal(it.score.toString()) }
@@ -65,14 +70,15 @@ class GetReportDetailUseCase @Inject constructor(
                 .partition { it.score == 0.0 }
 
             val answer = ReportDetail.Overview.Answer(
-                correct = correctTopics.size,
-                incorrect = incorrectTopics.size,
-                partCorrect = partCorrectTopics.size
+                correct = correctTopics.flatMap { it.topicScoreDTOs }.size,
+                incorrect = incorrectTopics.flatMap { it.topicScoreDTOs }.size,
+                partCorrect = partCorrectTopics.flatMap { it.topicScoreDTOs }.size
             )
 
             ReportDetail(
                 total = total,
-                overview = ReportDetail.Overview(type, answer)
+                overview = ReportDetail.Overview(type, answer),
+                checkSheets = checkSheet
             )
         }
     }
