@@ -13,13 +13,14 @@
     <string name="label_slow_down">略微退步</string>
     <string name="label_steady">相对稳定</string>
     <string name="label_no_trend">暂无趋势</string>
+    <string name="label_check_sheet">原卷</string>
     <string name="text_rank">班级排名 %1$s</string>
     <string name="text_topics">%1$s题</string>
+    <string name="text_level">" %1$s等"</string>
     <string name="text_objective">客观</string>
     <string name="text_subjective">主观</string>
     <string name="text_correct">正确</string>
     <string name="text_part_correct">半对</string>
     <string name="text_incorrect">错误</string>
     <string name="text_error">似乎出现了一些问题…</string>
-    <string name="label_check_sheet">原卷</string>
 </resources>

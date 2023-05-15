@@ -215,8 +215,10 @@ fun ReportMainOverviewItem(
                     withStyle(Theme.typography.titleSmall.toSpanStyle()) {
                         append(overview.name)
                     }
-                    withStyle(Theme.typography.labelSmall.toSpanStyle()) {
-                        append(" ${overview.level}")
+                    if (overview.level.isNotEmpty()) {
+                        withStyle(Theme.typography.labelSmall.toSpanStyle()) {
+                            append(stringResource(R.string.text_level, overview.level))
+                        }
                     }
                 },
                 color = Theme.colors.onBackground
