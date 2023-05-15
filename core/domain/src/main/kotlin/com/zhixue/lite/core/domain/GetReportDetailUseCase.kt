@@ -63,16 +63,15 @@ class GetReportDetailUseCase @Inject constructor(
                 )
             )
 
-            val correctTopics = topicAnalysisDTO
-                .filter { it.isCorrect }
-            val (incorrectTopics, partCorrectTopics) = topicAnalysisDTO
-                .filterNot { it.isCorrect }
-                .partition { it.score == 0.0 }
+            val topics = topicAnalysisDTO.flatMap { it.topicScoreDTOs }
+            val correctTopics = topics.filter { it.score == it.standScore }
+            val incorrectTopics = topics.filter { it.score == 0.0 }
+            val partCorrectTopics = topics.filter { it.score != 0.0 && it.score != it.standScore }
 
             val answer = ReportDetail.Overview.Answer(
-                correct = correctTopics.flatMap { it.topicScoreDTOs }.size,
-                incorrect = incorrectTopics.flatMap { it.topicScoreDTOs }.size,
-                partCorrect = partCorrectTopics.flatMap { it.topicScoreDTOs }.size
+                correct = correctTopics.size,
+                incorrect = incorrectTopics.size,
+                partCorrect = partCorrectTopics.size
             )
 
             ReportDetail(
