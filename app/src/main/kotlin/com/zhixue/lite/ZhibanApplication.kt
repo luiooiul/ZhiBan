@@ -13,7 +13,6 @@ class ZhibanApplication : Application(), ImageLoaderFactory {
         return ImageLoader(this).newBuilder()
             .crossfade(true)
             .diskCachePolicy(CachePolicy.DISABLED)
-            .memoryCachePolicy(CachePolicy.DISABLED)
             .build()
     }
 }
