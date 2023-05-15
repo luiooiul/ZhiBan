@@ -28,6 +28,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zhixue.lite.core.model.data.ReportDetail
+import com.zhixue.lite.core.ui.component.AsyncImage
 import com.zhixue.lite.core.ui.component.CircularChart
 import com.zhixue.lite.core.ui.component.HorizontalDivider
 import com.zhixue.lite.core.ui.component.Image
@@ -128,7 +129,7 @@ fun ReportDetailContent(
         HorizontalDivider()
         ReportDetailOverviewPanel(overview = reportDetail.overview)
         HorizontalDivider()
-        ReportDetailCheckSheetPanel()
+        ReportDetailCheckSheetPanel(checkSheets = reportDetail.checkSheets)
     }
 }
 
@@ -297,7 +298,9 @@ fun ReportDetailOverviewAnswerItem(
 }
 
 @Composable
-fun ReportDetailCheckSheetPanel() {
+fun ReportDetailCheckSheetPanel(
+    checkSheets: List<ReportDetail.CheckSheet>
+) {
     Column(
         modifier = Modifier.padding(horizontal = 28.dp)
     ) {
@@ -307,6 +310,15 @@ fun ReportDetailCheckSheetPanel() {
             style = Theme.typography.labelMedium
         )
         Spacer(modifier = Modifier.height(22.dp))
+        Column(
+            modifier = Modifier
+                .clip(Theme.shapes.small)
+                .border(1.dp, Theme.colors.outline, Theme.shapes.small)
+        ) {
+            checkSheets.forEach {
+                AsyncImage(model = it.url)
+            }
+        }
     }
 }
 

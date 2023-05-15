@@ -2,7 +2,8 @@ package com.zhixue.lite.core.model.data
 
 data class ReportDetail(
     val total: Total,
-    val overview: Overview
+    val overview: Overview,
+    val checkSheets: List<CheckSheet>
 ) {
     data class Total(
         val score: String,
@@ -31,4 +32,8 @@ data class ReportDetail(
             val partCorrect: Int
         )
     }
+
+    data class CheckSheet(
+        val url: String
+    )
 }
