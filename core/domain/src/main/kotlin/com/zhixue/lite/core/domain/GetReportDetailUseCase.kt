@@ -77,7 +77,7 @@ class GetReportDetailUseCase @Inject constructor(
             ReportDetail(
                 total = total,
                 overview = ReportDetail.Overview(type, answer),
-                checkSheets = checkSheet
+                checkSheet = checkSheet
             )
         }
     }

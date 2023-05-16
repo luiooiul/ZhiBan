@@ -20,12 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.ui.component.AsyncImage
@@ -129,7 +137,7 @@ fun ReportDetailContent(
         HorizontalDivider()
         ReportDetailOverviewPanel(overview = reportDetail.overview)
         HorizontalDivider()
-        ReportDetailCheckSheetPanel(checkSheets = reportDetail.checkSheets)
+        ReportDetailCheckSheetPanel(checkSheet = reportDetail.checkSheet)
     }
 }
 
@@ -297,10 +305,13 @@ fun ReportDetailOverviewAnswerItem(
     }
 }
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun ReportDetailCheckSheetPanel(
-    checkSheets: List<ReportDetail.CheckSheet>
+    checkSheet: ReportDetail.CheckSheet
 ) {
+    val textMeasurer = rememberTextMeasurer()
+
     Column(
         modifier = Modifier.padding(horizontal = 28.dp)
     ) {
@@ -315,8 +326,44 @@ fun ReportDetailCheckSheetPanel(
                 .clip(Theme.shapes.small)
                 .border(1.dp, Theme.colors.outline, Theme.shapes.small)
         ) {
-            checkSheets.forEach {
-                AsyncImage(model = it.url)
+            checkSheet.pages.forEach { page ->
+                AsyncImage(
+                    model = page.url,
+                    modifier = Modifier.drawWithContent {
+                        val widthScale = size.width / checkSheet.currentWidth
+                        val heightScale = size.height / checkSheet.currentHeight
+                        drawContent()
+                        page.sections.forEach { section ->
+                            drawText(
+                                text = buildAnnotatedString {
+                                    withStyle(
+                                        SpanStyle(
+                                            fontSize = 6.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = Color.Red
+                                        )
+                                    ) {
+                                        append(section.score)
+                                    }
+                                    withStyle(
+                                        SpanStyle(
+                                            fontSize = 4.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = Color.Red
+                                        )
+                                    ) {
+                                        append(" /${section.standardScore}")
+                                    }
+                                },
+                                textMeasurer = textMeasurer,
+                                topLeft = Offset(
+                                    x = section.x * widthScale,
+                                    y = section.y * heightScale
+                                )
+                            )
+                        }
+                    }
+                )
             }
         }
     }
