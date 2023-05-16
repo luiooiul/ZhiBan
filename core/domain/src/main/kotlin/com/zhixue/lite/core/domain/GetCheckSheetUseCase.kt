@@ -13,7 +13,8 @@ class GetCheckSheetUseCase @Inject constructor(
 ) {
     operator fun invoke(examId: String, paperId: String): Flow<ReportDetail.CheckSheet> {
         return reportRepository.getCheckSheet(examId, paperId).map { response ->
-            val (sheetData, sheetImages) = response
+            val sheetData = response.sheetDatas
+            val sheetImages = response.sheetImages
 
             val (comeFrom, paperType, pageSheets) = sheetData.answerSheetLocationDTO
             val (currentWidth, currentHeight) = getCurrentSize(comeFrom, paperType)
@@ -28,13 +29,14 @@ class GetCheckSheetUseCase @Inject constructor(
                         url = sheetImages[index],
                         sections = pageSheet.sections.map { section ->
                             val (branch, position) = section.contents
-                            val ixList = branch.flatMap { it.ixList }
 
-                            val score = ixList.sumOf {
+                            val topics = branch.flatMap {
+                                it.ixList
+                            }
+                            val score = topics.sumOf {
                                 BigDecimal(answerRecordDetails[it - 1].score.toString())
                             }
-
-                            val standardScore = ixList.sumOf {
+                            val standardScore = topics.sumOf {
                                 BigDecimal(answerRecordDetails[it - 1].standardScore.toString())
                             }
 
