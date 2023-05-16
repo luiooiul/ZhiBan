@@ -335,10 +335,11 @@ fun ReportDetailCheckSheetPanel(
                         drawContent()
                         page.sections.forEach { section ->
                             drawText(
+                                textMeasurer = textMeasurer,
                                 text = buildAnnotatedString {
                                     withStyle(
                                         SpanStyle(
-                                            fontSize = 6.sp,
+                                            fontSize = 8.sp,
                                             fontWeight = FontWeight.Medium,
                                             color = Color.Red
                                         )
@@ -347,15 +348,14 @@ fun ReportDetailCheckSheetPanel(
                                     }
                                     withStyle(
                                         SpanStyle(
-                                            fontSize = 4.sp,
+                                            fontSize = 6.sp,
                                             fontWeight = FontWeight.Medium,
                                             color = Color.Red
                                         )
                                     ) {
-                                        append(" /${section.standardScore}")
+                                        append("/${section.standardScore}")
                                     }
                                 },
-                                textMeasurer = textMeasurer,
                                 topLeft = Offset(
                                     x = section.x * widthScale,
                                     y = section.y * heightScale
