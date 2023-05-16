@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import java.math.BigDecimal
 import javax.inject.Inject
-import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 class GetReportMainUseCase @Inject constructor(
     private val reportRepository: ReportRepository
@@ -77,5 +77,5 @@ class GetReportMainUseCase @Inject constructor(
 }
 
 private fun calculateRank(totalNum: Int, myRank: Double): Int {
-    return if (myRank == 0.0) 1 else ceil(totalNum * myRank / 100).toInt()
+    return (totalNum - (totalNum - 1) * (100 - myRank) / 100).roundToInt()
 }
