@@ -2,70 +2,71 @@ package com.zhixue.lite.core.domain
 
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportDetail
+import com.zhixue.lite.core.model.network.CheckSheetResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import java.math.BigDecimal
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class GetCheckSheetUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    operator fun invoke(examId: String, paperId: String): Flow<ReportDetail.CheckSheet> {
-        return reportRepository.getCheckSheet(examId, paperId).map { response ->
-            val sheetData = response.sheetDatas
-            val sheetImages = response.sheetImages
-
+    operator fun invoke(examId: String, paperId: String): Flow<List<ReportDetail.CheckSheet>> {
+        return reportRepository.getCheckSheet(examId, paperId).map { (sheetData, sheetImages) ->
+            val (answerRecordDetails) = sheetData.userAnswerRecordDTO
             val (comeFrom, paperType, pageSheets) = sheetData.answerSheetLocationDTO
-            val (currentWidth, currentHeight) = getCurrentSize(comeFrom, paperType)
 
-            val answerRecordDetails = sheetData.userAnswerRecordDTO.answerRecordDetails
-
-            ReportDetail.CheckSheet(
-                currentWidth = currentWidth,
-                currentHeight = currentHeight,
-                pages = pageSheets.mapIndexed { index, pageSheet ->
-                    ReportDetail.CheckSheet.Page(
-                        url = sheetImages[index],
-                        sections = pageSheet.sections.map { section ->
-                            val (branch, position) = section.contents
-
-                            val topics = branch.flatMap {
-                                it.ixList
-                            }
-                            val score = topics.sumOf {
-                                BigDecimal(answerRecordDetails[it - 1].score.toString())
-                            }
-                            val standardScore = topics.sumOf {
-                                BigDecimal(answerRecordDetails[it - 1].standardScore.toString())
-                            }
-
-                            ReportDetail.CheckSheet.Page.Section(
-                                x = position.left,
-                                y = position.top,
-                                score = score.stripTrailingZeros().toPlainString(),
-                                standardScore = standardScore.stripTrailingZeros().toPlainString()
-                            )
-                        }
-                    )
-                }
-            )
+            pageSheets.mapIndexed { index, (sections, correctWidth, correctHeight) ->
+                ReportDetail.CheckSheet(
+                    url = sheetImages[index],
+                    size = calculateCorrectSize(comeFrom, paperType, correctWidth, correctHeight),
+                    sections = mapToCheckSheetSections(sections, answerRecordDetails)
+                )
+            }
         }.catch {
-            emit(ReportDetail.CheckSheet())
+            emit(emptyList())
         }
     }
 }
 
-private fun getCurrentSize(comeFrom: Int, paperType: String): Pair<Int, Int> {
-    var currentWidth = 0
-    var currentHeight = 0
+private fun calculateCorrectSize(
+    comeFrom: Int,
+    paperType: String,
+    correctWidth: Double?,
+    correctHeight: Double?
+): Pair<Int, Int> {
+    val width: Int
+    val height: Int
 
-    if (comeFrom == 1) {
-
+    if (comeFrom == 0) {
+        width = if (paperType == "A3") 420 else 210
+        height = 297
     } else {
-        currentWidth = if (paperType == "A3") 420 else 210
-        currentHeight = 297
+        width = correctWidth?.roundToInt() ?: if (paperType == "A3") 2199 else 1100
+        height = correctHeight?.roundToInt() ?: 1555
     }
 
-    return currentWidth to currentHeight
+    return width to height
+}
+
+private fun mapToCheckSheetSections(
+    sections: List<CheckSheetResponse.SheetData.AnswerSheetLocationDTO.PageSheet.Section>,
+    answerRecordDetails: List<CheckSheetResponse.SheetData.UserAnswerRecordDTO.AnswerRecordDetail>
+): List<ReportDetail.CheckSheet.Section> {
+    return sections.map { (contents) ->
+        val ixList =
+            contents.branch.flatMap { it.ixList }
+        val sectionScore =
+            ixList.sumOf { answerRecordDetails[it - 1].score.toBigDecimal() }
+        val sectionStandardScore =
+            ixList.sumOf { answerRecordDetails[it - 1].standardScore.toBigDecimal() }
+
+        ReportDetail.CheckSheet.Section(
+            x = contents.position.left,
+            y = contents.position.top,
+            score = sectionScore.stripTrailingZeros().toPlainString(),
+            standardScore = sectionStandardScore.stripTrailingZeros().toPlainString()
+        )
+    }
 }

@@ -15,69 +15,78 @@ class GetReportDetailUseCase @Inject constructor(
         return combine(
             reportRepository.getPaperAnalysis(paperId),
             getCheckSheetUseCase(examId, paperId)
-        ) { paperAnalysisResponse, checkSheet ->
-            val topicAnalysisDTO =
-                paperAnalysisResponse.typeTopicAnalysis.flatMap { it.topicAnalysisDTOs }
+        ) { (typeTopicAnalysis), reportDetailCheckSheets ->
 
-            val totalScore = topicAnalysisDTO
-                .sumOf { BigDecimal(it.score.toString()) }
-            val totalStandardScore = topicAnalysisDTO
-                .sumOf { BigDecimal(it.standardScore.toString()) }
-            val totalRate =
+            var correctTopics = 0
+            var incorrectTopics = 0
+            var partCorrectTopics = 0
+
+            var objectiveScore = BigDecimal.ZERO
+            var objectiveStandardScore = BigDecimal.ZERO
+            var subjectiveScore = BigDecimal.ZERO
+            var subjectiveStandardScore = BigDecimal.ZERO
+
+            for (topicAnalysisDTO in typeTopicAnalysis.flatMap { it.topicAnalysisDTOs }) {
+                val score = topicAnalysisDTO.score.toBigDecimal()
+                val standardScore = topicAnalysisDTO.standardScore.toBigDecimal()
+
+                if (topicAnalysisDTO.answerType == "s01Text") {
+                    objectiveScore += score
+                    objectiveStandardScore += standardScore
+                } else {
+                    subjectiveScore += score
+                    subjectiveStandardScore += standardScore
+                }
+
+                with(topicAnalysisDTO.topicScoreDTOs) {
+                    correctTopics += count { it.score == it.standScore }
+                    incorrectTopics += count { it.score == 0.0 }
+                    partCorrectTopics += count { it.score != 0.0 && it.score != it.standScore }
+                }
+            }
+
+            val totalScore = objectiveScore + subjectiveScore
+            val totalStandardScore = objectiveStandardScore + subjectiveStandardScore
+
+            val reportDetailTotal = ReportDetail.Total(
+                score =
+                totalScore.stripTrailingZeros().toPlainString(),
+                standardScore =
+                totalStandardScore.stripTrailingZeros().toPlainString(),
+                rate =
                 totalScore.toFloat() / totalStandardScore.toFloat()
-
-            val total = ReportDetail.Total(
-                score = totalScore.stripTrailingZeros().toPlainString(),
-                standardScore = totalStandardScore.stripTrailingZeros().toPlainString(),
-                rate = totalRate
             )
 
-            val objectiveTopics = topicAnalysisDTO
-                .filter { it.answerType == "s01Text" }
-            val objectiveScore = objectiveTopics
-                .sumOf { BigDecimal(it.score.toString()) }
-            val objectiveStandardScore = objectiveTopics
-                .sumOf { BigDecimal(it.standardScore.toString()) }
-            val objectiveRate =
-                objectiveScore.toFloat() / objectiveStandardScore.toFloat()
-
-            val subjectiveTopics = topicAnalysisDTO
-                .filter { it.answerType == "s02Image" }
-            val subjectiveScore = subjectiveTopics
-                .sumOf { BigDecimal(it.score.toString()) }
-            val subjectiveStandardScore = subjectiveTopics
-                .sumOf { BigDecimal(it.standardScore.toString()) }
-            val subjectiveRate =
-                subjectiveScore.toFloat() / subjectiveStandardScore.toFloat()
-
-            val type = ReportDetail.Overview.Type(
-                objective = ReportDetail.Overview.Type.Info(
-                    score = objectiveScore.stripTrailingZeros().toPlainString(),
-                    standardScore = objectiveStandardScore.stripTrailingZeros().toPlainString(),
-                    rate = objectiveRate
+            val reportDetailOverview = ReportDetail.Overview(
+                type = ReportDetail.Overview.Type(
+                    objective = ReportDetail.Overview.Type.Info(
+                        score =
+                        objectiveScore.stripTrailingZeros().toPlainString(),
+                        standardScore =
+                        objectiveStandardScore.stripTrailingZeros().toPlainString(),
+                        rate =
+                        objectiveScore.toFloat() / objectiveStandardScore.toFloat()
+                    ),
+                    subjective = ReportDetail.Overview.Type.Info(
+                        score =
+                        subjectiveScore.stripTrailingZeros().toPlainString(),
+                        standardScore =
+                        subjectiveStandardScore.stripTrailingZeros().toPlainString(),
+                        rate =
+                        subjectiveScore.toFloat() / subjectiveStandardScore.toFloat()
+                    )
                 ),
-                subjective = ReportDetail.Overview.Type.Info(
-                    score = subjectiveScore.stripTrailingZeros().toPlainString(),
-                    standardScore = subjectiveStandardScore.stripTrailingZeros().toPlainString(),
-                    rate = subjectiveRate
+                answer = ReportDetail.Overview.Answer(
+                    correct = correctTopics,
+                    incorrect = incorrectTopics,
+                    partCorrect = partCorrectTopics
                 )
             )
 
-            val topics = topicAnalysisDTO.flatMap { it.topicScoreDTOs }
-            val correctTopics = topics.filter { it.score == it.standScore }
-            val incorrectTopics = topics.filter { it.score == 0.0 }
-            val partCorrectTopics = topics.filter { it.score != 0.0 && it.score != it.standScore }
-
-            val answer = ReportDetail.Overview.Answer(
-                correct = correctTopics.size,
-                incorrect = incorrectTopics.size,
-                partCorrect = partCorrectTopics.size
-            )
-
             ReportDetail(
-                total = total,
-                overview = ReportDetail.Overview(type, answer),
-                checkSheet = checkSheet
+                total = reportDetailTotal,
+                overview = reportDetailOverview,
+                checkSheets = reportDetailCheckSheets
             )
         }
     }

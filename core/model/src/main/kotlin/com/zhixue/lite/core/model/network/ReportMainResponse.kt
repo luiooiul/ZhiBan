@@ -4,10 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ReportMainResponse(
-    val paperList: List<PaperInfo>
+    val paperList: List<Paper>
 ) {
     @Serializable
-    data class PaperInfo(
+    data class Paper(
         val paperId: String,
         val subjectCode: String,
         val subjectName: String,

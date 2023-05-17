@@ -15,7 +15,6 @@ data class PaperAnalysisResponse(
             val answerType: String,
             val score: Double,
             val standardScore: Double,
-            val userScoreRate: Double,
             val topicScoreDTOs: List<TopicScoreDTO>
         ) {
             @Serializable

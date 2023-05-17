@@ -137,7 +137,7 @@ fun ReportDetailContent(
         HorizontalDivider()
         ReportDetailOverviewPanel(overview = reportDetail.overview)
         HorizontalDivider()
-        ReportDetailCheckSheetPanel(checkSheet = reportDetail.checkSheet)
+        ReportDetailCheckSheetPanel(checkSheets = reportDetail.checkSheets)
     }
 }
 
@@ -308,7 +308,7 @@ fun ReportDetailOverviewAnswerItem(
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun ReportDetailCheckSheetPanel(
-    checkSheet: ReportDetail.CheckSheet
+    checkSheets: List<ReportDetail.CheckSheet>
 ) {
     val textMeasurer = rememberTextMeasurer()
 
@@ -326,14 +326,14 @@ fun ReportDetailCheckSheetPanel(
                 .clip(Theme.shapes.small)
                 .border(1.dp, Theme.colors.outline, Theme.shapes.small)
         ) {
-            checkSheet.pages.forEach { page ->
+            checkSheets.forEach { (sheetUrl, currentSize, sections) ->
                 AsyncImage(
-                    model = page.url,
+                    model = sheetUrl,
                     modifier = Modifier.drawWithContent {
-                        val widthScale = size.width / checkSheet.currentWidth
-                        val heightScale = size.height / checkSheet.currentHeight
                         drawContent()
-                        page.sections.forEach { section ->
+                        val widthScale = size.width / currentSize.first
+                        val heightScale = size.height / currentSize.second
+                        sections.forEach { section ->
                             drawText(
                                 textMeasurer = textMeasurer,
                                 text = buildAnnotatedString {

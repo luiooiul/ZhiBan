@@ -3,7 +3,7 @@ package com.zhixue.lite.core.model.data
 data class ReportDetail(
     val total: Total,
     val overview: Overview,
-    val checkSheet: CheckSheet
+    val checkSheets: List<CheckSheet>
 ) {
     data class Total(
         val score: String,
@@ -34,20 +34,15 @@ data class ReportDetail(
     }
 
     data class CheckSheet(
-        val currentWidth: Int = 0,
-        val currentHeight: Int = 0,
-        val pages: List<Page> = emptyList()
+        val url: String,
+        val size: Pair<Int, Int>,
+        val sections: List<Section>
     ) {
-        data class Page(
-            val url: String,
-            val sections: List<Section>
-        ) {
-            data class Section(
-                val x: Int,
-                val y: Int,
-                val score: String,
-                val standardScore: String
-            )
-        }
+        data class Section(
+            val x: Int,
+            val y: Int,
+            val score: String,
+            val standardScore: String
+        )
     }
 }

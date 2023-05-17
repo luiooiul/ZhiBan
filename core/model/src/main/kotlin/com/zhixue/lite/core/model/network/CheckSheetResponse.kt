@@ -38,7 +38,9 @@ data class CheckSheetResponse(
         ) {
             @Serializable
             data class PageSheet(
-                val sections: List<Section>
+                val sections: List<Section>,
+                val widthAfterCorrect: Double? = null,
+                val heightAfterCorrect: Double? = null
             ) {
                 @Serializable
                 data class Section(
