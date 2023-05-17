@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -327,46 +328,64 @@ fun ReportDetailCheckSheetPanel(
                 .border(1.dp, Theme.colors.outline, Theme.shapes.small)
         ) {
             checkSheets.forEach { (sheetUrl, currentSize, sections) ->
-                AsyncImage(
-                    model = sheetUrl,
-                    modifier = Modifier.drawWithContent {
-                        drawContent()
-                        val widthScale = size.width / currentSize.first
-                        val heightScale = size.height / currentSize.second
-                        sections.forEach { section ->
-                            drawText(
-                                textMeasurer = textMeasurer,
-                                text = buildAnnotatedString {
-                                    withStyle(
-                                        SpanStyle(
-                                            fontSize = 8.sp,
-                                            fontWeight = FontWeight.Medium,
-                                            color = Color.Red
-                                        )
-                                    ) {
-                                        append(section.score)
-                                    }
-                                    withStyle(
-                                        SpanStyle(
-                                            fontSize = 6.sp,
-                                            fontWeight = FontWeight.Medium,
-                                            color = Color.Red
-                                        )
-                                    ) {
-                                        append("/${section.standardScore}")
-                                    }
-                                },
-                                topLeft = Offset(
-                                    x = section.x * widthScale,
-                                    y = section.y * heightScale
-                                )
-                            )
-                        }
-                    }
+                ReportDetailCheckSheet(
+                    textMeasurer = textMeasurer,
+                    sheetUrl = sheetUrl,
+                    currentWidth = currentSize.first,
+                    currentHeight = currentSize.second,
+                    sections = sections
                 )
             }
         }
     }
+}
+
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun ReportDetailCheckSheet(
+    textMeasurer: TextMeasurer,
+    sheetUrl: String,
+    currentWidth: Int,
+    currentHeight: Int,
+    sections: List<ReportDetail.CheckSheet.Section>
+) {
+    AsyncImage(
+        model = sheetUrl,
+        modifier = Modifier.drawWithContent {
+            drawContent()
+            val widthScale = size.width / currentWidth
+            val heightScale = size.height / currentHeight
+            sections.forEach { section ->
+                drawText(
+                    textMeasurer = textMeasurer,
+                    text = buildAnnotatedString {
+                        withStyle(
+                            SpanStyle(
+                                fontSize = 8.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Red
+                            )
+                        ) {
+                            append(section.score)
+                        }
+                        withStyle(
+                            SpanStyle(
+                                fontSize = 6.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Red
+                            )
+                        ) {
+                            append("/${section.standardScore}")
+                        }
+                    },
+                    topLeft = Offset(
+                        x = section.x * widthScale,
+                        y = section.y * heightScale
+                    )
+                )
+            }
+        }
+    )
 }
 
 @Composable
