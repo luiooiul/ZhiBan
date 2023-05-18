@@ -345,25 +345,21 @@ fun ReportDetailCheckSheet(
 ) {
     val (sheetUrl, currentSize, sections) = checkSheet
 
-    val textLayoutResults = sections.map { section ->
-        textMeasurer.measure(
-            text = "${section.score}/${section.standardScore}",
-            style = TextStyle(color = Color.Red, fontSize = 6.sp, fontWeight = FontWeight.Medium)
-        )
-    }
-
     AsyncImage(
         model = sheetUrl,
         modifier = Modifier.drawWithContent {
             drawContent()
             val widthScale = size.width / currentSize.first
             val heightScale = size.height / currentSize.second
-            sections.forEachIndexed { index, section ->
-                val textLayoutResult = textLayoutResults[index]
+            sections.forEach { section ->
+                val result = textMeasurer.measure(
+                    text = "${section.score}/${section.standardScore}",
+                    style = TextStyle(Color.Red, 6.sp, FontWeight.Medium)
+                )
                 drawText(
-                    textLayoutResult = textLayoutResult,
+                    textLayoutResult = result,
                     topLeft = Offset(
-                        x = (section.x + section.width) * widthScale - textLayoutResult.size.width,
+                        x = (section.x + section.width) * widthScale - result.size.width,
                         y = section.y * heightScale
                     )
                 )
