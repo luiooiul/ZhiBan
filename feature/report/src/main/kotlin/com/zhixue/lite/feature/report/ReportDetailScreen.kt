@@ -35,6 +35,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -50,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.request.ImageRequest
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.ui.component.AsyncImage
 import com.zhixue.lite.core.ui.component.CircularChart
@@ -425,7 +427,10 @@ fun ReportDetailCheckSheetImage(
     val (sheetUrl, currentSize, sections) = checkSheet
 
     AsyncImage(
-        model = sheetUrl,
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(sheetUrl)
+            .size(coil.size.Size.ORIGINAL)
+            .build(),
         modifier = modifier.drawWithContent {
             drawContent()
             val widthScale = size.width / currentSize.first
