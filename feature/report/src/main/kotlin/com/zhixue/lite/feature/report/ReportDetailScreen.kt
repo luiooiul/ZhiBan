@@ -4,11 +4,16 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,12 +22,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -35,6 +47,8 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.ui.component.AsyncImage
@@ -44,6 +58,7 @@ import com.zhixue.lite.core.ui.component.Image
 import com.zhixue.lite.core.ui.component.ProgressBar
 import com.zhixue.lite.core.ui.component.Text
 import com.zhixue.lite.core.ui.theme.Theme
+import kotlin.math.absoluteValue
 
 @Composable
 fun ReportDetailScreen(
@@ -343,11 +358,75 @@ fun ReportDetailCheckSheet(
     checkSheet: ReportDetail.CheckSheet,
     textMeasurer: TextMeasurer
 ) {
+    var isShowFullSheet by rememberSaveable { mutableStateOf(false) }
+
+    ReportDetailCheckSheetImage(
+        modifier = Modifier.clickable { isShowFullSheet = true },
+        textMeasurer = textMeasurer,
+        checkSheet = checkSheet
+    )
+
+    if (isShowFullSheet) {
+        var scale by remember { mutableStateOf(1f) }
+        var offset by remember { mutableStateOf(Offset.Zero) }
+        var sheetSize = Size.Zero
+
+        val state = rememberTransformableState { scaleChange, offsetChange, _ ->
+            val changedOffset = offset + offsetChange
+
+            val px = sheetSize.width * (scale - 1f) / 2f
+            val py = sheetSize.height * (scale - 1f) / 2f
+
+            scale = (scale * scaleChange).coerceIn(1f, 4f)
+            offset = Offset(
+                x = if (changedOffset.x.absoluteValue - px > 0) px * changedOffset.x.absoluteValue / changedOffset.x else changedOffset.x,
+                y = if (changedOffset.y.absoluteValue - py > 0) py * changedOffset.y.absoluteValue / changedOffset.y else changedOffset.y
+            )
+        }
+
+        Dialog(
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            onDismissRequest = { isShowFullSheet = false }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .transformable(state)
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                        onClick = { isShowFullSheet = false }
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                ReportDetailCheckSheetImage(
+                    modifier = Modifier.graphicsLayer {
+                        sheetSize = size
+                        scaleX = scale
+                        scaleY = scale
+                        translationX = offset.x
+                        translationY = offset.y
+                    },
+                    textMeasurer = textMeasurer,
+                    checkSheet = checkSheet
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun ReportDetailCheckSheetImage(
+    modifier: Modifier,
+    textMeasurer: TextMeasurer,
+    checkSheet: ReportDetail.CheckSheet
+) {
     val (sheetUrl, currentSize, sections) = checkSheet
 
     AsyncImage(
         model = sheetUrl,
-        modifier = Modifier.drawWithContent {
+        modifier = modifier.drawWithContent {
             drawContent()
             val widthScale = size.width / currentSize.first
             val heightScale = size.height / currentSize.second
