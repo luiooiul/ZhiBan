@@ -59,7 +59,8 @@ data class CheckSheetResponse(
                         @Serializable
                         data class Position(
                             val top: Int,
-                            val left: Int
+                            val left: Int,
+                            val width: Int
                         )
                     }
                 }

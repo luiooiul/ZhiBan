@@ -26,8 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -327,13 +327,10 @@ fun ReportDetailCheckSheetPanel(
                 .clip(Theme.shapes.small)
                 .border(1.dp, Theme.colors.outline, Theme.shapes.small)
         ) {
-            checkSheets.forEach { (sheetUrl, currentSize, sections) ->
+            checkSheets.forEach { checkSheet ->
                 ReportDetailCheckSheet(
-                    textMeasurer = textMeasurer,
-                    sheetUrl = sheetUrl,
-                    currentWidth = currentSize.first,
-                    currentHeight = currentSize.second,
-                    sections = sections
+                    checkSheet = checkSheet,
+                    textMeasurer = textMeasurer
                 )
             }
         }
@@ -343,43 +340,30 @@ fun ReportDetailCheckSheetPanel(
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun ReportDetailCheckSheet(
-    textMeasurer: TextMeasurer,
-    sheetUrl: String,
-    currentWidth: Int,
-    currentHeight: Int,
-    sections: List<ReportDetail.CheckSheet.Section>
+    checkSheet: ReportDetail.CheckSheet,
+    textMeasurer: TextMeasurer
 ) {
+    val (sheetUrl, currentSize, sections) = checkSheet
+
+    val textLayoutResults = sections.map { section ->
+        textMeasurer.measure(
+            text = "${section.score}/${section.standardScore}",
+            style = TextStyle(color = Color.Red, fontSize = 6.sp, fontWeight = FontWeight.Medium)
+        )
+    }
+
     AsyncImage(
         model = sheetUrl,
         modifier = Modifier.drawWithContent {
             drawContent()
-            val widthScale = size.width / currentWidth
-            val heightScale = size.height / currentHeight
-            sections.forEach { section ->
+            val widthScale = size.width / currentSize.first
+            val heightScale = size.height / currentSize.second
+            sections.forEachIndexed { index, section ->
+                val textLayoutResult = textLayoutResults[index]
                 drawText(
-                    textMeasurer = textMeasurer,
-                    text = buildAnnotatedString {
-                        withStyle(
-                            SpanStyle(
-                                fontSize = 8.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Red
-                            )
-                        ) {
-                            append(section.score)
-                        }
-                        withStyle(
-                            SpanStyle(
-                                fontSize = 6.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Red
-                            )
-                        ) {
-                            append("/${section.standardScore}")
-                        }
-                    },
+                    textLayoutResult = textLayoutResult,
                     topLeft = Offset(
-                        x = section.x * widthScale,
+                        x = (section.x + section.width) * widthScale - textLayoutResult.size.width,
                         y = section.y * heightScale
                     )
                 )

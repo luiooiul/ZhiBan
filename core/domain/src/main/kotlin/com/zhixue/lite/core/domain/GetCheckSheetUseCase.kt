@@ -65,6 +65,7 @@ private fun mapToCheckSheetSections(
         ReportDetail.CheckSheet.Section(
             x = contents.position.left,
             y = contents.position.top,
+            width = contents.position.width,
             score = sectionScore.stripTrailingZeros().toPlainString(),
             standardScore = sectionStandardScore.stripTrailingZeros().toPlainString()
         )

@@ -41,6 +41,7 @@ data class ReportDetail(
         data class Section(
             val x: Int,
             val y: Int,
+            val width: Int,
             val score: String,
             val standardScore: String
         )
