@@ -5,5 +5,6 @@ data class UserData(
     val password: String,
     val name: String,
     val className: String,
-    val schoolName: String
+    val schoolName: String,
+    val credentials: Map<String, String>
 )

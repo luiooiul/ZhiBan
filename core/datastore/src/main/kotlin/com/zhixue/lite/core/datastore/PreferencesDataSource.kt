@@ -15,7 +15,8 @@ class PreferencesDataSource @Inject constructor(
             password = it.password,
             name = it.name,
             className = it.className,
-            schoolName = it.schoolName
+            schoolName = it.schoolName,
+            credentials = it.credentialsMap
         )
     }
 
@@ -24,13 +25,16 @@ class PreferencesDataSource @Inject constructor(
             it.copy {
                 this.username = username
                 this.password = password
+                this.credentials.put(username, password)
             }
         }
     }
 
     suspend fun clearUser() {
         userPreferences.updateData {
-            it.defaultInstanceForType
+            it.defaultInstanceForType.copy {
+                this.credentials.putAll(credentials)
+            }
         }
     }
 
