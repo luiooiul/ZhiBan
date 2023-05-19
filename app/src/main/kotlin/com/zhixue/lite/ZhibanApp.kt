@@ -1,8 +1,8 @@
 package com.zhixue.lite
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -27,7 +27,6 @@ fun ZhibanApp(
     if (loginState != LoginState.Loading) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .background(Theme.colors.background)
                 .statusBarsPadding()
                 .navigationBarsPadding()
@@ -54,12 +53,16 @@ fun ZhibanApp(
                     onBackClick = appState::navigateBack
                 )
             }
-            if (appState.shouldShowHomeBottomBar) {
-                HorizontalDivider()
-                HomeBottomBar(
-                    currentDestination = appState.currentDestination,
-                    onNavigateToDestination = appState::navigateToHomeDestination
-                )
+            Crossfade(
+                targetState = appState.shouldShowHomeBottomBar
+            ) { shouldShowHomeBottomBar ->
+                if (shouldShowHomeBottomBar) {
+                    HorizontalDivider()
+                    HomeBottomBar(
+                        currentDestination = appState.currentDestination,
+                        onNavigateToDestination = appState::navigateToHomeDestination
+                    )
+                }
             }
         }
     }

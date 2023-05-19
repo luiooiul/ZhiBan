@@ -94,16 +94,13 @@ fun LoginScreen(
 
 @Composable
 fun LoginLogo() {
-    Box(
+    Image(
         modifier = Modifier
             .background(Theme.colors.surface, Theme.shapes.large)
             .padding(16.dp)
-    ) {
-        Image(
-            modifier = Modifier.size(36.dp),
-            painter = painterResource(com.zhixue.lite.core.ui.R.drawable.ic_logo)
-        )
-    }
+            .size(36.dp),
+        painter = painterResource(com.zhixue.lite.core.ui.R.drawable.ic_logo)
+    )
 }
 
 @Composable
