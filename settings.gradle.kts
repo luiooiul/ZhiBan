@@ -1,6 +1,7 @@
 include(":app")
 include(":core:ui")
 include(":core:data")
+include(":core:database")
 include(":core:datastore")
 include(":core:model")
 include(":core:domain")
