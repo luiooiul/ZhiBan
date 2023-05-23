@@ -4,6 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.zhixue.lite.core.data.paging.ReportPagingSource
+import com.zhixue.lite.core.database.dao.ReportDetailDao
+import com.zhixue.lite.core.database.dao.ReportMainDao
+import com.zhixue.lite.core.model.data.ReportDetail
+import com.zhixue.lite.core.model.data.ReportMain
+import com.zhixue.lite.core.model.data.asEntity
+import com.zhixue.lite.core.model.database.asExternalModel
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
@@ -20,6 +26,8 @@ private const val REPORT_LIST_PAGE_SIZE = 10
 
 class ReportRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
+    private val reportMainDao: ReportMainDao,
+    private val reportDetailDao: ReportDetailDao,
     private val networkDataSource: ApiNetworkDataSource
 ) : ReportRepository {
 
@@ -68,5 +76,21 @@ class ReportRepositoryImpl @Inject constructor(
         return flow {
             emit(networkDataSource.getPaperAnalysis(paperId, userRepository.token))
         }
+    }
+
+    override suspend fun saveReportMain(examId: String, reportMain: ReportMain) {
+        reportMainDao.insertReportMain(reportMain.asEntity(examId))
+    }
+
+    override suspend fun saveReportDetail(paperId: String, reportDetail: ReportDetail) {
+        reportDetailDao.insertReportDetail(reportDetail.asEntity(paperId))
+    }
+
+    override suspend fun getLocalReportMain(examId: String): ReportMain {
+        return reportMainDao.getReportMain(examId)!!.asExternalModel()
+    }
+
+    override suspend fun getLocalReportDetail(paperId: String): ReportDetail {
+        return reportDetailDao.getReportDetail(paperId)!!.asExternalModel()
     }
 }

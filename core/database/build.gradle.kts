@@ -21,6 +21,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation("androidx.room:room-ktx:2.5.1")
     implementation("com.google.dagger:hilt-android:2.45")
     ksp("androidx.room:room-compiler:2.5.1")

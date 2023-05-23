@@ -67,7 +67,11 @@ class GetReportMainUseCase @Inject constructor(
                 total = reportMainTotal,
                 overviews = reportMainOverviews,
                 trends = reportMainTrends
-            )
+            ).also {
+                reportRepository.saveReportMain(examId, it)
+            }
+        }.catch {
+            emit(reportRepository.getLocalReportMain(examId))
         }
     }
 }

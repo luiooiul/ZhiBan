@@ -1,6 +1,8 @@
 package com.zhixue.lite.core.data.repository
 
 import androidx.paging.PagingData
+import com.zhixue.lite.core.model.data.ReportDetail
+import com.zhixue.lite.core.model.data.ReportMain
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
@@ -22,4 +24,12 @@ interface ReportRepository {
     fun getCheckSheet(examId: String, paperId: String): Flow<CheckSheetResponse>
 
     fun getPaperAnalysis(paperId: String): Flow<PaperAnalysisResponse>
+
+    suspend fun saveReportMain(examId: String, reportMain: ReportMain)
+
+    suspend fun saveReportDetail(paperId: String, reportDetail: ReportDetail)
+
+    suspend fun getLocalReportMain(examId: String): ReportMain
+
+    suspend fun getLocalReportDetail(paperId: String): ReportDetail
 }

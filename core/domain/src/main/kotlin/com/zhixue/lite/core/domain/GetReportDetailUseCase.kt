@@ -3,6 +3,7 @@ package com.zhixue.lite.core.domain
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportDetail
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -87,7 +88,11 @@ class GetReportDetailUseCase @Inject constructor(
                 total = reportDetailTotal,
                 overview = reportDetailOverview,
                 checkSheets = reportDetailCheckSheets
-            )
+            ).also {
+                reportRepository.saveReportDetail(paperId, it)
+            }
+        }.catch {
+            emit(reportRepository.getLocalReportDetail(paperId))
         }
     }
 }
