@@ -79,18 +79,18 @@ class ReportRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveReportMain(examId: String, reportMain: ReportMain) {
-        reportMainDao.insertReportMain(reportMain.asEntity(examId))
+        reportMainDao.insert(reportMain.asEntity(examId))
     }
 
     override suspend fun saveReportDetail(paperId: String, reportDetail: ReportDetail) {
-        reportDetailDao.insertReportDetail(reportDetail.asEntity(paperId))
+        reportDetailDao.insert(reportDetail.asEntity(paperId))
     }
 
     override suspend fun getLocalReportMain(examId: String): ReportMain {
-        return reportMainDao.getReportMain(examId)!!.asExternalModel()
+        return reportMainDao.get(examId)!!.asExternalModel()
     }
 
     override suspend fun getLocalReportDetail(paperId: String): ReportDetail {
-        return reportDetailDao.getReportDetail(paperId)!!.asExternalModel()
+        return reportDetailDao.get(paperId)!!.asExternalModel()
     }
 }
