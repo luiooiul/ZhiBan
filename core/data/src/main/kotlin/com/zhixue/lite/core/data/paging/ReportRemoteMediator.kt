@@ -35,7 +35,7 @@ class ReportRemoteMediator(
                 networkDataSource.getPageAllExamList(reportType, page, token)
 
             if (loadType == LoadType.REFRESH) {
-                reportInfoDao.clearAll(reportType)
+                reportInfoDao.deleteByReportType(reportType)
             }
 
             reportInfoDao.insertAll(
