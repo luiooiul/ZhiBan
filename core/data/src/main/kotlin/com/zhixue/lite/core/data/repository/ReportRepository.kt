@@ -3,9 +3,9 @@ package com.zhixue.lite.core.data.repository
 import androidx.paging.PagingData
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.model.data.ReportMain
+import com.zhixue.lite.core.model.database.ReportInfoEntity
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
-import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
 
-    fun getReportList(reportType: String): Flow<PagingData<PageAllExamListResponse.ExamInfo>>
+    fun getReportList(reportType: String): Flow<PagingData<ReportInfoEntity>>
 
     fun getReportMain(examId: String): Flow<ReportMainResponse>
 

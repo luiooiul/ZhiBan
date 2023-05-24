@@ -1,18 +1,20 @@
 package com.zhixue.lite.core.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.zhixue.lite.core.data.paging.ReportPagingSource
+import com.zhixue.lite.core.data.paging.ReportRemoteMediator
 import com.zhixue.lite.core.database.dao.ReportDetailDao
+import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.database.dao.ReportMainDao
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.model.data.ReportMain
 import com.zhixue.lite.core.model.data.asEntity
+import com.zhixue.lite.core.model.database.ReportInfoEntity
 import com.zhixue.lite.core.model.database.asExternalModel
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
-import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
@@ -26,22 +28,26 @@ private const val REPORT_LIST_PAGE_SIZE = 10
 
 class ReportRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository,
+    private val reportInfoDao: ReportInfoDao,
     private val reportMainDao: ReportMainDao,
     private val reportDetailDao: ReportDetailDao,
     private val networkDataSource: ApiNetworkDataSource
 ) : ReportRepository {
 
-    override fun getReportList(reportType: String): Flow<PagingData<PageAllExamListResponse.ExamInfo>> {
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getReportList(reportType: String): Flow<PagingData<ReportInfoEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = REPORT_LIST_PAGE_SIZE
             ),
+            remoteMediator = ReportRemoteMediator(
+                reportInfoDao = reportInfoDao,
+                networkDataSource = networkDataSource,
+                reportType = reportType,
+                token = userRepository.token
+            ),
             pagingSourceFactory = {
-                ReportPagingSource(
-                    networkDataSource = networkDataSource,
-                    reportType = reportType,
-                    token = userRepository.token
-                )
+                reportInfoDao.pagingSource(reportType)
             }
         ).flow
     }
