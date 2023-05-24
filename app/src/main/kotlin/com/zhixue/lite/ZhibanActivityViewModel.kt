@@ -30,11 +30,14 @@ class ZhibanActivityViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             userRepository.userData.map { (username, password) ->
-                check(username.isNotEmpty() && password.isNotEmpty())
-                loginRepository.login(username, password)
-                LoginState.LoggedIn
+                if (username.isNotEmpty() && password.isNotEmpty()) {
+                    loginRepository.login(username, password)
+                    LoginState.LoggedIn
+                } else {
+                    LoginState.NotLoggedIn
+                }
             }.catch {
-                emit(LoginState.NotLoggedIn)
+                emit(LoginState.LoggedIn)
             }.also {
                 loginState = it.first()
             }

@@ -18,4 +18,7 @@ interface ReportInfoDao {
 
     @Query("DELETE FROM ReportInfoEntity WHERE type = :reportType")
     suspend fun deleteByReportType(reportType: String)
+
+    @Query("DELETE FROM ReportInfoEntity")
+    suspend fun clearAll()
 }

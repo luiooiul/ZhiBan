@@ -32,4 +32,6 @@ interface ReportRepository {
     suspend fun getLocalReportMain(examId: String): ReportMain
 
     suspend fun getLocalReportDetail(paperId: String): ReportDetail
+
+    suspend fun clearReportData()
 }

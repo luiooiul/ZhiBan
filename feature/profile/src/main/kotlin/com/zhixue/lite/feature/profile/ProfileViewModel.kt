@@ -2,6 +2,7 @@ package com.zhixue.lite.feature.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +18,8 @@ data class ProfileUiState(
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val reportRepository: ReportRepository
 ) : ViewModel() {
 
     val uiState = userRepository.userData.map {
@@ -36,6 +38,7 @@ class ProfileViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             userRepository.clearUser()
+            reportRepository.clearReportData()
             onLogoutComplete()
         }
     }

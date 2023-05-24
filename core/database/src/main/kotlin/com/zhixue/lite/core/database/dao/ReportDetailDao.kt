@@ -14,4 +14,7 @@ interface ReportDetailDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: ReportDetailEntity)
+
+    @Query("DELETE FROM ReportDetailEntity")
+    suspend fun clearAll()
 }
