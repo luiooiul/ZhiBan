@@ -2,6 +2,7 @@ package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
+import com.zhixue.lite.core.model.network.NewVersionCodeResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
@@ -11,6 +12,8 @@ import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
 
 interface NetworkDataSource {
+
+    suspend fun getNewVersionCode(): NewVersionCodeResponse
 
     suspend fun ssoLogin(username: String, password: String): SsoResponse
 

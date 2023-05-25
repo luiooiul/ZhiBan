@@ -42,6 +42,7 @@ fun ProfileScreen(
     val context = LocalContext.current
 
     var showFeedbackDialog by rememberSaveable { mutableStateOf(false) }
+    var showCheckUpdateDialog by rememberSaveable { mutableStateOf(false) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -58,6 +59,15 @@ fun ProfileScreen(
         uiState = uiState,
         onSettingItemClick = {
             when (it) {
+                3 -> viewModel.checkUpdate(
+                    versionCode = context.packageManager.getPackageInfo(
+                        context.packageName, 0
+                    ).versionCode,
+                    onNewVersionAvailable = {
+                        showCheckUpdateDialog = true
+                    }
+                )
+
                 4 -> showFeedbackDialog = true
                 5 -> viewModel.clearCache()
                 6 -> viewModel.logout(onLogoutComplete = navigateToLogin)
@@ -68,6 +78,12 @@ fun ProfileScreen(
     if (showFeedbackDialog) {
         FeedbackDialog(
             onDismiss = { showFeedbackDialog = false }
+        )
+    }
+
+    if (showCheckUpdateDialog) {
+        CheckUpdateDialog(
+            onDismiss = { showCheckUpdateDialog = false }
         )
     }
 }

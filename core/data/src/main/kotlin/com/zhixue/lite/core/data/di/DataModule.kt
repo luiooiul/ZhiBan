@@ -4,6 +4,8 @@ import com.zhixue.lite.core.data.repository.LoginRepository
 import com.zhixue.lite.core.data.repository.LoginRepositoryImpl
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.data.repository.ReportRepositoryImpl
+import com.zhixue.lite.core.data.repository.UpdateRepository
+import com.zhixue.lite.core.data.repository.UpdateRepositoryImpl
 import com.zhixue.lite.core.data.repository.UserRepository
 import com.zhixue.lite.core.data.repository.UserRepositoryImpl
 import dagger.Binds
@@ -29,4 +31,9 @@ interface DataModule {
     fun bindReportRepository(
         reportRepository: ReportRepositoryImpl
     ): ReportRepository
+
+    @Binds
+    fun bindUpdateRepository(
+        updateRepository: UpdateRepositoryImpl
+    ): UpdateRepository
 }

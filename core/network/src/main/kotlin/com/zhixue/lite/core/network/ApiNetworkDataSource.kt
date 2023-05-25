@@ -2,6 +2,7 @@ package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
+import com.zhixue.lite.core.model.network.NewVersionCodeResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
@@ -10,13 +11,19 @@ import com.zhixue.lite.core.model.network.SsoResponse
 import com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
 import com.zhixue.lite.core.model.network.UserInfoResponse
 import com.zhixue.lite.core.network.api.ChangYanApi
+import com.zhixue.lite.core.network.api.GiteeApi
 import com.zhixue.lite.core.network.api.ZhixueApi
 import javax.inject.Inject
 
 class ApiNetworkDataSource @Inject constructor(
+    private val giteeApi: GiteeApi,
     private val zhixueApi: ZhixueApi,
     private val changYanApi: ChangYanApi
 ) : NetworkDataSource {
+
+    override suspend fun getNewVersionCode(): NewVersionCodeResponse {
+        return giteeApi.getNewVersionCode()
+    }
 
     override suspend fun ssoLogin(username: String, password: String): SsoResponse {
         return changYanApi.ssoLogin(username, password).data

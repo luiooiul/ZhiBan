@@ -10,4 +10,7 @@
     <string name="feedback_title">意见反馈</string>
     <string name="feedback_contents">感谢您选择使用智伴！\n\n我们非常重视您的意见和反馈，以便不断改进我们的产品，为您提供更好的体验。\n\n为此，我们诚挚地邀请您与我们分享您的宝贵意见和建议。</string>
     <string name="feedback_button_qq">QQ</string>
+    <string name="check_update_title">检测更新</string>
+    <string name="check_update_contents">检测到新版本，是否跳转到浏览器下载？</string>
+    <string name="check_update_button_jump">跳转</string>
 </resources>
