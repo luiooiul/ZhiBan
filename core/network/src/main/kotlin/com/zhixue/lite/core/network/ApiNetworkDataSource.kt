@@ -39,8 +39,8 @@ class ApiNetworkDataSource @Inject constructor(
 
     override suspend fun modifyPassword(
         loginName: String, originPassword: String, newPassword: String, token: String
-    ): String {
-        return zhixueApi.modifyPassword(loginName, originPassword, newPassword, token).result
+    ) {
+        zhixueApi.modifyPassword(loginName, originPassword, newPassword, token)
     }
 
     override suspend fun getPageAllExamList(

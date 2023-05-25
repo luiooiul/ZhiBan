@@ -23,7 +23,7 @@ interface NetworkDataSource {
 
     suspend fun modifyPassword(
         loginName: String, originPassword: String, newPassword: String, token: String
-    ): String
+    )
 
     suspend fun getPageAllExamList(
         reportType: String, pageIndex: Int, token: String
