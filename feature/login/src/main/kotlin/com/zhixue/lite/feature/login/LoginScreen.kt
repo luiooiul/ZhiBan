@@ -79,7 +79,7 @@ fun LoginScreen(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
+        verticalArrangement = Arrangement.spacedBy(28.dp, Alignment.CenterVertically),
         contentPadding = PaddingValues(36.dp)
     ) {
         item { LoginLogo() }
