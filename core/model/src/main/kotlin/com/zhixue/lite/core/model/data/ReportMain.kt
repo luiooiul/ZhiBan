@@ -1,9 +1,9 @@
 package com.zhixue.lite.core.model.data
 
+import com.zhixue.lite.core.common.Json
 import com.zhixue.lite.core.model.database.ReportMainEntity
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Serializable
 data class ReportMain(

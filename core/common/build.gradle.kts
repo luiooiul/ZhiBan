@@ -2,11 +2,10 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.zhixue.lite.core.model"
+    namespace = "com.zhixue.lite.core.common"
     compileSdk = 33
 
     defaultConfig {
@@ -20,8 +19,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-    implementation("androidx.room:room-ktx:2.5.1")
-    ksp("androidx.room:room-compiler:2.5.1")
 }
