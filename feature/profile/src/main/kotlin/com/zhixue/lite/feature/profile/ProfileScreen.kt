@@ -1,5 +1,6 @@
 package com.zhixue.lite.feature.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +16,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,18 +39,43 @@ fun ProfileScreen(
     navigateToLogin: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
+    var showFeedbackDialog by rememberSaveable { mutableStateOf(false) }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val message = uiState.message
+
+    LaunchedEffect(message) {
+        if (message.isNotEmpty()) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            viewModel.messageShown()
+        }
+    }
 
     ProfileScreen(
         uiState = uiState,
-        onLogoutClick = { viewModel.logout(onLogoutComplete = navigateToLogin) }
+        onSettingItemClick = {
+            when (it) {
+                4 -> showFeedbackDialog = true
+                5 -> viewModel.clearCache()
+                6 -> viewModel.logout(onLogoutComplete = navigateToLogin)
+            }
+        }
     )
+
+    if (showFeedbackDialog) {
+        FeedbackDialog(
+            onDismiss = { showFeedbackDialog = false }
+        )
+    }
 }
 
 @Composable
 fun ProfileScreen(
     uiState: ProfileUiState,
-    onLogoutClick: () -> Unit
+    onSettingItemClick: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -57,11 +88,7 @@ fun ProfileScreen(
         item { ProfileHeader(name = uiState.name, schoolClass = uiState.schoolClass) }
         item { Spacer(modifier = Modifier) }
         item { HorizontalDivider() }
-        item {
-            ProfileSettingPanel(
-                onLogoutClick = onLogoutClick
-            )
-        }
+        item { ProfileSettingPanel(onSettingItemClick = onSettingItemClick) }
     }
 }
 
@@ -98,7 +125,7 @@ fun ProfileHeader(
 
 @Composable
 fun ProfileSettingPanel(
-    onLogoutClick: () -> Unit
+    onSettingItemClick: (Int) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -112,32 +139,32 @@ fun ProfileSettingPanel(
             )
             ProfileSettingItem(
                 name = stringResource(R.string.setting_switch_account),
-                onClick = {}
+                onClick = { onSettingItemClick(1) }
             )
             ProfileSettingItem(
                 name = stringResource(R.string.setting_modify_password),
-                onClick = {}
+                onClick = { onSettingItemClick(2) }
             )
         }
         HorizontalDivider(spacing = 24.dp)
         Column {
             ProfileSettingItem(
                 name = stringResource(R.string.setting_check_update),
-                onClick = {}
+                onClick = { onSettingItemClick(3) }
             )
             ProfileSettingItem(
                 name = stringResource(R.string.setting_feedback),
-                onClick = {}
+                onClick = { onSettingItemClick(4) }
             )
             ProfileSettingItem(
-                name = stringResource(R.string.setting_about_us),
-                onClick = {}
+                name = stringResource(R.string.setting_clear_cache),
+                onClick = { onSettingItemClick(5) }
             )
         }
         HorizontalDivider(spacing = 24.dp)
         ProfileSettingItem(
             name = stringResource(R.string.setting_logout),
-            onClick = onLogoutClick
+            onClick = { onSettingItemClick(6) }
         )
     }
 }

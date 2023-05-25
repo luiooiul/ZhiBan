@@ -101,7 +101,6 @@ class ReportRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearReportData() {
-        reportInfoDao.clearAll()
         reportMainDao.clearAll()
         reportDetailDao.clearAll()
     }
