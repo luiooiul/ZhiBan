@@ -13,6 +13,8 @@ class UserRepositoryImpl @Inject constructor(
         private set
     override var token = ""
         private set
+    override var loginName = ""
+        private set
 
     override val userData = preferencesDataSource.userData
 
@@ -27,12 +29,14 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun setUserInfo(
         id: String,
         token: String,
+        loginName: String,
         name: String,
         className: String,
         schoolName: String
     ) {
         this.id = id
         this.token = token
+        this.loginName = loginName
         preferencesDataSource.setUserInfo(name, className, schoolName)
     }
 }

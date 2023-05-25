@@ -37,6 +37,7 @@ import com.zhixue.lite.core.ui.theme.Theme
 @Composable
 fun ProfileScreen(
     navigateToLogin: () -> Unit,
+    navigateToModify: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -59,6 +60,7 @@ fun ProfileScreen(
         uiState = uiState,
         onSettingItemClick = {
             when (it) {
+                2 -> navigateToModify()
                 3 -> viewModel.checkUpdate(
                     versionCode = context.packageManager.getPackageInfo(
                         context.packageName, 0

@@ -12,6 +12,7 @@ import com.zhixue.lite.feature.home.HOME_ROUTE
 import com.zhixue.lite.feature.home.HomeDestination
 import com.zhixue.lite.feature.home.navigateToHome
 import com.zhixue.lite.feature.login.navigateToLogin
+import com.zhixue.lite.feature.modify.navigateToModify
 import com.zhixue.lite.feature.profile.navigateToProfile
 import com.zhixue.lite.feature.report.navigateToReportDetail
 import com.zhixue.lite.feature.report.navigateToReportList
@@ -54,6 +55,14 @@ class ZhibanAppState(
         }
 
         navController.navigateToLogin(navOptions)
+    }
+
+    fun navigateToModify() {
+        val navOptions = navOptions {
+            launchSingleTop = true
+        }
+
+        navController.navigateToModify(navOptions)
     }
 
     fun navigateToReportMain(examId: String) {

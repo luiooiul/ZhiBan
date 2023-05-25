@@ -2,8 +2,8 @@ package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
-import com.zhixue.lite.core.model.network.NewVersionCodeResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
+import com.zhixue.lite.core.model.network.NewVersionCodeResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -35,6 +35,12 @@ class ApiNetworkDataSource @Inject constructor(
 
     override suspend fun getUserInfo(token: String): UserInfoResponse {
         return zhixueApi.getUserInfo(token).result
+    }
+
+    override suspend fun modifyPassword(
+        loginName: String, originPassword: String, newPassword: String, token: String
+    ): String {
+        return zhixueApi.modifyPassword(loginName, originPassword, newPassword, token).result
     }
 
     override suspend fun getPageAllExamList(

@@ -2,8 +2,8 @@ package com.zhixue.lite.core.network
 
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
-import com.zhixue.lite.core.model.network.NewVersionCodeResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
+import com.zhixue.lite.core.model.network.NewVersionCodeResponse
 import com.zhixue.lite.core.model.network.PageAllExamListResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -20,6 +20,10 @@ interface NetworkDataSource {
     suspend fun casLogin(at: String, userId: String): CasResponse
 
     suspend fun getUserInfo(token: String): UserInfoResponse
+
+    suspend fun modifyPassword(
+        loginName: String, originPassword: String, newPassword: String, token: String
+    ): String
 
     suspend fun getPageAllExamList(
         reportType: String, pageIndex: Int, token: String

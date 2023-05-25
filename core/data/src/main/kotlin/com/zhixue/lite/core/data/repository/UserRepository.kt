@@ -7,6 +7,7 @@ interface UserRepository {
 
     val id: String
     val token: String
+    val loginName: String
 
     val userData: Flow<UserData>
 
@@ -17,6 +18,7 @@ interface UserRepository {
     suspend fun setUserInfo(
         id: String,
         token: String,
+        loginName: String,
         name: String,
         className: String,
         schoolName: String

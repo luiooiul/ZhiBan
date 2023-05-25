@@ -19,7 +19,8 @@ data class CasResponse(
     data class UserInfo(
         val id: String,
         val name: String,
-        val school: SchoolInfo? = null
+        val school: SchoolInfo? = null,
+        val loginName: String
     ) {
         @Serializable
         data class SchoolInfo(

@@ -21,6 +21,7 @@ class LoginRepositoryImpl @Inject constructor(
             id = curId,
             token = token,
             name = curUserInfo.name,
+            loginName = curUserInfo.loginName,
             className = curClassInfo.name,
             schoolName = curUserInfo.school!!.schoolName
         )

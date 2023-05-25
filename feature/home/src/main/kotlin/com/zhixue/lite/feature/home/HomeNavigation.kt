@@ -24,6 +24,7 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.homeGraph(
     navigateToLogin: () -> Unit,
+    navigateToModify: () -> Unit,
     navigateToReportMain: (String) -> Unit
 ) {
     navigation(
@@ -34,7 +35,8 @@ fun NavGraphBuilder.homeGraph(
             navigateToReportMain = navigateToReportMain
         )
         profileScreen(
-            navigateToLogin = navigateToLogin
+            navigateToLogin = navigateToLogin,
+            navigateToModify = navigateToModify
         )
     }
 }

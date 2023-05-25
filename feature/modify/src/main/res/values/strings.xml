@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="headline_modify">修改密码</string>
+    <string name="label_origin_password">请输入旧密码</string>
+    <string name="label_new_password">请输入新密码</string>
+    <string name="button_modify">修改密码</string>
+</resources>

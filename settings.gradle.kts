@@ -10,6 +10,7 @@ include(":feature:home")
 include(":feature:login")
 include(":feature:report")
 include(":feature:profile")
+include(":feature:modify")
 
 pluginManagement {
     repositories {

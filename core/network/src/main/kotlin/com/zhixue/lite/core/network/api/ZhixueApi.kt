@@ -32,6 +32,15 @@ interface ZhixueApi {
     ): ZhixueResponse<UserInfoResponse>
 
     @FormUrlEncoded
+    @POST("container/app/modifyOriginPWD")
+    suspend fun modifyPassword(
+        @Field("loginName") loginName: String,
+        @Field("originPWD") originPassword: String,
+        @Field("newPWD") newPassword: String,
+        @Field("token") token: String
+    ): ZhixueResponse<String>
+
+    @FormUrlEncoded
     @POST("zxbReport/report/getPageAllExamList")
     suspend fun getPageAllExamList(
         @Field("reportType") reportType: String,
