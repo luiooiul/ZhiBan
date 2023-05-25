@@ -62,12 +62,13 @@ class ModifyViewModel @Inject constructor(
             runCatching {
                 isModifying.value = true
                 modifyRepository.modifyPassword(originPassword, newPassword)
-            }.onSuccess {
                 userRepository.storeUser(
                     username = userRepository.loginName,
-                    password = encryptPasswordUseCase(newPassword)
+                    password = encryptPasswordUseCase(newPassword.reversed())
                 )
+            }.onSuccess {
                 message.value = "修改成功"
+                isModifying.value = false
             }.onFailure {
                 message.value = it.message.orEmpty()
                 isModifying.value = false

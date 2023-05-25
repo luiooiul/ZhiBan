@@ -30,11 +30,11 @@ class ApiNetworkDataSource @Inject constructor(
     }
 
     override suspend fun casLogin(at: String, userId: String): CasResponse {
-        return zhixueApi.casLogin(at, userId).result
+        return zhixueApi.casLogin(at, userId).result!!
     }
 
     override suspend fun getUserInfo(token: String): UserInfoResponse {
-        return zhixueApi.getUserInfo(token).result
+        return zhixueApi.getUserInfo(token).result!!
     }
 
     override suspend fun modifyPassword(
@@ -46,32 +46,32 @@ class ApiNetworkDataSource @Inject constructor(
     override suspend fun getPageAllExamList(
         reportType: String, pageIndex: Int, token: String
     ): PageAllExamListResponse {
-        return zhixueApi.getPageAllExamList(reportType, pageIndex, token).result
+        return zhixueApi.getPageAllExamList(reportType, pageIndex, token).result!!
     }
 
     override suspend fun getReportMain(examId: String, token: String): ReportMainResponse {
-        return zhixueApi.getReportMain(examId, token).result
+        return zhixueApi.getReportMain(examId, token).result!!
     }
 
     override suspend fun getSubjectDiagnosis(
         examId: String, token: String
     ): SubjectDiagnosisResponse {
-        return zhixueApi.getSubjectDiagnosis(examId, token).result
+        return zhixueApi.getSubjectDiagnosis(examId, token).result!!
     }
 
     override suspend fun getLevelTrend(
         examId: String, paperId: String, token: String
     ): LevelTrendResponse {
-        return zhixueApi.getLevelTrend(examId, paperId, token).result
+        return zhixueApi.getLevelTrend(examId, paperId, token).result!!
     }
 
     override suspend fun getCheckSheet(
         examId: String, paperId: String, token: String
     ): CheckSheetResponse {
-        return zhixueApi.getCheckSheet(examId, paperId, token).result
+        return zhixueApi.getCheckSheet(examId, paperId, token).result!!
     }
 
     override suspend fun getPaperAnalysis(paperId: String, token: String): PaperAnalysisResponse {
-        return zhixueApi.getPaperAnalysis(paperId, token).result
+        return zhixueApi.getPaperAnalysis(paperId, token).result!!
     }
 }

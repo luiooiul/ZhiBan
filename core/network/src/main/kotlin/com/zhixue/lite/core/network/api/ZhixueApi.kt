@@ -38,7 +38,7 @@ interface ZhixueApi {
         @Field("originPWD") originPassword: String,
         @Field("newPWD") newPassword: String,
         @Field("token") token: String
-    ): ZhixueResponse<String>
+    ): ZhixueResponse<Unit>
 
     @FormUrlEncoded
     @POST("zxbReport/report/getPageAllExamList")
