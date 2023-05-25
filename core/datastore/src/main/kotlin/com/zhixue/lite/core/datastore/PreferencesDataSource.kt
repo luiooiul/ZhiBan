@@ -33,7 +33,7 @@ class PreferencesDataSource @Inject constructor(
     suspend fun clearUser() {
         userPreferences.updateData {
             it.defaultInstanceForType.copy {
-                this.credentials.putAll(credentials)
+                this.credentials.putAll(it.credentialsMap)
             }
         }
     }

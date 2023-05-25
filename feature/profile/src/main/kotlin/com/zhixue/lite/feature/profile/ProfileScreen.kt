@@ -1,5 +1,6 @@
 package com.zhixue.lite.feature.profile
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,6 +45,7 @@ fun ProfileScreen(
 
     var showFeedbackDialog by rememberSaveable { mutableStateOf(false) }
     var showCheckUpdateDialog by rememberSaveable { mutableStateOf(false) }
+    var showSwitchAccountDialog by rememberSaveable { mutableStateOf(false) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -60,6 +62,7 @@ fun ProfileScreen(
         uiState = uiState,
         onSettingItemClick = {
             when (it) {
+                1 -> showSwitchAccountDialog = true
                 2 -> navigateToModify()
                 3 -> viewModel.checkUpdate(
                     versionCode = context.packageManager.getPackageInfo(
@@ -86,6 +89,25 @@ fun ProfileScreen(
     if (showCheckUpdateDialog) {
         CheckUpdateDialog(
             onDismiss = { showCheckUpdateDialog = false }
+        )
+    }
+
+    if (showSwitchAccountDialog) {
+        SwitchAccountDialog(
+            credentials = uiState.credentials,
+            onAccountClick = { username, password ->
+                viewModel.switchAccount(
+                    username = username,
+                    password = password,
+                    onSwitchAccountCompleted = {
+                        with(context as Activity) {
+                            finish()
+                            startActivity(intent)
+                        }
+                    }
+                )
+            },
+            onDismiss = { showSwitchAccountDialog = false }
         )
     }
 }

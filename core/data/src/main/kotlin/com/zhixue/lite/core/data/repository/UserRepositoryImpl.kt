@@ -23,6 +23,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearUser() {
+        this.id = ""
+        this.token = ""
+        this.loginName = ""
         preferencesDataSource.clearUser()
     }
 

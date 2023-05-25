@@ -16,7 +16,8 @@ import javax.inject.Inject
 data class ProfileUiState(
     val message: String = "",
     val name: String = "",
-    val schoolClass: String = ""
+    val schoolClass: String = "",
+    val credentials: Map<String, String> = emptyMap()
 )
 
 @HiltViewModel
@@ -32,7 +33,8 @@ class ProfileViewModel @Inject constructor(
         ProfileUiState(
             message = message,
             name = userData.name,
-            schoolClass = "${userData.schoolName} ${userData.className}"
+            schoolClass = "${userData.schoolName} ${userData.className}",
+            credentials = userData.credentials
         )
     }.stateIn(
         scope = viewModelScope,
@@ -42,6 +44,20 @@ class ProfileViewModel @Inject constructor(
 
     fun messageShown() {
         message.value = ""
+    }
+
+    fun switchAccount(
+        username: String,
+        password: String,
+        onSwitchAccountCompleted: () -> Unit
+    ) {
+        viewModelScope.launch {
+            userRepository.clearUser()
+            userRepository.storeUser(username, password)
+            reportRepository.clearReportList()
+            reportRepository.clearReportData()
+            onSwitchAccountCompleted()
+        }
     }
 
     fun checkUpdate(

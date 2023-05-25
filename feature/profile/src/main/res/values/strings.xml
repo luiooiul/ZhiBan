@@ -13,4 +13,5 @@
     <string name="check_update_title">检测更新</string>
     <string name="check_update_contents">检测到新版本，是否跳转到浏览器下载？</string>
     <string name="check_update_button_jump">跳转</string>
+    <string name="switch_account_title">快捷切换</string>
 </resources>
