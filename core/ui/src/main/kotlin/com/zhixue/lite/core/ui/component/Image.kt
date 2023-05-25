@@ -25,11 +25,13 @@ fun Image(
 @Composable
 fun AsyncImage(
     model: Any?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    colorFilter: ColorFilter? = null
 ) {
     AsyncImage(
         model = model,
         modifier = modifier,
-        contentDescription = null
+        contentDescription = null,
+        colorFilter = colorFilter
     )
 }

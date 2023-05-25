@@ -19,7 +19,8 @@ data class Colors(
     val error: Color,
     val onError: Color,
     val outline: Color,
-    val outlineVariant: Color
+    val outlineVariant: Color,
+    val isLight: Boolean
 )
 
 internal val lightColors = Colors(
@@ -36,7 +37,8 @@ internal val lightColors = Colors(
     error = Color(0xFFF53536),
     onError = Color.White,
     outline = Color(0xFFF4F6F8),
-    outlineVariant = Color(0xFFF4F6F8)
+    outlineVariant = Color(0xFFF4F6F8),
+    isLight = true
 )
 
 internal val darkColors = Colors(
@@ -53,7 +55,8 @@ internal val darkColors = Colors(
     error = Color(0xFFE34C26),
     onError = Color.White,
     outline = Color(0xFF30363D),
-    outlineVariant = Color(0xFF30363D)
+    outlineVariant = Color(0xFF30363D),
+    isLight = false
 )
 
 val LocalColors = staticCompositionLocalOf { lightColors }
