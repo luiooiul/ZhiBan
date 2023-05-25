@@ -60,6 +60,7 @@ class ModifyViewModel @Inject constructor(
     fun doModify() {
         viewModelScope.launch {
             runCatching {
+                checkInputAvailable()
                 isModifying.value = true
                 modifyRepository.modifyPassword(originPassword, newPassword)
                 userRepository.storeUser(
@@ -74,5 +75,9 @@ class ModifyViewModel @Inject constructor(
                 isModifying.value = false
             }
         }
+    }
+
+    private fun checkInputAvailable() {
+        check(originPassword.isNotEmpty() && newPassword.isNotEmpty()) { "输入不能为空" }
     }
 }
