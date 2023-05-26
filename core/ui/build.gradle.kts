@@ -16,7 +16,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
     compileOptions {
@@ -27,5 +27,5 @@ android {
 
 dependencies {
     api("io.coil-kt:coil-compose:2.3.0")
-    api("androidx.compose.foundation:foundation:1.4.2")
+    api("androidx.compose.foundation:foundation:1.4.3")
 }

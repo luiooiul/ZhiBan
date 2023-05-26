@@ -24,7 +24,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation("androidx.room:room-ktx:2.5.1")
     implementation("androidx.room:room-paging:2.5.1")
-    implementation("com.google.dagger:hilt-android:2.45")
+    implementation("com.google.dagger:hilt-android:2.46.1")
     ksp("androidx.room:room-compiler:2.5.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 }

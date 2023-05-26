@@ -22,7 +22,7 @@ android {
 dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:model"))
-    implementation("androidx.paging:paging-compose:1.0.0-alpha18")
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha20")
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 }

@@ -45,6 +45,6 @@ dependencies {
     implementation(project(":core:model"))
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("com.google.protobuf:protobuf-kotlin-lite:3.22.3")
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 }
