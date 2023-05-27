@@ -14,5 +14,6 @@ data class ReportMainResponse(
         val userLevel: String = "",
         val userScore: Double = 0.0,
         val standardScore: Double,
+        val clazzRank: Int? = null
     )
 }

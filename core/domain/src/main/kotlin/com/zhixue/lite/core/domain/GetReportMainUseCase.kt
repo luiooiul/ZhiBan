@@ -46,18 +46,27 @@ class GetReportMainUseCase @Inject constructor(
             }
 
             val reportMainTrends = paperList.map { paper ->
+                var rank = paper.clazzRank
                 reportRepository.getLevelTrend(examId, paper.paperId).map { (list) ->
                     val (totalNum, improveBar) = list.first()
-                    val rank = subjectDiagnosisList
-                        .find { it.subjectCode == paper.subjectCode }
-                        ?.let { calculateRank(totalNum, it.myRank) }
+                    if (rank == null) {
+                        rank = subjectDiagnosisList
+                            .find { it.subjectCode == paper.subjectCode }
+                            ?.let { calculateRank(totalNum, it.myRank) }
+                    }
                     ReportMain.Trend(
                         name = paper.subjectName,
                         code = improveBar.tag.code,
                         rank = rank?.toString()
                     )
                 }.catch {
-                    emit(ReportMain.Trend(name = paper.subjectName, code = null, rank = null))
+                    emit(
+                        ReportMain.Trend(
+                            name = paper.subjectName,
+                            code = null,
+                            rank = rank?.toString()
+                        )
+                    )
                 }
             }.let { flows ->
                 combine(flows) { it.toList() }.single()
