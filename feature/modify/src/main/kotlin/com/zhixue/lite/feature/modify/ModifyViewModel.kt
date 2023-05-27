@@ -71,7 +71,7 @@ class ModifyViewModel @Inject constructor(
                 val username = userRepository.userData.first().username
                 val password = encryptPasswordUseCase(newPassword.reversed())
                 userRepository.storeUser(username, password)
-                delay(1.seconds)
+                delay(3.seconds)
                 loginRepository.login(username, password)
             }.onSuccess {
                 message.value = "修改成功"
