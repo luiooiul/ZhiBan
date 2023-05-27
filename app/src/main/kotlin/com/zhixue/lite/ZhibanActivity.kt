@@ -42,7 +42,9 @@ class ZhibanActivity : ComponentActivity() {
                 darkTheme = darkTheme
             ) {
                 ZhibanApp(
-                    loginState = viewModel.loginState
+                    loginState = viewModel.loginState,
+                    onRetryClick = viewModel::retry,
+                    onOfflineClick = viewModel::offline
                 )
             }
         }

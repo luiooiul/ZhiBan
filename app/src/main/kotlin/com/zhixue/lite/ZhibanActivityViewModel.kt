@@ -11,11 +11,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 enum class LoginState {
-    Loading, LoggedIn, NotLoggedIn
+    Loading, LoggedIn, NotLoggedIn, LoggedInError
 }
 
 @HiltViewModel
@@ -28,6 +29,18 @@ class ZhibanActivityViewModel @Inject constructor(
         private set
 
     init {
+        tryToLogin()
+    }
+
+    fun retry() {
+        tryToLogin()
+    }
+
+    fun offline() {
+        loginState = LoginState.LoggedIn
+    }
+
+    private fun tryToLogin() {
         viewModelScope.launch {
             userRepository.userData.map { (username, password) ->
                 if (username.isNotEmpty() && password.isNotEmpty()) {
@@ -36,8 +49,10 @@ class ZhibanActivityViewModel @Inject constructor(
                 } else {
                     LoginState.NotLoggedIn
                 }
+            }.onStart {
+                loginState = LoginState.Loading
             }.catch {
-                emit(LoginState.LoggedIn)
+                emit(LoginState.LoggedInError)
             }.also {
                 loginState = it.first()
             }
