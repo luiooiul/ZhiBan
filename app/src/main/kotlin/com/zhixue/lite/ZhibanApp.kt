@@ -2,11 +2,12 @@ package com.zhixue.lite
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.zhixue.lite.core.ui.component.HorizontalDivider
@@ -26,16 +27,14 @@ fun ZhibanApp(
     appState: ZhibanAppState = rememberAppState()
 ) {
     if (loginState != LoginState.Loading) {
-        Column(
+        Box(
             modifier = Modifier
                 .background(Theme.colors.background)
                 .statusBarsPadding()
                 .navigationBarsPadding()
         ) {
             NavHost(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
+                modifier = Modifier.fillMaxSize(),
                 navController = appState.navController,
                 startDestination = if (loginState == LoginState.LoggedIn) HOME_ROUTE else LOGIN_ROUTE
             ) {
@@ -59,6 +58,7 @@ fun ZhibanApp(
                 )
             }
             Crossfade(
+                modifier = Modifier.align(Alignment.BottomCenter),
                 targetState = appState.shouldShowHomeBottomBar
             ) { shouldShowHomeBottomBar ->
                 if (shouldShowHomeBottomBar) {

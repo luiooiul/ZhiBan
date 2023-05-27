@@ -72,7 +72,9 @@ fun ReportListScreen(
     val pagerState = rememberPagerState()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 56.dp)
     ) {
         ReportListTopTabs(
             names = reportTypes.map { stringResource(it.nameRes) },
