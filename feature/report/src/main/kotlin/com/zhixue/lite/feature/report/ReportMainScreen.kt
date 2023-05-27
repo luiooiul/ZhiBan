@@ -217,7 +217,7 @@ fun ReportMainOverviewItem(
                     }
                     if (overview.level.isNotEmpty()) {
                         withStyle(Theme.typography.labelSmall.toSpanStyle()) {
-                            append(stringResource(R.string.text_level, overview.level))
+                            append(" ${overview.level}")
                         }
                     }
                 },

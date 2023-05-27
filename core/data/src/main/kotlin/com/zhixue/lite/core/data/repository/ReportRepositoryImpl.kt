@@ -66,10 +66,8 @@ class ReportRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLevelTrend(examId: String, paperId: String): Flow<LevelTrendResponse> {
-        return flow {
-            emit(networkDataSource.getLevelTrend(examId, paperId, userRepository.token))
-        }
+    override suspend fun getLevelTrend(examId: String, paperId: String): LevelTrendResponse {
+        return networkDataSource.getLevelTrend(examId, paperId, userRepository.token)
     }
 
     override fun getCheckSheet(examId: String, paperId: String): Flow<CheckSheetResponse> {

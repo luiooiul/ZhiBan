@@ -2,11 +2,14 @@ package com.zhixue.lite.core.domain
 
 import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportMain
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.withContext
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -19,12 +22,67 @@ class GetReportMainUseCase @Inject constructor(
             reportRepository.getSubjectDiagnosis(examId)
         ) { (paperList), (subjectDiagnosisList) ->
 
-            val totalScore = paperList
-                .filterNot { it.paperId.contains("!") }
-                .sumOf { it.userScore.toBigDecimal() }
-            val totalStandardScore = paperList
-                .filterNot { it.paperId.contains("!") }
-                .sumOf { it.standardScore.toBigDecimal() }
+            val trendList = withContext(Dispatchers.IO) {
+                paperList.map {
+                    async {
+                        runCatching {
+                            reportRepository.getLevelTrend(examId, it.paperId)
+                        }.getOrNull()
+                    }
+                }.awaitAll()
+            }
+
+            var totalScore = BigDecimal.ZERO
+            var totalStandardScore = BigDecimal.ZERO
+
+            val reportMainTrends = mutableListOf<ReportMain.Trend>()
+            val reportMainOverviews = mutableListOf<ReportMain.Overview>()
+
+            for (index in paperList.indices) {
+                val paper = paperList[index]
+                val trend = trendList[index]?.list?.first()
+
+                val name = paper.subjectName
+                val userLevel = paper.userLevel
+                val score = paper.userScore.toBigDecimal()
+                val standardScore = paper.standardScore.toBigDecimal()
+
+                val rank = paper.clazzRank ?: trend?.totalNum?.let { totalNum ->
+                    subjectDiagnosisList
+                        .find { it.subjectCode == paper.subjectCode }
+                        ?.let { calculateRank(totalNum, it.myRank) }
+                }
+
+                val level = if (userLevel != null) {
+                    "${userLevel}等"
+                } else {
+                    trend?.improveBar?.levelScale.orEmpty()
+                }
+
+                if (!paper.paperId.contains("!")) {
+                    totalScore += score
+                    totalStandardScore += standardScore
+                }
+
+                reportMainTrends.add(
+                    ReportMain.Trend(
+                        name = name,
+                        code = trend?.improveBar?.tag?.code,
+                        rank = rank?.toString()
+                    )
+                )
+
+                reportMainOverviews.add(
+                    ReportMain.Overview(
+                        id = paper.paperId,
+                        name = name,
+                        level = level,
+                        score = score.stripTrailingZeros().toPlainString(),
+                        standardScore = standardScore.stripTrailingZeros().toPlainString(),
+                        rate = score.toFloat() / standardScore.toFloat()
+                    )
+                )
+            }
 
             val reportMainTotal = ReportMain.Total(
                 score = totalScore.stripTrailingZeros().toPlainString(),
@@ -32,50 +90,10 @@ class GetReportMainUseCase @Inject constructor(
                 rate = totalScore.toFloat() / totalStandardScore.toFloat()
             )
 
-            val reportMainOverviews = paperList.map { paperInfo ->
-                val score = paperInfo.userScore.toBigDecimal()
-                val standardScore = paperInfo.standardScore.toBigDecimal()
-                ReportMain.Overview(
-                    id = paperInfo.paperId,
-                    name = paperInfo.subjectName,
-                    level = paperInfo.userLevel,
-                    score = score.stripTrailingZeros().toPlainString(),
-                    standardScore = standardScore.stripTrailingZeros().toPlainString(),
-                    rate = score.toFloat() / standardScore.toFloat()
-                )
-            }
-
-            val reportMainTrends = paperList.map { paper ->
-                var rank = paper.clazzRank
-                reportRepository.getLevelTrend(examId, paper.paperId).map { (list) ->
-                    val (totalNum, improveBar) = list.first()
-                    if (rank == null) {
-                        rank = subjectDiagnosisList
-                            .find { it.subjectCode == paper.subjectCode }
-                            ?.let { calculateRank(totalNum, it.myRank) }
-                    }
-                    ReportMain.Trend(
-                        name = paper.subjectName,
-                        code = improveBar.tag.code,
-                        rank = rank?.toString()
-                    )
-                }.catch {
-                    emit(
-                        ReportMain.Trend(
-                            name = paper.subjectName,
-                            code = null,
-                            rank = rank?.toString()
-                        )
-                    )
-                }
-            }.let { flows ->
-                combine(flows) { it.toList() }.single()
-            }
-
             ReportMain(
                 total = reportMainTotal,
-                overviews = reportMainOverviews,
-                trends = reportMainTrends
+                trends = reportMainTrends,
+                overviews = reportMainOverviews
             ).also {
                 reportRepository.saveReportMain(examId, it)
             }

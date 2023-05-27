@@ -19,7 +19,7 @@ interface ReportRepository {
 
     fun getSubjectDiagnosis(examId: String): Flow<SubjectDiagnosisResponse>
 
-    fun getLevelTrend(examId: String, paperId: String): Flow<LevelTrendResponse>
+    suspend fun getLevelTrend(examId: String, paperId: String): LevelTrendResponse
 
     fun getCheckSheet(examId: String, paperId: String): Flow<CheckSheetResponse>
 

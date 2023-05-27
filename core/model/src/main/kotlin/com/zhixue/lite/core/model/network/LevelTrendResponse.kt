@@ -13,7 +13,8 @@ data class LevelTrendResponse(
     ) {
         @Serializable
         data class ImproveBar(
-            val tag: Tag
+            val tag: Tag,
+            val levelScale: String
         ) {
             @Serializable
             data class Tag(

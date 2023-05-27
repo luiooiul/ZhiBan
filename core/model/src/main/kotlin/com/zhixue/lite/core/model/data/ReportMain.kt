@@ -8,21 +8,11 @@ import kotlinx.serialization.encodeToString
 @Serializable
 data class ReportMain(
     val total: Total,
-    val overviews: List<Overview>,
-    val trends: List<Trend>
+    val trends: List<Trend>,
+    val overviews: List<Overview>
 ) {
     @Serializable
     data class Total(
-        val score: String,
-        val standardScore: String,
-        val rate: Float
-    )
-
-    @Serializable
-    data class Overview(
-        val id: String,
-        val name: String,
-        val level: String,
         val score: String,
         val standardScore: String,
         val rate: Float
@@ -33,6 +23,16 @@ data class ReportMain(
         val name: String,
         val code: String?,
         val rank: String?
+    )
+
+    @Serializable
+    data class Overview(
+        val id: String,
+        val name: String,
+        val level: String,
+        val score: String,
+        val standardScore: String,
+        val rate: Float
     )
 }
 
