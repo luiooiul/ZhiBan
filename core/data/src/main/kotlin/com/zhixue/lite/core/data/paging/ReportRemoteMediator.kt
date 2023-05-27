@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import com.zhixue.lite.core.database.dao.ReportInfoDao
 import com.zhixue.lite.core.model.database.ReportInfoEntity
 import com.zhixue.lite.core.network.ApiNetworkDataSource
+import kotlinx.coroutines.delay
 
 private const val REPORT_STARTING_PAGE_INDEX = 1
 
@@ -23,6 +24,8 @@ class ReportRemoteMediator(
         state: PagingState<Int, ReportInfoEntity>
     ): MediatorResult {
         return try {
+            delay(500)
+
             val page = when (loadType) {
                 LoadType.REFRESH -> REPORT_STARTING_PAGE_INDEX
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
@@ -34,25 +37,25 @@ class ReportRemoteMediator(
             val (hasNextPage, examInfoList) =
                 networkDataSource.getPageAllExamList(reportType, page, token)
 
+            val endOfPaginationReached = !hasNextPage
+
             if (loadType == LoadType.REFRESH) {
                 reportInfoDao.deleteByReportType(reportType)
             }
 
             reportInfoDao.insertAll(
-                examInfoList
-                    .filter { it.isSinglePublish }
-                    .map {
-                        ReportInfoEntity(
-                            id = it.examId,
-                            name = it.examName,
-                            date = it.examCreateDateTime,
-                            next = if (hasNextPage) page + 1 else null,
-                            type = reportType
-                        )
-                    }
+                examInfoList.map {
+                    ReportInfoEntity(
+                        id = it.examId,
+                        name = it.examName,
+                        date = it.examCreateDateTime,
+                        next = if (endOfPaginationReached) null else page + 1,
+                        type = reportType
+                    )
+                }
             )
 
-            MediatorResult.Success(endOfPaginationReached = !hasNextPage)
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }
