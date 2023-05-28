@@ -26,6 +26,6 @@ android {
 }
 
 dependencies {
-    api("io.coil-kt:coil-compose:2.3.0")
+    api("io.coil-kt:coil-compose:2.4.0")
     api("androidx.compose.foundation:foundation:1.4.3")
 }
