@@ -74,7 +74,7 @@ fun ProfileScreen(
                 )
 
                 4 -> showFeedbackDialog = true
-                5 -> viewModel.clearCache()
+                5 -> viewModel.clearCache(context.cacheDir)
                 6 -> viewModel.logout(onLogoutComplete = navigateToLogin)
             }
         }

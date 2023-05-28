@@ -6,11 +6,13 @@ import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.data.repository.UpdateRepository
 import com.zhixue.lite.core.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 data class ProfileUiState(
@@ -80,8 +82,9 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun clearCache() {
-        viewModelScope.launch {
+    fun clearCache(cacheDir: File) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cacheDir.deleteRecursively()
             reportRepository.clearReportData()
             message.value = "缓存已清除"
         }
