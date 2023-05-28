@@ -19,6 +19,20 @@ class ReportRemoteMediator(
     private val token: String
 ) : RemoteMediator<Int, ReportInfoEntity>() {
 
+    override suspend fun initialize(): InitializeAction {
+        return try {
+            val localLatestReport =
+                reportInfoDao.query(reportType)
+            val networkLatestReport =
+                networkDataSource.getPageAllExamList(reportType, REPORT_STARTING_PAGE_INDEX, token)
+                    .examInfoList.firstOrNull()
+            check(networkLatestReport != null && localLatestReport?.id != networkLatestReport.examId)
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } catch (e: Exception) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, ReportInfoEntity>

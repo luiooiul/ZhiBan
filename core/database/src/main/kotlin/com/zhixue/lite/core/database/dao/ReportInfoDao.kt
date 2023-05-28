@@ -16,6 +16,9 @@ interface ReportInfoDao {
     @Query("SELECT * FROM ReportInfoEntity WHERE type = :reportType")
     fun pagingSource(reportType: String): PagingSource<Int, ReportInfoEntity>
 
+    @Query("SELECT * FROM ReportInfoEntity WHERE type = :reportType")
+    suspend fun query(reportType: String): ReportInfoEntity?
+
     @Query("DELETE FROM ReportInfoEntity WHERE type = :reportType")
     suspend fun deleteByReportType(reportType: String)
 
