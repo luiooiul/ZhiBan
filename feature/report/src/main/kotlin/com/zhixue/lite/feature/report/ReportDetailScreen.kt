@@ -432,6 +432,8 @@ fun ReportDetailCheckSheetImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(sheetUrl)
             .size(coil.size.Size.ORIGINAL)
+            .diskCacheKey(sheetUrl.substringBefore("?"))
+            .memoryCacheKey(sheetUrl.substringBefore("?"))
             .build(),
         modifier = modifier.drawWithContent {
             drawContent()
