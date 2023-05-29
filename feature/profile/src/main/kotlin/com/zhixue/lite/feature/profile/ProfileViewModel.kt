@@ -85,7 +85,6 @@ class ProfileViewModel @Inject constructor(
     fun clearCache(cacheDir: File) {
         viewModelScope.launch(Dispatchers.IO) {
             cacheDir.deleteRecursively()
-            reportRepository.clearReportData()
             message.value = "缓存已清除"
         }
     }
