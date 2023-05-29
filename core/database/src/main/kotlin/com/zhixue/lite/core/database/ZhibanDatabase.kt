@@ -10,7 +10,7 @@ import com.zhixue.lite.core.model.database.ReportInfoEntity
 import com.zhixue.lite.core.model.database.ReportMainEntity
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [ReportInfoEntity::class, ReportMainEntity::class, ReportDetailEntity::class],
     exportSchema = false
 )
