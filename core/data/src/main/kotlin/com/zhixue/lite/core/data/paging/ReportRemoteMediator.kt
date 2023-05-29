@@ -9,6 +9,7 @@ import com.zhixue.lite.core.model.database.ReportInfoEntity
 import com.zhixue.lite.core.network.ApiNetworkDataSource
 import kotlinx.coroutines.delay
 
+private const val REPORT_PAGE_SIZE = 10
 private const val REPORT_STARTING_PAGE_INDEX = 1
 
 @OptIn(ExperimentalPagingApi::class)
@@ -58,12 +59,13 @@ class ReportRemoteMediator(
             }
 
             reportInfoDao.insertAll(
-                examInfoList.map {
+                examInfoList.mapIndexed { index, examInfo ->
                     ReportInfoEntity(
-                        id = it.examId,
-                        name = it.examName,
-                        date = it.examCreateDateTime,
+                        id = examInfo.examId,
+                        name = examInfo.examName,
+                        date = examInfo.examCreateDateTime,
                         next = if (endOfPaginationReached) null else page + 1,
+                        index = (page - 1) * REPORT_PAGE_SIZE + index,
                         type = reportType
                     )
                 }
