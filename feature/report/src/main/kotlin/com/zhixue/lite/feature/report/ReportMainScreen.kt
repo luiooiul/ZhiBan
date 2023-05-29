@@ -215,9 +215,9 @@ fun ReportMainOverviewItem(
                     withStyle(Theme.typography.titleSmall.toSpanStyle()) {
                         append(overview.name)
                     }
-                    if (overview.level.isNotEmpty()) {
+                    overview.level?.let { level ->
                         withStyle(Theme.typography.labelSmall.toSpanStyle()) {
-                            append(" ${overview.level}")
+                            append(" ${level.takeIf { it.contains("等") } ?: level.plus("等")}")
                         }
                     }
                 },
@@ -317,7 +317,7 @@ fun ReportMainTrendPanel(
 @Composable
 fun ReportMainTrendItem(
     name: String,
-    rank: String?,
+    rank: Int?,
     iconRes: Int,
     labelRes: Int,
     boxContentColor: Color,

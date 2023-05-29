@@ -43,7 +43,6 @@ class GetReportMainUseCase @Inject constructor(
                 val trend = trendList[index]?.list?.first()
 
                 val name = paper.subjectName
-                val userLevel = paper.userLevel
                 val score = paper.userScore.toBigDecimal()
                 val standardScore = paper.standardScore.toBigDecimal()
 
@@ -51,12 +50,6 @@ class GetReportMainUseCase @Inject constructor(
                     subjectDiagnosisList
                         .find { it.subjectCode == paper.subjectCode }
                         ?.let { calculateRank(totalNum, it.myRank) }
-                }
-
-                val level = if (userLevel != null) {
-                    "${userLevel}等"
-                } else {
-                    trend?.improveBar?.levelScale.orEmpty()
                 }
 
                 if (!paper.paperId.contains("!")) {
@@ -68,7 +61,7 @@ class GetReportMainUseCase @Inject constructor(
                     ReportMain.Trend(
                         name = name,
                         code = trend?.improveBar?.tag?.code,
-                        rank = rank?.toString()
+                        rank = rank
                     )
                 )
 
@@ -76,7 +69,7 @@ class GetReportMainUseCase @Inject constructor(
                     ReportMain.Overview(
                         id = paper.paperId,
                         name = name,
-                        level = level,
+                        level = paper.userLevel ?: trend?.improveBar?.levelScale,
                         score = score.stripTrailingZeros().toPlainString(),
                         standardScore = standardScore.stripTrailingZeros().toPlainString(),
                         rate = score.toFloat() / standardScore.toFloat()

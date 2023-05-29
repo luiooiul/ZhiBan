@@ -22,14 +22,14 @@ data class ReportMain(
     data class Trend(
         val name: String,
         val code: String?,
-        val rank: String?
+        val rank: Int?
     )
 
     @Serializable
     data class Overview(
         val id: String,
         val name: String,
-        val level: String,
+        val level: String?,
         val score: String,
         val standardScore: String,
         val rate: Float

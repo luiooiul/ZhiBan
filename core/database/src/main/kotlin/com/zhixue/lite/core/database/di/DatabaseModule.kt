@@ -20,10 +20,9 @@ object DatabaseModule {
     fun provideZhiBanDatabase(
         @ApplicationContext context: Context
     ): ZhibanDatabase {
-        return Room.databaseBuilder(
-            context = context,
-            name = DB_NAME,
-            klass = ZhibanDatabase::class.java
-        ).build()
+        return Room
+            .databaseBuilder(context, ZhibanDatabase::class.java, DB_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }
