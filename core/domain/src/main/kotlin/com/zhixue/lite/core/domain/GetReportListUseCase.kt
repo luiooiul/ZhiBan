@@ -20,7 +20,8 @@ class GetReportListUseCase @Inject constructor(
                 ReportInfo(
                     id = it.id,
                     name = it.name,
-                    date = formatDateUseCase(it.date)
+                    date = formatDateUseCase(it.date),
+                    isSinglePublish = it.isSinglePublish
                 )
             }
         }.flowOn(Dispatchers.Default)

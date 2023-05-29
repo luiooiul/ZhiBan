@@ -64,6 +64,7 @@ class ReportRemoteMediator(
                         id = examInfo.examId,
                         name = examInfo.examName,
                         date = examInfo.examCreateDateTime,
+                        isSinglePublish = examInfo.isSinglePublish,
                         next = if (endOfPaginationReached) null else page + 1,
                         index = (page - 1) * REPORT_PAGE_SIZE + index,
                         type = reportType

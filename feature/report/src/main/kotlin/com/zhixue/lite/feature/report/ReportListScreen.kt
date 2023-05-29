@@ -1,5 +1,6 @@
 package com.zhixue.lite.feature.report
 
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -23,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -68,6 +70,8 @@ fun ReportListScreen(
     navigateToReportMain: (String) -> Unit,
     reportTypes: Array<ReportType> = ReportType.values()
 ) {
+    val context = LocalContext.current
+
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
 
@@ -95,7 +99,13 @@ fun ReportListScreen(
                     ReportType.EXAM -> examList
                     ReportType.HOMEWORK -> homeworkList
                 },
-                onItemClick = navigateToReportMain
+                onItemClick = { id ->
+                    if (id != null) {
+                        navigateToReportMain(id)
+                    } else {
+                        Toast.makeText(context, R.string.text_no_support, Toast.LENGTH_SHORT).show()
+                    }
+                }
             )
         }
     }
@@ -130,7 +140,7 @@ fun ReportListTopTabs(
 @Composable
 fun ReportListPagerContent(
     pagerList: LazyPagingItems<ReportInfo>,
-    onItemClick: (String) -> Unit
+    onItemClick: (String?) -> Unit
 ) {
     Crossfade(pagerList.loadState.refresh is LoadState.Loading) { isLoading ->
         LazyColumn(
@@ -155,14 +165,14 @@ fun ReportListPagerContent(
 @Composable
 fun ReportListPagerItem(
     reportInfo: ReportInfo?,
-    onClick: (String) -> Unit
+    onClick: (String?) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
                 enabled = reportInfo != null,
-                onClick = { reportInfo?.id?.let { onClick(it) } }
+                onClick = { onClick(if (reportInfo!!.isSinglePublish) reportInfo.id else null) }
             )
             .padding(horizontal = 28.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically

@@ -22,4 +22,5 @@
     <string name="text_part_correct">半对</string>
     <string name="text_incorrect">错误</string>
     <string name="text_error">似乎出现了一些问题…</string>
+    <string name="text_no_support">暂不支持查看未发布成绩</string>
 </resources>

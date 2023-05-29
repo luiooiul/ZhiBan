@@ -7,6 +7,7 @@ data class ReportInfoEntity(
     val id: String,
     val name: String,
     val date: Long,
+    val isSinglePublish: Boolean,
     val next: Int?,
     val index: Int,
     val type: String
