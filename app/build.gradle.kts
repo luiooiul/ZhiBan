@@ -13,8 +13,8 @@ android {
         applicationId = "com.zhixue.lite"
         minSdk = 21
         targetSdk = 33
-        versionCode = 6
-        versionName = "1.0-beta02"
+        versionCode = 7
+        versionName = "1.0-beta03"
 
         resourceConfigurations.add("en")
     }
