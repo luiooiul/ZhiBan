@@ -32,7 +32,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
@@ -153,8 +154,12 @@ fun ReportListPagerContent(
                     Spacer(modifier = Modifier.height(1.dp))
                 }
             } else {
-                items(pagerList) { reportInfo ->
-                    ReportListPagerItem(reportInfo, onItemClick)
+                items(
+                    count = pagerList.itemCount,
+                    key = pagerList.itemKey(null),
+                    contentType = pagerList.itemContentType(null)
+                ) { index ->
+                    ReportListPagerItem(pagerList[index], onItemClick)
                     HorizontalDivider(spacing = 24.dp)
                 }
             }
