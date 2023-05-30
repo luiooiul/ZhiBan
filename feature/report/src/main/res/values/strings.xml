@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="report_type_exam">考试报告</string>
-    <string name="report_type_homework">作业报告</string>
+    <string name="report_type_homework">练习报告</string>
     <string name="headline_report_main">学情报告</string>
     <string name="label_total">总分</string>
     <string name="label_score">得分</string>
