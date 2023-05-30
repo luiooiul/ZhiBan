@@ -2,5 +2,5 @@ package com.zhixue.lite.core.data.repository
 
 interface UpdateRepository {
 
-    suspend fun getNewVersionCode(): Int
+    suspend fun getNewVersionCode(): Long
 }

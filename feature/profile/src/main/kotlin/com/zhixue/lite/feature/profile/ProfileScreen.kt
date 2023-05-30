@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.zhixue.lite.core.ui.component.HorizontalDivider
@@ -65,9 +66,9 @@ fun ProfileScreen(
                 1 -> showSwitchAccountDialog = true
                 2 -> navigateToModify()
                 3 -> viewModel.checkUpdate(
-                    versionCode = context.packageManager.getPackageInfo(
-                        context.packageName, 0
-                    ).versionCode,
+                    versionCode = PackageInfoCompat.getLongVersionCode(
+                        context.packageManager.getPackageInfo(context.packageName, 0)
+                    ),
                     onNewVersionAvailable = {
                         showCheckUpdateDialog = true
                     }

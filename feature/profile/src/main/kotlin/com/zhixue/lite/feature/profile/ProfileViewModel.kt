@@ -63,7 +63,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun checkUpdate(
-        versionCode: Int,
+        versionCode: Long,
         onNewVersionAvailable: () -> Unit
     ) {
         viewModelScope.launch {

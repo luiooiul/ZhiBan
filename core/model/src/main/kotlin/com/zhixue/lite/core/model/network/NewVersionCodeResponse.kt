@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NewVersionCodeResponse(
-    val newVersionCode: Int
+    val newVersionCode: Long
 )
