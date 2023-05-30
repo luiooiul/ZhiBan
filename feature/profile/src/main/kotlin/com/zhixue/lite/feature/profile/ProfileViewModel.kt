@@ -94,6 +94,7 @@ class ProfileViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             userRepository.clearUser()
+            reportRepository.clearReportList()
             reportRepository.clearReportData()
             onLogoutComplete()
         }
