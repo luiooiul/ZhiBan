@@ -10,7 +10,7 @@ import com.zhixue.lite.core.model.database.ReportDetailEntity
 interface ReportDetailDao {
 
     @Query("SELECT * FROM ReportDetailEntity WHERE paperId = :paperId")
-    suspend fun get(paperId: String): ReportDetailEntity?
+    suspend fun query(paperId: String): ReportDetailEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: ReportDetailEntity)

@@ -91,11 +91,11 @@ class ReportRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLocalReportMain(examId: String): ReportMain {
-        return reportMainDao.get(examId)!!.asExternalModel()
+        return reportMainDao.query(examId)!!.asExternalModel()
     }
 
     override suspend fun getLocalReportDetail(paperId: String): ReportDetail {
-        return reportDetailDao.get(paperId)!!.asExternalModel()
+        return reportDetailDao.query(paperId)!!.asExternalModel()
     }
 
     override suspend fun clearReportList() {
