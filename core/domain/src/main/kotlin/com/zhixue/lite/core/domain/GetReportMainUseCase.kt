@@ -40,7 +40,7 @@ class GetReportMainUseCase @Inject constructor(
 
             for (index in paperList.indices) {
                 val paper = paperList[index]
-                val trend = trendList[index]?.list?.first()
+                val trend = trendList[index]?.list?.firstOrNull()
 
                 val name = paper.subjectName
                 val score = paper.userScore.toBigDecimal()
